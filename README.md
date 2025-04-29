@@ -1,5 +1,6 @@
 trade-imports-acceptance-tests
 
+
 The template to create a service that runs WDIO tests against an environment.
 
 - [Local](#local)
