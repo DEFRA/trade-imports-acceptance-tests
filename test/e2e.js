@@ -17,12 +17,12 @@ describe('Simple E2E Test', function () {
 
     const mrn = generateRandomMRN()
     const soapEnvelope = builder.build({
-      mrn: mrn
+      mrn
     })
     console.log(soapEnvelope)
 
     // Send SOAP request and get the response
-    const response = await sendSoapRequest(soapEnvelope)
+    await sendSoapRequest(soapEnvelope)
     console.log('Sent clearance request')
 
     // Wait for a decision to appear in the comparer and check the result
@@ -46,12 +46,12 @@ describe('Simple E2E Test', function () {
 
     const mrn = generateRandomMRN()
     const soapEnvelope = builder.build({
-      mrn: mrn
+      mrn
     })
     console.log(soapEnvelope)
 
     // Send message
-    const response = await sendSoapRequest(soapEnvelope)
+    await sendSoapRequest(soapEnvelope)
     console.log('Sent clearance request')
 
     // Wait for a decision to appear in the comparer and check the result

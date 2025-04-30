@@ -20,7 +20,7 @@ export async function waitForDecision(
   let lastError = null
 
   try {
-    const pollSuccess = await pWaitFor(
+    await pWaitFor(
       async () => {
         try {
           console.log(`Polling: ${url}`)

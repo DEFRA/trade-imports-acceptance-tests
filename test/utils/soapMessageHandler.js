@@ -7,7 +7,7 @@ export async function sendSoapRequest(soapEnvelope) {
   try {
     const response = await request(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/xml' }, //SOAP?
+      headers: { 'Content-Type': 'application/xml' },
       body: soapEnvelope
     })
 

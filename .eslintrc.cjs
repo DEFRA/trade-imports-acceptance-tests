@@ -14,7 +14,14 @@ module.exports = {
     'eslint:recommended',
     'plugin:wdio/recommended'
   ],
-  overrides: [],
+  overrides: [
+    {
+      "files": ["test/**/*.js"],
+      "rules": {
+        "no-console": "off"
+      }
+    }
+  ],
   parserOptions: {
     ecmaVersion: 'latest'
   },
