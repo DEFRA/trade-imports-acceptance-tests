@@ -55,4 +55,4 @@ export const soapTemplate = `<?xml version="1.0" encoding="utf-8"?>
             {{/each}}
         </ALVSClearanceRequest>
     </soap:Body>
-</soap:Envelope>`;
+</soap:Envelope>`
