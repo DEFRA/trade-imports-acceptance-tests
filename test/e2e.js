@@ -36,7 +36,7 @@ describe('Simple E2E Test', function () {
   it('Large clearance Request expecting no match response', async function () {
     this.timeout(70000);
 
-    // Create and send clearance request
+    // Create message
     const builder = new SoapMessageBuilder();
 
     for (let i = 0; i < 99; i++) {
@@ -51,7 +51,7 @@ describe('Simple E2E Test', function () {
     });
     console.log(soapEnvelope);
 
-    // Send SOAP request and get the response
+    // Send message
     const response = await sendSoapRequest(soapEnvelope);
     console.log("Sent clearance request");
 
@@ -59,6 +59,7 @@ describe('Simple E2E Test', function () {
     const responseText = await waitForDecision(mrn);
     const decisionCode = parseDecision(responseText);
     console.log('DecisionCode:', decisionCode);
+    // TODO: Very basic inital assertion
     assert.strictEqual(decisionCode, 'X00', 'Decision code does not match');
   });
 });

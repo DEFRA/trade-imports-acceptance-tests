@@ -25,8 +25,8 @@ export class SoapMessageBuilder {
             MasterUCR: 'GB/CNXX-XCT1123LF00000',
         };
     }
-    
-    // ToDo: Multiple docs? Multiple Checks?
+
+    // TODO: Multiple docs? Multiple Checks?
     addItem(overrides = {}) {
         const defaultItem = {
             ItemNumber: this.itemCounter++,

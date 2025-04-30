@@ -12,7 +12,7 @@ export function parseDecision(responseText) {
     const parser = new XMLParser({ ignoreAttributes: false });
     const parsed = parser.parse(soapXml);
 
-    // ToDo: just get first item for now
+    // TODO: just get first item for now
     const item = parsed['soap:Envelope']?.['soap:Body']?.DecisionNotification?.DecisionNotification?.Item;
     const firstItem = Array.isArray(item) ? item[0] : item;
     return firstItem?.Check?.DecisionCode;

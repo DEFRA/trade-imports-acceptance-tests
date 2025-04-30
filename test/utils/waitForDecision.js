@@ -4,14 +4,13 @@ import { BASE_URL_TRADE_IMPORTS_DECISION_COMPARER, AUTHORIZATION_HEADER, TRADE_I
 
 export async function waitForDecision(mrn, timeout = 60000, interval = 3000) {
     const url = `${BASE_URL_TRADE_IMPORTS_DECISION_COMPARER}/decisions/${mrn}`;
-     
+
     let responseText = '';
-    console.log(TRADE_IMPORTS_DECISION_COMPARER_USER)
-    console.log(TRADE_IMPORTS_DECISION_COMPARER_KEY)
-    console.log(AUTHORIZATION_HEADER)
 
     await pWaitFor(async () => {
         try {
+            console.log(url);
+
             const resp = await request(url, {
                 method: 'GET',
                 headers: {
@@ -20,15 +19,13 @@ export async function waitForDecision(mrn, timeout = 60000, interval = 3000) {
                 },
             });
 
-            console.log('Response status:', resp.statusCode);
-            console.log('Response headers:', resp.headers);
-
             responseText = await resp.body.text();
 
-            console.log(url);
+            console.log('Response status:', resp.statusCode);
+            console.log('Response headers:', resp.headers);
             console.log('Response text:', responseText);
 
-            // ToDo: this is too simple for scenarios with multiple/existing decisions.
+            // TODO: this is too simple for scenarios with multiple/existing decisions.
             // Need adapt this to wait for a new deicision since the initial request. 
             return responseText.includes('"btmsDecision":{"id":"25');
         } catch (error) {
