@@ -10,6 +10,9 @@ const required = {
 
 for (const [key, opts] of Object.entries(required)) {
   const val = process.env[key]
+  if (opts.default && !val) {
+    process.env[key] = String(opts.default)
+  }
   if (!val) {
     throw new Error(`Missing required env var ${key}: ${opts.errorMsg || ''}`)
   }
@@ -20,8 +23,5 @@ for (const [key, opts] of Object.entries(required)) {
   }
   if (opts.parseAs === 'int' && Number.isNaN(Number(val))) {
     throw new Error(`Invalid ${key}="${val}". Must be an integer.`)
-  }
-  if (opts.default && !val) {
-    process.env[key] = String(opts.default)
   }
 }
