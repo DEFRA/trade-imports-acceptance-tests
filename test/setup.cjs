@@ -9,9 +9,10 @@ const required = {
 }
 
 for (const [key, opts] of Object.entries(required)) {
-  const val = process.env[key]
+  let val = process.env[key]
   if (opts.default && !val) {
     process.env[key] = String(opts.default)
+    val = process.env[key]
   }
   if (!val) {
     throw new Error(`Missing required env var ${key}: ${opts.errorMsg || ''}`)
