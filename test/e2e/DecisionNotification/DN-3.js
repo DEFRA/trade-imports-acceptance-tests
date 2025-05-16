@@ -1,4 +1,4 @@
-describe.only('BTMS sends a DecisionNotification for a Refusal decision on a MRN - DN-3', function () {
+describe('BTMS sends a DecisionNotification for a Refusal decision on a MRN - DN-3', function () {
   this.timeout(70000)
 
   step('Send initial IPAFFS notification', async () => {
