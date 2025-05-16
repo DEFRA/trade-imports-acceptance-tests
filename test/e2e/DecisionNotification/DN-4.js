@@ -4,6 +4,8 @@ describe('BTMS sends a DecisionNotification for a No Match decision on a MRN - D
   step('Send Clearance Request', async () => {
     const builder = new SoapMessageBuilder()
 
+    this.docRef = generateDocumentReference()
+
     builder.addItem({
       TaricCommodityCode: '0103911000',
       Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef }],
@@ -17,6 +19,7 @@ describe('BTMS sends a DecisionNotification for a No Match decision on a MRN - D
 
     await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelope)
     console.log('Sent clearance request')
+    console.log(soapEnvelope)
   })
 
   step('Wait for decision - should be a no match X00', async () => {

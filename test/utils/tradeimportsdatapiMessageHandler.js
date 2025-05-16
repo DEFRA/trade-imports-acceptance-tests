@@ -31,7 +31,7 @@ export async function waitForDataInAPI(
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Basic VHJhZGVJbXBvcnRzUHJvY2Vzc29yOnk3MFUwVXZYUnlHMTRmODQ=`
+              Authorization: TRADE_IMPORTS_DATA_API_AUTHORIZATION_HEADER
             }
           })
 

@@ -21,7 +21,9 @@ export const clearanceRequestTemplate = `<?xml version="1.0" encoding="utf-8"?>
             <Header>
                 <EntryReference>{{mrn}}</EntryReference>
                 <EntryVersionNumber>{{EntryVersionNumber}}</EntryVersionNumber>
+                {{#if PreviousVersionNumber}}  
                 <PreviousVersionNumber>{{PreviousVersionNumber}}</PreviousVersionNumber>
+                {{/if}}
                 <DeclarationUCR>{{DeclarationUCR}}</DeclarationUCR>
                 <DeclarationType>{{DeclarationType}}</DeclarationType>
                 <ArrivalDateTime>{{ArrivalDateTime}}</ArrivalDateTime>
