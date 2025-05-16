@@ -15,7 +15,7 @@
   },
   "scripts": {
     "clean": "rm -rf allure-results && rm -rf allure-report",
-    "test": "npm run clean && mocha --reporter allure-mocha --require ./test/setup.cjs",
+    "test": "npm run clean && mocha 'test/**/*.js' --reporter allure-mocha --require ./test/setup.js",
     "test:browserstack": "npm run clean && wdio run wdio.browserstack.conf.js",
     "test:local": "npm run clean && wdio run wdio.local.conf.js",
     "test:local:debug": "npm run clean && DEBUG=true wdio run wdio.local.conf.js",
@@ -60,6 +60,7 @@
     "husky": "9.1.7",
     "madge": "8.0.0",
     "mocha": "11.1.0",
+    "mocha-steps": "1.3.0",
     "prettier": "3.4.2"
   },
   "mocha": {

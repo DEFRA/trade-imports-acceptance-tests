@@ -1,15 +1,10 @@
 import { request } from 'undici'
 import pWaitFor from 'p-wait-for'
 import { TimeoutError } from 'p-timeout'
-import {
-  BASE_URL_TRADE_IMPORTS_DECISION_COMPARER,
-  AUTHORIZATION_HEADER,
-  TIMEOUT_MS,
-  POLL_INTERVAL_MS
-} from '../config.js'
 
 export async function waitForDecision(
   mrn,
+  afterTimestamp,
   timeout = TIMEOUT_MS,
   interval = POLL_INTERVAL_MS
 ) {
@@ -29,7 +24,7 @@ export async function waitForDecision(
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-              Authorization: AUTHORIZATION_HEADER
+              Authorization: COMPARER_AUTHORIZATION_HEADER
             }
           })
 
@@ -41,9 +36,33 @@ export async function waitForDecision(
             return false
           }
 
+          const data = JSON.parse(lastResponseText)
+
+          if (
+            !data.btmsDecision ||
+            !Array.isArray(data.btmsDecision.decisions)
+          ) {
+            return false
+          }
+
+          const startTime = new Date(afterTimestamp)
+
+          const newDecisions = data.btmsDecision.decisions
+            .filter((decision) => new Date(decision.created) > startTime)
+            .sort((a, b) => new Date(b.created) - new Date(a.created))
+
+          if (newDecisions.length === 0) {
+            return false
+          }
+
+          console.log(
+            `Latest decision message found: ${newDecisions[0].created}`
+          )
+          lastResponseText = newDecisions[0].xml // Returning the latest
+          return true
           // TODO: stop using magic string and make this check more robust
           // needs to identify that a NEW decision is available
-          return lastResponseText.includes('"btmsDecision":{"id":"25')
+          // return lastResponseText.includes('"btmsDecision":{"id":"25')
         } catch (err) {
           console.error('Error during request:', err)
           return false
