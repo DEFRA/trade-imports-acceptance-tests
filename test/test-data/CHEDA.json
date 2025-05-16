@@ -1,0 +1,205 @@
+{
+  "referenceNumber": "CHEDA.GB.2025.9110001",
+  "version": 1,
+  "lastUpdated": null,
+  "lastUpdatedBy": {
+    "displayName": "Person A",
+    "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+  },
+  "type": "CVEDA",
+  "status": "SUBMITTED",
+  "isHighRiskEuImport": false,
+  "partOne": {
+    "personResponsible": {
+      "name": "Some Person",
+      "companyId": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "companyName": "Some Company",
+      "address": [
+        "Some Company",
+        "Some Place",
+        "Some Town",
+        "Anywhere",
+        "AA1 1AA"
+      ],
+      "country": "GB",
+      "tracesID": 1001,
+      "phone": "02079460001",
+      "email": "test1234@example.com",
+      "contactId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+    },
+    "consignor": {
+      "id": "d5eba566-9b57-4580-84fb-d28739fa4719",
+      "type": "exporter",
+      "status": "nonapproved",
+      "companyName": "Some other company",
+      "address": {
+        "addressLine1": "Adddress line 1",
+        "addressLine2": "Adddress line 2",
+        "addressLine3": "Adddress line 3",
+        "city": "City",
+        "postalZipCode": "10115",
+        "countryISOCode": "DE",
+        "telephone": "02079460002",
+        "email": "test456@example.com"
+      },
+      "tracesId": 90000001
+    },
+    "consignee": {
+      "id": "803d26e9-ce15-4512-8d99-2b88499880fd",
+      "type": "consignee",
+      "status": "approved",
+      "companyName": "Company 456",
+      "address": {
+        "addressLine1": "Adddress line 1 zbc",
+        "addressLine2": "Adddress line 2 323df9",
+        "addressLine3": "Adddress line 3 34hf9",
+        "city": "City f09j0",
+        "postalZipCode": "AA1 1AB",
+        "countryISOCode": "GB",
+        "telephone": "02079460002",
+        "email": "test034jfr0@example.com"
+      },
+      "tracesId": 90000002
+    },
+    "importer": {
+      "id": "803d26e9-ce15-4512-8d99-2b88499880fd",
+      "type": "consignee",
+      "status": "nonapproved",
+      "companyName": "Comapny cc242f38",
+      "address": {
+        "addressLine1": "Address Line 1 cc242f38",
+        "addressLine2": "Address Line 2 cc242f38",
+        "addressLine3": "Address Line 3 cc242f38",
+        "city": "City",
+        "postalZipCode": "AA1 1AC",
+        "countryISOCode": "GB",
+        "telephone": "02079460003",
+        "email": "tesfde40@example.com"
+      },
+      "tracesId": 90000003
+    },
+    "placeOfDestination": {
+      "id": "803d26e9-ce15-4512-8d99-2b88499880fd",
+      "type": "consignee",
+      "status": "nonapproved",
+      "companyName": "aa0863fc325945dcb16247e4cc242f38",
+      "address": {
+        "addressLine1": "Address 1 rdfjfd0",
+        "addressLine2": "Address 2 sdvd93",
+        "addressLine3": "Address 3 ds98uefw",
+        "city": "City se93kf0",
+        "postalZipCode": "AA1 1AK",
+        "countryISOCode": "GB",
+        "telephone": "02079460004",
+        "email": "testdfvhd02@example.com"
+      },
+      "tracesId": 90000004
+    },
+    "commodities": {
+      "numberOfPackages": 1,
+      "numberOfAnimals": 1,
+      "commodityComplement": [
+        {
+          "commodityID": "0101",
+          "commodityDescription": "Live horses, asses, mules and hinnies",
+          "complementID": 1,
+          "complementName": "Equus asinus",
+          "speciesID": "242089",
+          "speciesName": "Equus asinus",
+          "speciesType": "2",
+          "speciesClass": "147603",
+          "speciesNomination": "Equus asinus"
+        }
+      ],
+      "complementParameterSet": [
+        {
+          "uniqueComplementID": "65b5bb8e-5b2c-4f76-ade0-472e1836c4ac",
+          "complementID": 1,
+          "speciesID": "242089",
+          "keyDataPair": [
+            {
+              "key": "number_package",
+              "data": "1"
+            },
+            {
+              "key": "number_animal",
+              "data": "1"
+            }
+          ],
+          "identifiers": [
+            {
+              "speciesNumber": 1,
+              "data": {
+                "microchip": "1",
+                "passport": "2"
+              }
+            }
+          ]
+        }
+      ],
+      "includeNonAblactedAnimals": false,
+      "countryOfOrigin": "ES",
+      "animalsCertifiedAs": "Approved"
+    },
+    "purpose": {
+      "internalMarketPurpose": "Rescue",
+      "purposeGroup": "For Import"
+    },
+    "pointOfEntry": "GBAPHA1A",
+    "arrivalDate": null,
+    "arrivalTime": null,
+    "transporter": {
+      "id": "ab490d10-48a7-43d8-b552-9bde3ea5ee4a",
+      "type": "private transporter",
+      "status": "nonapproved",
+      "companyName": "222f0960f6884a8780472519ef042379",
+      "address": {
+        "addressLine1": "Place csd8ew",
+        "addressLine2": "Street nd990 ",
+        "addressLine3": "Area dfjd0v",
+        "city": "City mi090f9d",
+        "postalZipCode": "AA1 1AM",
+        "countryISOCode": "GB",
+        "telephone": "02079460004",
+        "email": "ukoperator@email.com"
+      },
+      "tracesId": 90000005
+    },
+    "meansOfTransport": {
+      "id": "2121",
+      "type": "Railway Wagon",
+      "document": "21"
+    },
+    "meansOfTransportFromEntryPoint": {
+      "id": "1",
+      "type": "Aeroplane",
+      "document": "1"
+    },
+    "departureDate": "2025-02-01",
+    "departureTime": "11:11:00",
+    "estimatedJourneyTimeInMinutes": 1501,
+    "veterinaryInformation": {
+      "accompanyingDocuments": [
+        {
+          "documentType": "latestVeterinaryHealthCertificate",
+          "documentReference": "1",
+          "documentIssueDate": "2024-01-01"
+        }
+      ]
+    },
+    "route": {
+      "transitingStates": ["BE", "FR"]
+    },
+    "submissionDate": "2024-09-03T11:45:38.561284044Z",
+    "submittedBy": {
+      "displayName": "Some person",
+      "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+    },
+    "complexCommoditySelected": true,
+    "portOfEntry": "GBAVO",
+    "isGVMSRoute": true,
+    "provideCtcMrn": "YES"
+  },
+  "etag": "99000000000089CE2",
+  "chedTypeVersion": 2
+}

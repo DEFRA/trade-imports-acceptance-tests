@@ -2,13 +2,20 @@ import { request } from 'undici'
 import pWaitFor from 'p-wait-for'
 import { TimeoutError } from 'p-timeout'
 
-export async function waitForDecision(
-  mrn,
-  afterTimestamp,
+export async function waitForDataInAPI(
+  key,
+  collection,
   timeout = TIMEOUT_MS,
   interval = POLL_INTERVAL_MS
 ) {
-  const url = `${BASE_URL_TRADE_IMPORTS_DECISION_COMPARER}/decisions/${mrn}`
+  let url = ''
+  if (collection === 'IPAFFS') {
+    url = `${BASE_URL_TRADE_IMPORTS_DATA_API}/import-pre-notifications/${key}`
+  } else if (collection === 'ERROR') {
+    url = `${BASE_URL_TRADE_IMPORTS_DATA_API}/processing-errors/${key}`
+  } else {
+    url = `${BASE_URL_TRADE_IMPORTS_DATA_API}/customs-declarations/${key}`
+  }
 
   let lastResponse = null
   let lastResponseText = ''
@@ -24,11 +31,12 @@ export async function waitForDecision(
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-              Authorization: COMPARER_AUTHORIZATION_HEADER
+              Authorization: `Basic VHJhZGVJbXBvcnRzUHJvY2Vzc29yOnk3MFUwVXZYUnlHMTRmODQ=`
             }
           })
 
           lastResponseText = await resp.body.text()
+          console.log(lastResponseText)
           lastResponse = resp
 
           if (resp.statusCode !== 200) {
@@ -36,33 +44,8 @@ export async function waitForDecision(
             return false
           }
 
-          const data = JSON.parse(lastResponseText)
-
-          if (
-            !data.btmsDecision ||
-            !Array.isArray(data.btmsDecision.decisions)
-          ) {
-            return false
-          }
-
-          const startTime = new Date(afterTimestamp)
-
-          const newDecisions = data.btmsDecision.decisions
-            .filter((decision) => new Date(decision.created) > startTime)
-            .sort((a, b) => new Date(b.created) - new Date(a.created))
-
-          if (newDecisions.length === 0) {
-            return false
-          }
-
-          console.log(
-            `Latest decision message found: ${newDecisions[0].created}`
-          )
-          lastResponseText = newDecisions[0].xml // Returning the latest
+          console.log(`api response found: ${lastResponseText}`)
           return true
-          // TODO: stop using magic string and make this check more robust
-          // needs to identify that a NEW decision is available
-          // return lastResponseText.includes('"btmsDecision":{"id":"25')
         } catch (err) {
           console.error('Error during request:', err)
           return false
@@ -74,7 +57,7 @@ export async function waitForDecision(
     return lastResponseText
   } catch (err) {
     if (err instanceof TimeoutError) {
-      console.error('Timed out polling for MRN:', mrn)
+      console.error('Timed out polling for MRN:', key)
       if (lastError) {
         console.error('Last error:', lastError.message || lastError)
       } else {
@@ -83,7 +66,7 @@ export async function waitForDecision(
         console.error('Last response text:', lastResponseText)
       }
 
-      throw new Error(`Polling for decision timed out for MRN: ${mrn}`)
+      throw new Error(`Polling api timed out for key: ${key}`)
     }
     throw err
   }
