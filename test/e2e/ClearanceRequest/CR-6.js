@@ -31,9 +31,7 @@ describe('BTMS receives a ClearanceRequest for a MRN with a single item with a s
     })
 
     await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelope)
-  })
 
-  step('Wait for decision - should be a hold H01', async () => {
     const responseText = await waitForDecision(this.mrn, lastStartTime)
     const decisionCode = parseDecision(responseText)
     assert.strictEqual(decisionCode, 'H01', 'Decision code does not match')

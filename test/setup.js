@@ -51,54 +51,60 @@ for (const [key, opts] of Object.entries(required)) {
   }
 }
 
+globalThis.allure = allure
 globalThis.assert = assert
 globalThis.expect = expect
-globalThis.generateDocumentReference = generateDocumentReference
-globalThis.generateRandomMRN = generateRandomMRN
-globalThis.sleep = sleep
-globalThis.sendSoapRequest = sendSoapRequest
-globalThis.sendIpaffsMessage = sendIpaffsMessage
-globalThis.parseDecision = parseDecision
-globalThis.waitForDecision = waitForDecision
-globalThis.waitForDataInAPI = waitForDataInAPI
-globalThis.SoapMessageBuilder = SoapMessageBuilder
-globalThis.loadIPAFFSJson = loadIPAFFSJson
-globalThis.fs = fs
-globalThis.path = path
-globalThis.allure = allure
 globalThis.mochaStep = mochaStep
 
+globalThis.generateDocumentReference = generateDocumentReference
+globalThis.generateRandomMRN = generateRandomMRN
+globalThis.loadIPAFFSJson = loadIPAFFSJson
+globalThis.parseDecision = parseDecision
+globalThis.sendIpaffsMessage = sendIpaffsMessage
+globalThis.sendSoapRequest = sendSoapRequest
+globalThis.sleep = sleep
+globalThis.SoapMessageBuilder = SoapMessageBuilder
+globalThis.waitForDataInAPI = waitForDataInAPI
+globalThis.waitForDecision = waitForDecision
+
+globalThis.fs = fs
+globalThis.path = path
+globalThis.__filename = fileURLToPath(import.meta.url)
+globalThis.__dirname = path.dirname(__filename)
+
 globalThis.BASE_URL_BTMS_GATEWAY = `https://btms-gateway.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
-globalThis.BASE_URL_TRADE_IMPORTS_DECISION_COMPARER = `https://trade-imports-decision-comparer.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
 globalThis.BASE_URL_TRADE_IMPORTS_DATA_API = `https://trade-imports-data-api.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
-globalThis.TRADE_IMPORTS_DECISION_COMPARER_USER =
-  process.env.TRADE_IMPORTS_DECISION_COMPARER_USER
+globalThis.BASE_URL_TRADE_IMPORTS_DECISION_COMPARER = `https://trade-imports-decision-comparer.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
+
+globalThis.IPAFFS_KEY = process.env.IPAFFS_KEY
+globalThis.TRADE_IMPORTS_DATA_API_KEY = process.env.TRADE_IMPORTS_DATA_API_KEY
+globalThis.TRADE_IMPORTS_DATA_API_USER = process.env.TRADE_IMPORTS_DATA_API_USER
 globalThis.TRADE_IMPORTS_DECISION_COMPARER_KEY =
   process.env.TRADE_IMPORTS_DECISION_COMPARER_KEY
+globalThis.TRADE_IMPORTS_DECISION_COMPARER_USER =
+  process.env.TRADE_IMPORTS_DECISION_COMPARER_USER
+
 globalThis.COMPARER_AUTHORIZATION_HEADER =
   'Basic ' +
   Buffer.from(
     `${TRADE_IMPORTS_DECISION_COMPARER_USER}:${TRADE_IMPORTS_DECISION_COMPARER_KEY}`
   ).toString('base64')
-globalThis.IPAFFS_KEY = process.env.IPAFFS_KEY
-globalThis.TRADE_IMPORTS_DATA_API_USER = process.env.TRADE_IMPORTS_DATA_API_USER
-globalThis.TRADE_IMPORTS_DATA_API_KEY = process.env.TRADE_IMPORTS_DATA_API_KEY
-globalThis.DATAAPI_AUTHORIZATION_HEADER =
+
+globalThis.TRADE_IMPORTS_DATA_API_AUTHORIZATION_HEADER =
   'Basic ' +
   Buffer.from(
     `${TRADE_IMPORTS_DATA_API_USER}:${TRADE_IMPORTS_DATA_API_KEY}`
   ).toString('base64')
+
 globalThis.POLL_INTERVAL_MS = parseInt(process.env.POLL_INTERVAL_MS)
 globalThis.TIMEOUT_MS = parseInt(process.env.TIMEOUT_MS)
+globalThis.lastStartTime = null
+
 globalThis.SUBMIT_CLEARANCE_REQUEST_ENDPOINT = `SubmitImportDocumentCDSFacadeService`
 globalThis.SUBMIT_FINALSIATION_ENDPOINT = `NotifyFinalisedStateCDSFacadeService`
 globalThis.SUBMIT_INBOUND_ALVS_ERROR_ENDPOINT = `ALVSCDSErrorNotificationService`
-globalThis.__filename = fileURLToPath(import.meta.url)
-globalThis.__dirname = path.dirname(__filename)
-globalThis.lastStartTime = null
 
 globalThis.step = function (name, fn) {
-  console.log('mocha-step imported successfully')
   mochaStep(name, async function () {
     console.log(`=== ${name} ===`)
     lastStartTime = Date.now()

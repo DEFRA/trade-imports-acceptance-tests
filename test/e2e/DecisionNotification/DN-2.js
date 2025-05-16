@@ -32,9 +32,7 @@ describe('BTMS sends a DecisionNotification for a Release decision on a MRN - DN
     console.log(soapEnvelope)
 
     await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelope)
-  })
 
-  step('Wait for decision - should be a hold H01', async () => {
     const responseText = await waitForDecision(this.mrn, lastStartTime)
     const decisionCode = parseDecision(responseText)
     assert.strictEqual(decisionCode, 'H01', 'Decision code does not match')
@@ -58,12 +56,9 @@ describe('BTMS sends a DecisionNotification for a Release decision on a MRN - DN
           }
         })
       )
+      const responseText2 = await waitForDecision(this.mrn, lastStartTime)
+      const decisionCode2 = parseDecision(responseText2)
+      assert.strictEqual(decisionCode2, 'C03', 'Decision code does not match')
     }
   )
-
-  step('Wait for decision - should be a release C03', async () => {
-    const responseText2 = await waitForDecision(this.mrn, lastStartTime)
-    const decisionCode2 = parseDecision(responseText2)
-    assert.strictEqual(decisionCode2, 'C03', 'Decision code does not match')
-  })
 })

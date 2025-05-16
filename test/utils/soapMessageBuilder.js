@@ -26,8 +26,8 @@ export class SoapMessageBuilder {
       clearance: {
         ...baseDefaults,
         mrn: '21GB12345678901234',
-        EntryVersionNumber: 2,
-        PreviousVersionNumber: 1,
+        EntryVersionNumber: 1,
+        PreviousVersionNumber: null,
         DeclarationUCR: '1GB126344356000-ABC35932Y1BHX',
         DeclarationType: 'S',
         ArrivalDateTime: '202201031224',
@@ -125,6 +125,25 @@ export class SoapMessageBuilder {
 
     if (this.templateType === 'clearance') {
       fullData.items = this.items
+
+      const entryVersion = fullData.EntryVersionNumber
+
+      if (
+        !Object.prototype.hasOwnProperty.call(
+          overrides,
+          'PreviousVersionNumber'
+        )
+      ) {
+        if (entryVersion > 1) {
+          fullData.PreviousVersionNumber = entryVersion - 1
+        } else {
+          delete fullData.PreviousVersionNumber
+        }
+      }
+
+      if (overrides.PreviousVersionNumber === null) {
+        delete fullData.PreviousVersionNumber
+      }
     }
 
     return template(fullData)
