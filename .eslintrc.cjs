@@ -26,6 +26,7 @@ module.exports = {
     ecmaVersion: 'latest'
   },
   plugins: ['prettier', 'wdio', 'no-only-tests'],
+  plugins: ['prettier', 'wdio', 'no-only-tests'],
   rules: {
     'prettier/prettier': 'error',
     'no-console': 'error',
