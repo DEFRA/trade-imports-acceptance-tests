@@ -5,6 +5,15 @@ import {
   errorNotificationTemplate
 } from './soapTemplates.js'
 
+function generateRandomMRN() {
+  return (
+    '21GB' +
+    Math.floor(Math.random() * 1e12)
+      .toString()
+      .padStart(14, '0')
+  )
+}
+
 export class SoapMessageBuilder {
   constructor(templateType = 'clearance') {
     this.templateType = templateType
@@ -25,7 +34,6 @@ export class SoapMessageBuilder {
     this.defaultMessageData = {
       clearance: {
         ...baseDefaults,
-        mrn: '21GB12345678901234',
         EntryVersionNumber: 1,
         PreviousVersionNumber: null,
         DeclarationUCR: '1GB126344356000-ABC35932Y1BHX',
@@ -56,6 +64,52 @@ export class SoapMessageBuilder {
           'The EntryReference was not recognised. HMRC is unable to process the decision notification'
       }
     }
+
+    this._model = {}
+    this._generatedMRN = null
+
+    return new Proxy(this, {
+      get(target, prop, receiver) {
+        if (Reflect.has(target, prop))
+          return Reflect.get(target, prop, receiver)
+        if (target._model && prop in target._model) {
+          return target._model[prop]
+        }
+        return undefined
+      }
+    })
+  }
+
+  buildModel(overrides = {}) {
+    const defaults = this.defaultMessageData[this.templateType]
+
+    const baseData = {
+      ...Object.fromEntries(
+        Object.entries(defaults).filter(([key]) => overrides[key] === undefined)
+      ),
+      ...overrides
+    }
+
+    if (!baseData.mrn) {
+      if (!this._generatedMRN) {
+        this._generatedMRN = generateRandomMRN()
+      }
+      baseData.mrn = this._generatedMRN
+    }
+
+    if (this.templateType === 'clearance') {
+      baseData.items = this.items
+
+      if (baseData.PreviousVersionNumber == null) {
+        const entryVersion = baseData.EntryVersionNumber
+        if (entryVersion > 1) {
+          baseData.PreviousVersionNumber = entryVersion - 1
+        }
+      }
+    }
+
+    this._model = baseData
+    return this
   }
 
   addItem(overrides = {}) {
@@ -88,18 +142,28 @@ export class SoapMessageBuilder {
       Checks: [defaultCheck]
     }
 
-    const docs = (overrides.Documents || defaultItem.Documents).map((doc) => ({
-      ...defaultDocument,
+    const docs = (overrides.Documents ?? defaultItem.Documents).map((doc) => ({
+      ...Object.fromEntries(
+        Object.entries(defaultDocument).filter(
+          ([key]) => doc[key] === undefined
+        )
+      ),
       ...doc
     }))
 
-    const checks = (overrides.Checks || defaultItem.Checks).map((check) => ({
-      ...defaultCheck,
+    const checks = (overrides.Checks ?? defaultItem.Checks).map((check) => ({
+      ...Object.fromEntries(
+        Object.entries(defaultCheck).filter(([key]) => check[key] === undefined)
+      ),
       ...check
     }))
 
     const item = {
-      ...defaultItem,
+      ...Object.fromEntries(
+        Object.entries(defaultItem).filter(
+          ([key]) => overrides[key] === undefined
+        )
+      ),
       ...overrides,
       Documents: docs,
       Checks: checks
@@ -109,7 +173,7 @@ export class SoapMessageBuilder {
     return this
   }
 
-  build(overrides = {}) {
+  buildMessage(overrides = {}) {
     const templates = {
       clearance: clearanceRequestTemplate,
       finalisation: finalisationNotificationTemplate,
@@ -117,35 +181,7 @@ export class SoapMessageBuilder {
     }
 
     const template = Handlebars.compile(templates[this.templateType])
-
-    const fullData = {
-      ...this.defaultMessageData[this.templateType],
-      ...overrides
-    }
-
-    if (this.templateType === 'clearance') {
-      fullData.items = this.items
-
-      const entryVersion = fullData.EntryVersionNumber
-
-      if (
-        !Object.prototype.hasOwnProperty.call(
-          overrides,
-          'PreviousVersionNumber'
-        )
-      ) {
-        if (entryVersion > 1) {
-          fullData.PreviousVersionNumber = entryVersion - 1
-        } else {
-          delete fullData.PreviousVersionNumber
-        }
-      }
-
-      if (overrides.PreviousVersionNumber === null) {
-        delete fullData.PreviousVersionNumber
-      }
-    }
-
+    const fullData = this.buildModel(overrides)._model
     return template(fullData)
   }
 }

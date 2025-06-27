@@ -4,7 +4,7 @@ export function generateRandomMRN(prefix = '25GB') {
   for (let i = 0; i < 14; i++) {
     result += chars.charAt(Math.floor(Math.random() * chars.length))
   }
-  console.log(result)
+  globalThis.testLogger.info(`Generate new MRN`, { mrn: result })
   return result
 }
 
@@ -18,8 +18,9 @@ export function generateDocumentReference({
 
   const prefix = randomNumberString(prefixLength)
   const suffix = randomNumberString(suffixLength)
-
-  return `CHED${letter}.GB.${prefix}.${suffix}`
+  const result = `CHED${letter}.GB.${prefix}.${suffix}`
+  globalThis.testLogger.info(`Generated new CHED reference`, { ched: result })
+  return result
 }
 
 function merge(target, source) {

@@ -1,0 +1,14 @@
+{
+  "timeout": 70000,
+  "spec": "test/**/*.js",
+    "require": [
+    "dotenv/config"
+  ],
+  "file": [
+    "./setupGlobals.mjs",
+    "./test/setup.mjs",
+    "./test/hooks.js"
+  ],
+  "extension": ["mjs", "js"],
+  "reporter": "./logging/custom-reporter.cjs"
+}

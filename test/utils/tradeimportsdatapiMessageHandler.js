@@ -2,30 +2,48 @@ import { request } from 'undici'
 import pWaitFor from 'p-wait-for'
 import { TimeoutError } from 'p-timeout'
 
+const ENDPOINTS = {
+  IPAFFS: (key) =>
+    `${BASE_URL_TRADE_IMPORTS_DATA_API}/import-pre-notifications/${key}`,
+  ERROR: (key) => `${BASE_URL_TRADE_IMPORTS_DATA_API}/processing-errors/${key}`,
+  DEFAULT: (key) =>
+    `${BASE_URL_TRADE_IMPORTS_DATA_API}/customs-declarations/${key}`
+}
+
+function getByPath(obj, path) {
+  return path.split('.').reduce((acc, part) => acc?.[part], obj)
+}
+
+function deepMatch(actual, expected) {
+  if (typeof expected !== 'object' || expected === null) {
+    return actual === expected
+  }
+
+  if (typeof actual !== 'object' || actual === null) {
+    return false
+  }
+
+  return Object.entries(expected).every(([key, value]) =>
+    deepMatch(actual[key], value)
+  )
+}
+
 export async function waitForDataInAPI(
   key,
   collection,
+  expectedProperties = null,
   timeout = TIMEOUT_MS,
   interval = POLL_INTERVAL_MS
 ) {
-  let url = ''
-  if (collection === 'IPAFFS') {
-    url = `${BASE_URL_TRADE_IMPORTS_DATA_API}/import-pre-notifications/${key}`
-  } else if (collection === 'ERROR') {
-    url = `${BASE_URL_TRADE_IMPORTS_DATA_API}/processing-errors/${key}`
-  } else {
-    url = `${BASE_URL_TRADE_IMPORTS_DATA_API}/customs-declarations/${key}`
-  }
+  const url = (ENDPOINTS[collection] || ENDPOINTS.DEFAULT)(key)
 
-  let lastResponse = null
-  let lastResponseText = ''
-  let lastError = null
+  let lastResponse, lastResponseText
 
   try {
     await pWaitFor(
       async () => {
         try {
-          console.log(`Polling: ${url}`)
+          testLogger.info(`Polling: ${url}`)
 
           const resp = await request(url, {
             method: 'GET',
@@ -35,19 +53,37 @@ export async function waitForDataInAPI(
             }
           })
 
-          lastResponseText = await resp.body.text()
-          console.log(lastResponseText)
           lastResponse = resp
+          lastResponseText = await resp.body.text()
 
           if (resp.statusCode !== 200) {
-            lastError = new Error(`Unexpected status code: ${resp.statusCode}`)
+            testLogger.error(`Error polling for key: ${key}`, {
+              lastResponse,
+              lastResponseText
+            })
             return false
           }
 
-          console.log(`api response found: ${lastResponseText}`)
+          let parsed
+          try {
+            parsed = JSON.parse(lastResponseText)
+            testLogger.info(parsed)
+          } catch {
+            parsed = null
+            testLogger.info(lastResponseText)
+          }
+
+          if (expectedProperties && parsed) {
+            const match = deepMatch(parsed, expectedProperties)
+            if (!match) {
+              testLogger.info(`Expected properties not met yet`)
+              return false
+            }
+          }
+
           return true
         } catch (err) {
-          console.error('Error during request:', err)
+          testLogger.error({ err })
           return false
         }
       },
@@ -57,16 +93,9 @@ export async function waitForDataInAPI(
     return lastResponseText
   } catch (err) {
     if (err instanceof TimeoutError) {
-      console.error('Timed out polling for MRN:', key)
-      if (lastError) {
-        console.error('Last error:', lastError.message || lastError)
-      } else {
-        console.error('Last response status code:', lastResponse.statusCode)
-        console.error('Last response headers:', lastResponse.headers)
-        console.error('Last response text:', lastResponseText)
-      }
-
-      throw new Error(`Polling api timed out for key: ${key}`)
+      testLogger.error(`Timeout polling for key: ${key}`, { err, lastResponse })
+    } else {
+      testLogger.error(`Error polling for key: ${key}`, { err, lastResponse })
     }
     throw err
   }
