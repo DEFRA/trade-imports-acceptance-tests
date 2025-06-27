@@ -4,63 +4,63 @@ export const clearanceRequestTemplate = `<?xml version="1.0" encoding="utf-8"?>
     <soap:Header>
         <oas:Security soap:role="system" soap:mustUnderstand="true">
             <oas:UsernameToken>
-                <oas:Username>{{username}}</oas:Username>
-                <oas:Password Type="{{passwordType}}">{{password}}</oas:Password>
+                {{#if username}}<oas:Username>{{username}}</oas:Username>{{/if}}
+                {{#if passwordType}}<oas:Password Type="{{passwordType}}">{{password}}</oas:Password>{{/if}}
             </oas:UsernameToken>
         </oas:Security>
     </soap:Header>
     <soap:Body>
-        <ALVSClearanceRequest
-            xmlns="http://submitimportdocumenthmrcfacade.types.esb.ws.cara.defra.com">
+        <ALVSClearanceRequest xmlns="http://submitimportdocumenthmrcfacade.types.esb.ws.cara.defra.com">
             <ServiceHeader>
-                <SourceSystem>{{SourceSystem}}</SourceSystem>
-                <DestinationSystem>{{DestinationSystem}}</DestinationSystem>
-                <CorrelationId>{{CorrelationId}}</CorrelationId>
-                <ServiceCallTimestamp>{{timeStamp}}</ServiceCallTimestamp>
+                {{#if SourceSystem}}<SourceSystem>{{SourceSystem}}</SourceSystem>{{/if}}
+                {{#if DestinationSystem}}<DestinationSystem>{{DestinationSystem}}</DestinationSystem>{{/if}}
+                {{#if CorrelationId}}<CorrelationId>{{CorrelationId}}</CorrelationId>{{/if}}
+                {{#if timeStamp}}<ServiceCallTimestamp>{{timeStamp}}</ServiceCallTimestamp>{{/if}}
             </ServiceHeader>
             <Header>
-                <EntryReference>{{mrn}}</EntryReference>
-                <EntryVersionNumber>{{EntryVersionNumber}}</EntryVersionNumber>
-                {{#if PreviousVersionNumber}}  
-                <PreviousVersionNumber>{{PreviousVersionNumber}}</PreviousVersionNumber>
-                {{/if}}
-                <DeclarationUCR>{{DeclarationUCR}}</DeclarationUCR>
-                <DeclarationType>{{DeclarationType}}</DeclarationType>
-                <ArrivalDateTime>{{ArrivalDateTime}}</ArrivalDateTime>
-                <SubmitterTURN>{{SubmitterTURN}}</SubmitterTURN>
-                <DeclarantId>{{DeclarantId}}</DeclarantId>
-                <DeclarantName>{{DeclarantName}}</DeclarantName>
-                <DispatchCountryCode>{{DispatchCountryCode}}</DispatchCountryCode>
-                <GoodsLocationCode>{{GoodsLocationCode}}</GoodsLocationCode>
-                <MasterUCR>{{MasterUCR}}</MasterUCR>
+                {{#if mrn}}<EntryReference>{{mrn}}</EntryReference>{{/if}}
+                {{#if EntryVersionNumber}}<EntryVersionNumber>{{EntryVersionNumber}}</EntryVersionNumber>{{/if}}
+                {{#if PreviousVersionNumber}}<PreviousVersionNumber>{{PreviousVersionNumber}}</PreviousVersionNumber>{{/if}}
+                {{#if DeclarationUCR}}<DeclarationUCR>{{DeclarationUCR}}</DeclarationUCR>{{/if}}
+                {{#if DeclarationType}}<DeclarationType>{{DeclarationType}}</DeclarationType>{{/if}}
+                {{#if ArrivalDateTime}}<ArrivalDateTime>{{ArrivalDateTime}}</ArrivalDateTime>{{/if}}
+                {{#if SubmitterTURN}}<SubmitterTURN>{{SubmitterTURN}}</SubmitterTURN>{{/if}}
+                {{#if DeclarantId}}<DeclarantId>{{DeclarantId}}</DeclarantId>{{/if}}
+                {{#if DeclarantName}}<DeclarantName>{{DeclarantName}}</DeclarantName>{{/if}}
+                {{#if DispatchCountryCode}}<DispatchCountryCode>{{DispatchCountryCode}}</DispatchCountryCode>{{/if}}
+                {{#if GoodsLocationCode}}<GoodsLocationCode>{{GoodsLocationCode}}</GoodsLocationCode>{{/if}}
+                {{#if MasterUCR}}<MasterUCR>{{MasterUCR}}</MasterUCR>{{/if}}
             </Header>
             {{#each items}}
-  <Item>
-    <ItemNumber>{{ItemNumber}}</ItemNumber>
-    <CustomsProcedureCode>{{CustomsProcedureCode}}</CustomsProcedureCode>
-    <TaricCommodityCode>{{TaricCommodityCode}}</TaricCommodityCode>
-    <GoodsDescription>{{GoodsDescription}}</GoodsDescription>
-    <ConsigneeId>{{ConsigneeId}}</ConsigneeId>
-    <ConsigneeName>{{ConsigneeName}}</ConsigneeName>
-    <ItemNetMass>{{ItemNetMass}}</ItemNetMass>
-    <ItemOriginCountryCode>{{ItemOriginCountryCode}}</ItemOriginCountryCode>
-    {{#each Documents}}
-      <Document>
-        <DocumentCode>{{DocumentCode}}</DocumentCode>
-        <DocumentReference>{{DocumentReference}}</DocumentReference>
-        <DocumentStatus>{{DocumentStatus}}</DocumentStatus>
-        <DocumentControl>{{DocumentControl}}</DocumentControl>
-      </Document>
-    {{/each}}
-    {{#each Checks}}
-      <Check>
-        <CheckCode>{{CheckCode}}</CheckCode>
-        <DepartmentCode>{{DepartmentCode}}</DepartmentCode>
-      </Check>
-    {{/each}}
-  </Item>
-{{/each}}
-    </ALVSClearanceRequest>
+            <Item>
+                {{#if ItemNumber}}<ItemNumber>{{ItemNumber}}</ItemNumber>{{/if}}
+                {{#if CustomsProcedureCode}}<CustomsProcedureCode>{{CustomsProcedureCode}}</CustomsProcedureCode>{{/if}}
+                {{#if TaricCommodityCode}}<TaricCommodityCode>{{TaricCommodityCode}}</TaricCommodityCode>{{/if}}
+                {{#if GoodsDescription}}<GoodsDescription>{{GoodsDescription}}</GoodsDescription>{{/if}}
+                {{#if ConsigneeId}}<ConsigneeId>{{ConsigneeId}}</ConsigneeId>{{/if}}
+                {{#if ConsigneeName}}<ConsigneeName>{{ConsigneeName}}</ConsigneeName>{{/if}}
+                {{#if ItemNetMass}}<ItemNetMass>{{ItemNetMass}}</ItemNetMass>{{/if}}
+                {{#if ItemOriginCountryCode}}<ItemOriginCountryCode>{{ItemOriginCountryCode}}</ItemOriginCountryCode>{{/if}}
+
+                {{#each Documents}}
+                <Document>
+                    {{#if DocumentCode}}<DocumentCode>{{DocumentCode}}</DocumentCode>{{/if}}
+                    {{#if DocumentReference}}<DocumentReference>{{DocumentReference}}</DocumentReference>{{/if}}
+                    {{#if DocumentStatus}}<DocumentStatus>{{DocumentStatus}}</DocumentStatus>{{/if}}
+                    {{#if DocumentControl}}<DocumentControl>{{DocumentControl}}</DocumentControl>{{/if}}
+                    {{#if DocumentQuantity}}<DocumentQuantity>{{DocumentQuantity}}</DocumentQuantity>{{/if}}
+                </Document>
+                {{/each}}
+
+                {{#each Checks}}
+                <Check>
+                    {{#if CheckCode}}<CheckCode>{{CheckCode}}</CheckCode>{{/if}}
+                    {{#if DepartmentCode}}<DepartmentCode>{{DepartmentCode}}</DepartmentCode>{{/if}}
+                </Check>
+                {{/each}}
+            </Item>
+            {{/each}}
+        </ALVSClearanceRequest>
     </soap:Body>
 </soap:Envelope>`
 
@@ -70,26 +70,25 @@ export const finalisationNotificationTemplate = `<?xml version="1.0" encoding="u
     <soap:Header>
         <oas:Security soap:role="system" soap:mustUnderstand="true">
             <oas:UsernameToken>
-                <oas:Username>{{username}}</oas:Username>
-                <oas:Password Type="{{passwordType}}">{{password}}</oas:Password>
+                {{#if username}}<oas:Username>{{username}}</oas:Username>{{/if}}
+                {{#if passwordType}}<oas:Password Type="{{passwordType}}">{{password}}</oas:Password>{{/if}}
             </oas:UsernameToken>
         </oas:Security>
     </soap:Header>
     <soap:Body>
-        <FinalisationNotificationRequest
-            xmlns="http://notifyfinalisedstatehmrcfacade.types.esb.ws.cara.defra.com">
+        <FinalisationNotificationRequest xmlns="http://notifyfinalisedstatehmrcfacade.types.esb.ws.cara.defra.com">
             <ServiceHeader>
-                <SourceSystem>{{SourceSystem}}</SourceSystem>
-                <DestinationSystem>{{DestinationSystem}}</DestinationSystem>
-                <CorrelationId>{{CorrelationId}}</CorrelationId>
-                <ServiceCallTimestamp>{{timeStamp}}</ServiceCallTimestamp>
+                {{#if SourceSystem}}<SourceSystem>{{SourceSystem}}</SourceSystem>{{/if}}
+                {{#if DestinationSystem}}<DestinationSystem>{{DestinationSystem}}</DestinationSystem>{{/if}}
+                {{#if CorrelationId}}<CorrelationId>{{CorrelationId}}</CorrelationId>{{/if}}
+                {{#if timeStamp}}<ServiceCallTimestamp>{{timeStamp}}</ServiceCallTimestamp>{{/if}}
             </ServiceHeader>
             <Header>
-                <EntryReference>{{EntryReference}}</EntryReference>
-                <EntryVersionNumber>{{EntryVersionNumber}}</EntryVersionNumber>
-                <DecisionNumber>{{DecisionNumber}}</DecisionNumber>
-                <FinalState>{{FinalState}}</FinalState>
-                <ManualAction>{{ManualAction}}</ManualAction>
+                {{#if EntryReference}}<EntryReference>{{EntryReference}}</EntryReference>{{/if}}
+                {{#if EntryVersionNumber}}<EntryVersionNumber>{{EntryVersionNumber}}</EntryVersionNumber>{{/if}}
+                {{#if DecisionNumber}}<DecisionNumber>{{DecisionNumber}}</DecisionNumber>{{/if}}
+                {{#if FinalState}}<FinalState>{{FinalState}}</FinalState>{{/if}}
+                {{#if ManualAction}}<ManualAction>{{ManualAction}}</ManualAction>{{/if}}
             </Header>
         </FinalisationNotificationRequest>
     </soap:Body>
@@ -101,28 +100,27 @@ export const errorNotificationTemplate = `<?xml version="1.0" encoding="utf-8"?>
     <soap:Header>
         <oas:Security soap:role="system" soap:mustUnderstand="true">
             <oas:UsernameToken>
-                <oas:Username>{{username}}</oas:Username>
-                <oas:Password Type="{{passwordType}}">{{password}}</oas:Password>
+                {{#if username}}<oas:Username>{{username}}</oas:Username>{{/if}}
+                {{#if passwordType}}<oas:Password Type="{{passwordType}}">{{password}}</oas:Password>{{/if}}
             </oas:UsernameToken>
         </oas:Security>
     </soap:Header>
     <soap:Body>
-        <ALVSErrorNotificationRequest
-            xmlns="http://alvserrornotification.types.esb.ws.cara.defra.com">
+        <ALVSErrorNotificationRequest xmlns="http://alvserrornotification.types.esb.ws.cara.defra.com">
             <ServiceHeader>
-                <SourceSystem>{{SourceSystem}}</SourceSystem>
-                <DestinationSystem>{{DestinationSystem}}</DestinationSystem>
-                <CorrelationId>{{CorrelationId}}</CorrelationId>
-                <ServiceCallTimestamp>{{timeStamp}}</ServiceCallTimestamp>
+                {{#if SourceSystem}}<SourceSystem>{{SourceSystem}}</SourceSystem>{{/if}}
+                {{#if DestinationSystem}}<DestinationSystem>{{DestinationSystem}}</DestinationSystem>{{/if}}
+                {{#if CorrelationId}}<CorrelationId>{{CorrelationId}}</CorrelationId>{{/if}}
+                {{#if timeStamp}}<ServiceCallTimestamp>{{timeStamp}}</ServiceCallTimestamp>{{/if}}
             </ServiceHeader>
             <Header>
-                <SourceCorrelationId>{{SourceCorrelationId}}</SourceCorrelationId>
-                <EntryReference>{{EntryReference}}</EntryReference>
-                <EntryVersionNumber>{{EntryVersionNumber}}</EntryVersionNumber>
+                {{#if SourceCorrelationId}}<SourceCorrelationId>{{SourceCorrelationId}}</SourceCorrelationId>{{/if}}
+                {{#if EntryReference}}<EntryReference>{{EntryReference}}</EntryReference>{{/if}}
+                {{#if EntryVersionNumber}}<EntryVersionNumber>{{EntryVersionNumber}}</EntryVersionNumber>{{/if}}
             </Header>
             <Error>
-                <ErrorCode>{{ErrorCode}}</ErrorCode>
-                <ErrorMessage>{{ErrorMessage}}</ErrorMessage>
+                {{#if ErrorCode}}<ErrorCode>{{ErrorCode}}</ErrorCode>{{/if}}
+                {{#if ErrorMessage}}<ErrorMessage>{{ErrorMessage}}</ErrorMessage>{{/if}}
             </Error>
         </ALVSErrorNotificationRequest>
     </soap:Body>

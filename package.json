@@ -15,12 +15,7 @@
   },
   "scripts": {
     "clean": "rm -rf allure-results && rm -rf allure-report",
-    "test": "npm run clean && mocha 'test/**/*.js' --reporter allure-mocha --require ./test/setup.js",
-    "test:browserstack": "npm run clean && wdio run wdio.browserstack.conf.js",
-    "test:local": "npm run clean && wdio run wdio.local.conf.js",
-    "test:local:debug": "npm run clean && DEBUG=true wdio run wdio.local.conf.js",
-    "test:github": "npm run clean && wdio run wdio.github.conf.js",
-    "test:github:browserstack": "npm run clean && wdio run wdio.github.browserstack.conf.js",
+    "test": "npm run clean && mocha --config .mocharc.json",
     "format": "prettier --write 'test/**/*.js' '**/*.{js,md,json,config.js}'",
     "format:check": "prettier --check 'test/**/*.js' '**/*.{js,md,json,config.js}'",
     "git:pre-commit-hook": "npm run format:check && npm run lint",
@@ -43,15 +38,21 @@
     "fast-xml-parser": "5.2.1",
     "global-agent": "3.0.0",
     "handlebars": "4.7.8",
+    "he": "1.2.0",
+    "html-entities": "2.6.0",
     "p-wait-for": "5.0.2",
-    "undici": "7.3.0"
+    "pino": "9.7.0",
+    "undici": "7.3.0",
+    "xml-formatter": "3.6.6"
   },
   "devDependencies": {
     "@wdio/cli": "9.12.7",
     "allure-commandline": "2.34.0",
+    "allure-js-commons": "3.3.0",
     "allure-mocha": "3.2.1",
     "chai": "5.2.0",
     "dotenv": "16.5.0",
+    "dotenv-flow": "4.1.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-config-standard": "17.1.0",
@@ -60,9 +61,17 @@
     "eslint-plugin-wdio": "8.24.12",
     "husky": "9.1.7",
     "madge": "8.0.0",
-    "mocha": "11.1.0",
+    "mocha": "11.5.0",
+    "mocha-allure-reporter": "1.4.0",
+    "mocha-junit-reporter": "2.2.1",
+    "mocha-multi-reporters": "1.5.1",
     "mocha-steps": "1.3.0",
+    "pino-pretty": "13.0.0",
     "prettier": "3.4.2"
+  },
+  "imports": {
+    "#utils/*": "./test/utils/*",
+    "#steps/*": "./test/steps/*"
   },
   "mocha": {
     "reporter": "allure-mocha",
