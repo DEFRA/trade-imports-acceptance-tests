@@ -128,7 +128,7 @@ export const testData = new Proxy(
     },
     has(_, prop) {
       const ctx = getCurrentTestContext()
-      return ctx?.testData?.hasOwnProperty(prop)
+      return Object.prototype.hasOwnProperty.call(ctx?.testData ?? {}, prop)
     },
     deleteProperty(_, prop) {
       const ctx = getCurrentTestContext()

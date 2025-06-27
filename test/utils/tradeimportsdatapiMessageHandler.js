@@ -10,6 +10,7 @@ const ENDPOINTS = {
     `${BASE_URL_TRADE_IMPORTS_DATA_API}/customs-declarations/${key}`
 }
 
+// eslint-disable-next-line no-unused-vars
 function getByPath(obj, path) {
   return path.split('.').reduce((acc, part) => acc?.[part], obj)
 }
