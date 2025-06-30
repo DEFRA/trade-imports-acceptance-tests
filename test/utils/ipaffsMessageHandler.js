@@ -1,58 +1,46 @@
 import { request } from 'undici'
-import crypto from 'crypto'
 
 export async function sendIpaffsMessage(json) {
-  const url = `https://devtreinfsb1001.servicebus.windows.net/defra.trade.imports.notification-topic/messages`
-
-  const accessToken = createSharedAccessToken(
-    'https://devtreinfsb1001.servicebus.windows.net/defra.trade.imports.notification-topic',
-    'trade-imports',
-    IPAFFS_KEY
-  )
-
+  const url = IPAFFS_PATH
   const body = typeof json === 'object' ? JSON.stringify(json) : json
-  console.log(body)
 
-  let bodyText
+  globalThis.testLogger.info({ message: 'Sending IPAFFS message', body })
 
   try {
     const response = await request(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/xml',
-        Authorization: accessToken
+        Authorization: IPAFFS_SAS_TOKEN
       },
-      body
+      body,
+      ...(proxy && { dispatcher: new ProxyAgent({ uri: proxy }) })
     })
 
-    if (response.statusCode !== 200) {
-      bodyText = await response.body.text()
+    if (response.statusCode !== 201) {
+      const bodyText = await response.body.text()
+      globalThis.testLogger.error(
+        {
+          statusCode: response.statusCode,
+          responseBody: bodyText,
+          headers: response.headers
+        },
+        'ASB returned error status'
+      )
       throw new Error(
         `ASB returned status ${response.statusCode}: ${bodyText} : ${JSON.stringify(response.headers)}`
       )
     }
 
-    console.log(bodyText)
+    globalThis.testLogger.info('Message sent successfully', {
+      statusCode: response.statusCode
+    })
     return response
   } catch (err) {
-    console.error('Request URL:', url)
-    console.error('Request Body:', json)
-    console.error('Error:', err.message || err)
-    throw new Error(`request failed: ${err.message || err}`)
+    globalThis.testLogger.error(
+      { url, requestBody: body, err: err.message || err },
+      'Request failed'
+    )
+    throw new Error(`Request failed: ${err.message || err}`)
   }
-}
-
-function createSharedAccessToken(uri, saName, saKey) {
-  if (!uri || !saName || !saKey) {
-    throw new Error('Missing required parameter')
-  }
-
-  const encodedUri = encodeURIComponent(uri)
-  const ttl = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7
-  const stringToSign = `${encodedUri}\n${ttl}`
-  const hmac = crypto.createHmac('sha256', saKey)
-  hmac.update(stringToSign)
-  const signature = encodeURIComponent(hmac.digest('base64'))
-
-  return `SharedAccessSignature sr=${encodedUri}&sig=${signature}&se=${ttl}&skn=${saName}`
 }

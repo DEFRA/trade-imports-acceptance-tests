@@ -12,3 +12,6 @@ allure-report/
 allure-results/
 FAILED
 .env
+.env.*
+junit-results/
+

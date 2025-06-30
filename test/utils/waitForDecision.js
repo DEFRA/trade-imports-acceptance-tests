@@ -2,23 +2,45 @@ import { request } from 'undici'
 import pWaitFor from 'p-wait-for'
 import { TimeoutError } from 'p-timeout'
 
+export async function getExistingDecisions(mrn) {
+  const url = `${BASE_URL_TRADE_IMPORTS_DECISION_COMPARER}/decisions/${mrn}`
+
+  const resp = await request(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: COMPARER_AUTHORIZATION_HEADER
+    }
+  })
+
+  const body = await resp.body.text()
+  const data = JSON.parse(body)
+
+  return data.btmsDecision?.decisions ?? []
+}
+
 export async function waitForDecision(
   mrn,
-  afterTimestamp,
+  existingDecisions = [],
   timeout = TIMEOUT_MS,
   interval = POLL_INTERVAL_MS
 ) {
+  if (!Array.isArray(existingDecisions)) {
+    existingDecisions = await getExistingDecisions(mrn)
+  }
   const url = `${BASE_URL_TRADE_IMPORTS_DECISION_COMPARER}/decisions/${mrn}`
+
+  const knownCreated = new Set(existingDecisions.map((d) => d.created))
 
   let lastResponse = null
   let lastResponseText = ''
-  let lastError = null
+  let decisionsXml = null
 
   try {
     await pWaitFor(
       async () => {
         try {
-          console.log(`Polling: ${url}`)
+          testLogger.info(`Polling: ${url}`)
 
           const resp = await request(url, {
             method: 'GET',
@@ -28,8 +50,8 @@ export async function waitForDecision(
             }
           })
 
-          lastResponseText = await resp.body.text()
           lastResponse = resp
+          lastResponseText = await resp.body.text()
 
           if (resp.statusCode !== 200) {
             lastError = new Error(`Unexpected status code: ${resp.statusCode}`)
@@ -37,53 +59,40 @@ export async function waitForDecision(
           }
 
           const data = JSON.parse(lastResponseText)
+          const decisions = data.btmsDecision?.decisions ?? []
 
-          if (
-            !data.btmsDecision ||
-            !Array.isArray(data.btmsDecision.decisions)
-          ) {
-            return false
-          }
-
-          const startTime = new Date(afterTimestamp)
-
-          const newDecisions = data.btmsDecision.decisions
-            .filter((decision) => new Date(decision.created) > startTime)
-            .sort((a, b) => new Date(b.created) - new Date(a.created))
+          const newDecisions = decisions.filter(
+            (d) => !knownCreated.has(d.created)
+          )
 
           if (newDecisions.length === 0) {
             return false
           }
 
-          console.log(
-            `Latest decision message found: ${newDecisions[0].created}`
-          )
-          lastResponseText = newDecisions[0].xml // Returning the latest
+          decisionsXml = newDecisions[0].xml
+          testLogger.info('New decision found', {
+            created: newDecisions[0].created
+          })
+
           return true
-          // TODO: stop using magic string and make this check more robust
-          // needs to identify that a NEW decision is available
-          // return lastResponseText.includes('"btmsDecision":{"id":"25')
         } catch (err) {
-          console.error('Error during request:', err)
+          testLogger.error('Error during request:', err)
           return false
         }
       },
       { interval, timeout }
     )
 
-    return lastResponseText
+    return decisionsXml
   } catch (err) {
     if (err instanceof TimeoutError) {
-      console.error('Timed out polling for MRN:', mrn)
-      if (lastError) {
-        console.error('Last error:', lastError.message || lastError)
-      } else {
-        console.error('Last response status code:', lastResponse.statusCode)
-        console.error('Last response headers:', lastResponse.headers)
-        console.error('Last response text:', lastResponseText)
-      }
-
-      throw new Error(`Polling for decision timed out for MRN: ${mrn}`)
+      testLogger.error(`Timed out polling for new decision for MRN: ${mrn}`, {
+        err,
+        lastResponse,
+        lastResponseText
+      })
+    } else {
+      testLogger.error({ err, lastResponse, lastResponseText })
     }
     throw err
   }

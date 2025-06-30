@@ -1,7 +1,12 @@
 import { request } from 'undici'
 
+const BASE_URL_BTMS_GATEWAY = `https://btms-gateway.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
+
 export async function sendSoapRequest(endpoint, soapEnvelope) {
   const url = `${BASE_URL_BTMS_GATEWAY}/ITSW/CDS/${endpoint}`
+
+  globalThis.testLogger.info({ msg: 'SOAP message', url })
+  globalThis.testLogger.info({ msg: 'SOAP message', soapEnvelope })
 
   try {
     const response = await request(url, {
@@ -10,19 +15,13 @@ export async function sendSoapRequest(endpoint, soapEnvelope) {
       body: soapEnvelope
     })
 
-    if (response.statusCode !== 200) {
-      const bodyText = await response.body.text()
-      throw new Error(
-        `BTMS Gateway returned status ${response.statusCode}: ${bodyText}`
-      )
-    }
+    globalThis.testLogger.info({ statusCode: response.statusCode })
 
-    await response.body.text()
     return response
-  } catch (err) {
-    console.error('Request URL:', url)
-    console.error('Request Body:', soapEnvelope)
-    console.error('Error:', err.message || err)
-    throw new Error(`SOAP request failed: ${err.message || err}`)
+  } catch (e) {
+    globalThis.testLogger.error('Request URL:', url)
+    globalThis.testLogger.error('Request Body:', soapEnvelope)
+    globalThis.testLogger.error('Error:', e.message || e)
+    throw new Error(`sendSoapRequest request failed: ${e.message || e}`)
   }
 }
