@@ -1,4 +1,4 @@
-import { request } from 'undici'
+import { request, ProxyAgent } from 'undici'
 
 export async function sendIpaffsMessage(json) {
   const url = IPAFFS_PATH
