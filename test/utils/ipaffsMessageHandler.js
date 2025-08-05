@@ -1,46 +1,40 @@
-import { request, ProxyAgent } from 'undici'
+import { ServiceBusClient } from '@azure/service-bus'
+import { v4 as uuidv4 } from 'uuid'
 
 export async function sendIpaffsMessage(json) {
-  const url = IPAFFS_PATH
+  const connectionString =
+    process.env.ServiceBus__Notifications__ConnectionString ?? ''
+  const queueOrTopicName = connectionString.match(/EntityPath=([^;]+)/)[1]
   const body = typeof json === 'object' ? JSON.stringify(json) : json
 
   globalThis.testLogger.info({ message: 'Sending IPAFFS message', body })
 
-  try {
-    const response = await request(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/xml',
-        Authorization: IPAFFS_SAS_TOKEN
-      },
-      body,
-      ...(proxy && { dispatcher: new ProxyAgent({ uri: proxy }) })
-    })
+  const sbClient = new ServiceBusClient(connectionString)
+  const sender = sbClient.createSender(queueOrTopicName)
+  const requestId = uuidv4().replace(/-/g, '')
 
-    if (response.statusCode !== 201) {
-      const bodyText = await response.body.text()
-      globalThis.testLogger.error(
-        {
-          statusCode: response.statusCode,
-          responseBody: bodyText,
-          headers: response.headers
-        },
-        'ASB returned error status'
-      )
-      throw new Error(
-        `ASB returned status ${response.statusCode}: ${bodyText} : ${JSON.stringify(response.headers)}`
-      )
+  const message = {
+    body: json,
+    applicationProperties: {
+      'x-cdp-request-id': requestId
     }
+  }
 
-    globalThis.testLogger.info('Message sent successfully', {
-      statusCode: response.statusCode
+  try {
+    await sender.sendMessages(message)
+    globalThis.testLogger.info({
+      message: 'Sent message with x-cdp-request-id:',
+      requestId
     })
-    return response
+    return { requestId, ipaffsBody: body }
   } catch (err) {
     globalThis.testLogger.error(
       { url, requestBody: body, err: err.message || err },
       'Request failed'
     )
     throw new Error(`Request failed: ${err.message || err}`)
+  } finally {
+    await sender.close()
+    await sbClient.close()
   }
 }
