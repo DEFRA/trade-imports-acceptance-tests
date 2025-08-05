@@ -55,6 +55,7 @@ function initGlobals() {
     TRADE_IMPORTS_DECISION_COMPARER_KEY: {},
     TRADE_IMPORTS_DATA_API_USER: {},
     TRADE_IMPORTS_DATA_API_KEY: {},
+    ServiceBus__Notifications__ConnectionString: {},
     POLL_INTERVAL_MS: { parseAs: 'int', default: 500 },
     TIMEOUT_MS: { parseAs: 'int', default: 30000 }
   }
