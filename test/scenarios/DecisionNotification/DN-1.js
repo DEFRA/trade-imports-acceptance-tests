@@ -24,10 +24,9 @@ describe('BTMS sends a DecisionNotification for a Hold decision on a MRN - DN-1'
 
     await sendClearanceRequest(this.clearanceRequest.buildMessage())
 
-    const codes = await extractDecisionCodes(
-      await waitForDecision(this.clearanceRequest.mrn, thisStepStartTime)
-    )
+    const decisionXml = await waitForSpecificDecision(this.clearanceRequest.mrn, 'H01')
+    testLogger.info('Received decision with expected code H01')
+    const codes = await extractDecisionCodes(decisionXml)
     testLogger.info('Received decision codes:', { decisionCodes: codes })
-    assert(codes.includes('H01'), 'Expected decision code H01 not found')
   })
 })

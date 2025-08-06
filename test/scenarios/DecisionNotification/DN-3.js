@@ -37,10 +37,11 @@ describe('BTMS sends a DecisionNotification for a Refusal decision on a MRN', fu
     await waitForDataInAPI(testData.mrn)
 
     newStep('Wait for decision - should be a hold H01')
-    const codes = await extractDecisionCodes(
-      await waitForDecision(testData.mrn, testData.existingDecisions)
-    )
-    assert(codes.includes('H01'), 'Expected decision code H01 not found')
+
+    let decisionXml = await waitForSpecificDecision(testData.mrn, 'H01')
+    testLogger.info('Received decision with expected code H01')
+    let codes = await extractDecisionCodes(decisionXml)
+    testLogger.info('Received decision codes:', { decisionCodes: codes })
 
     newStep('Send updated IPAFFS notification with decision (refusal)')
     testData.existingDecisions = await getExistingDecisions(testData.mrn)
@@ -70,10 +71,10 @@ describe('BTMS sends a DecisionNotification for a Refusal decision on a MRN', fu
       importPreNotification: { version: 2 }
     })
 
-    newStep('Wait for decision - should be a Refusal N03')
-    const finalCodes = await extractDecisionCodes(
-      await waitForDecision(testData.mrn, testData.existingDecisions)
-    )
-    assert(finalCodes.includes('N04'), 'Expected decision code N04 not found')
+    newStep('Wait for decision - should be a Refusal N04')
+    decisionXml = await waitForSpecificDecision(testData.mrn, 'N04')
+    testLogger.info('Received decision with expected code N04')
+    codes = await extractDecisionCodes(decisionXml)
+    testLogger.info('Received decision codes:', { decisionCodes: codes })
   })
 })

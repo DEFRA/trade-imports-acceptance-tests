@@ -34,10 +34,9 @@ describe('BTMS receives a ClearanceRequest for a MRN with a single item with a s
     await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelope)
 
     testLogger.info('Wait for decision - should be a hold H01')
-    const codes = await extractDecisionCodes(
-      await waitForDecision(this.mrn, thisStepStartTime)
-    )
-    testLogger.info('Received decision codes:', codes)
-    assert(codes.includes('H01'), 'Expected decision code H01 not found')
+    const decisionXml = await waitForSpecificDecision(this.mrn, 'H01')
+    testLogger.info('Received decision with expected code H01')
+    const codes = await extractDecisionCodes(decisionXml)
+    testLogger.info('Received decision codes:', { decisionCodes: codes })
   })
 })
