@@ -1,12 +1,14 @@
 import { ServiceBusClient } from '@azure/service-bus'
+import { setLogLevel, AzureLogger } from '@azure/logger'
 import { v4 as uuidv4 } from 'uuid'
-import dotenv from 'dotenv'
-
-dotenv.config({
-  node_env: process.env.NODE_ENV
-})
+import { WebSocket } from 'ws'
+import createProxyAgent from 'proxy-agent'
 
 export async function sendIpaffsMessage(json) {
+  AzureLogger.log = (...args) => {
+    globalThis.testLogger.debug({ message: '[AZURE]', ...args })
+  }
+  setLogLevel('verbose')
   globalThis.testLogger.info({ message: 'Starting sendIpaffsMessage function' })
 
   const connectionString =
@@ -41,7 +43,32 @@ export async function sendIpaffsMessage(json) {
   })
 
   globalThis.testLogger.info({ message: 'Creating ServiceBus client' })
-  const sbClient = new ServiceBusClient(connectionString)
+
+  let sbClient
+
+  if (globalThis.proxy) {
+    const proxyAgent = createProxyAgent(globalThis.proxy)
+
+    globalThis.testLogger.info({
+      message: 'Creating ServiceBus client with WebSocket proxy agent',
+      proxy: globalThis.proxy
+    })
+
+    sbClient = new ServiceBusClient(connectionString, {
+      webSocketOptions: {
+        webSocket: WebSocket,
+        webSocketConstructorOptions: {
+          agent: proxyAgent
+        }
+      }
+    })
+  } else {
+    globalThis.testLogger.info({
+      message: 'Creating ServiceBus client without proxy'
+    })
+
+    sbClient = new ServiceBusClient(connectionString)
+  }
 
   globalThis.testLogger.info({
     message: 'Creating sender',
