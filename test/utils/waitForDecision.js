@@ -106,8 +106,10 @@ export async function waitForSpecificDecision(
   interval = POLL_INTERVAL_MS
 ) {
   const url = `${BASE_URL_TRADE_IMPORTS_DECISION_COMPARER}/decisions/${mrn}`
-  
-  testLogger.info(`Starting to wait for decision code ${expectedDecisionCode} for MRN: ${mrn}`)
+
+  testLogger.info(
+    `Starting to wait for decision code ${expectedDecisionCode} for MRN: ${mrn}`
+  )
 
   try {
     let foundXml = null
@@ -130,7 +132,9 @@ export async function waitForSpecificDecision(
         const data = JSON.parse(await resp.body.text())
         const decisions = data.btmsDecision?.decisions ?? []
 
-        testLogger.info(`Found ${decisions.length} total decisions for MRN: ${mrn}`)
+        testLogger.info(
+          `Found ${decisions.length} total decisions for MRN: ${mrn}`
+        )
 
         if (decisions.length === 0) {
           return false
@@ -140,7 +144,7 @@ export async function waitForSpecificDecision(
         for (const decision of decisions) {
           const decisionCodes = extractDecisionCodes(decision.xml)
           testLogger.info(`Decision codes found: ${decisionCodes.join(', ')}`)
-          
+
           if (decisionCodes.includes(expectedDecisionCode)) {
             testLogger.info('Found expected decision code', {
               expectedCode: expectedDecisionCode,
@@ -151,7 +155,9 @@ export async function waitForSpecificDecision(
           }
         }
 
-        testLogger.info(`Expected code ${expectedDecisionCode} not found in decisions`)
+        testLogger.info(
+          `Expected code ${expectedDecisionCode} not found in decisions`
+        )
         return false
       },
       { interval, timeout }
@@ -160,7 +166,9 @@ export async function waitForSpecificDecision(
     return foundXml
   } catch (err) {
     if (err instanceof TimeoutError) {
-      testLogger.error(`Timed out waiting for decision code ${expectedDecisionCode} for MRN: ${mrn}`)
+      testLogger.error(
+        `Timed out waiting for decision code ${expectedDecisionCode} for MRN: ${mrn}`
+      )
     }
     throw err
   }
