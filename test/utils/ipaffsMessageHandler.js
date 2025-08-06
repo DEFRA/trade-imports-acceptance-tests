@@ -1,16 +1,9 @@
 import { ServiceBusClient } from '@azure/service-bus'
-import { setLogLevel, AzureLogger } from '@azure/logger'
 import { v4 as uuidv4 } from 'uuid'
 import { WebSocket } from 'ws'
 import proxyAgent from 'proxy-agent'
 
 export async function sendIpaffsMessage(json) {
-  AzureLogger.log = (...args) => {
-    globalThis.testLogger.debug({ message: '[AZURE]', ...args })
-  }
-  setLogLevel('verbose')
-  globalThis.testLogger.info({ message: 'Starting sendIpaffsMessage function' })
-
   const connectionString =
     process.env.ServiceBus__Notifications__ConnectionString
 
@@ -39,19 +32,12 @@ export async function sendIpaffsMessage(json) {
     message: 'Prepared message body',
     bodyType: typeof json,
     bodyLength: body.length,
-    bodyPreview: body.substring(0, 200) + (body.length > 200 ? '...' : '')
+    bodyPreview: body
   })
-
-  globalThis.testLogger.info({ message: 'Creating ServiceBus client' })
 
   let sbClient
   if (globalThis.proxy) {
     const agent = proxyAgent(globalThis.proxy)
-
-    globalThis.testLogger.info({
-      message: 'Creating ServiceBus client with WebSocket proxy agent',
-      proxy: globalThis.proxy
-    })
 
     sbClient = new ServiceBusClient(connectionString, {
       webSocketOptions: {
@@ -69,17 +55,9 @@ export async function sendIpaffsMessage(json) {
     sbClient = new ServiceBusClient(connectionString)
   }
 
-  globalThis.testLogger.info({
-    message: 'Creating sender',
-    queueOrTopicName
-  })
   const sender = sbClient.createSender(queueOrTopicName)
 
   const requestId = uuidv4().replace(/-/g, '')
-  globalThis.testLogger.info({
-    message: 'Generated request ID',
-    requestId
-  })
 
   const message = {
     body: json,
@@ -87,15 +65,6 @@ export async function sendIpaffsMessage(json) {
       'x-cdp-request-id': requestId
     }
   }
-
-  globalThis.testLogger.info({
-    message: 'Prepared message for sending',
-    requestId,
-    messageSize: JSON.stringify(message).length,
-    hasBody: !!message.body,
-    applicationPropertiesCount: Object.keys(message.applicationProperties)
-      .length
-  })
 
   try {
     globalThis.testLogger.info({

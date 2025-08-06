@@ -22,10 +22,9 @@ describe('BTMS sends a DecisionNotification for a No Match decision on a MRN - D
     testLogger.info('Sent clearance request')
     testLogger.info(soapEnvelope)
     testLogger.info('Wait for decision - should be a hold X00')
-    const codes = await extractDecisionCodes(
-      await waitForDecision(this.mrn, thisStepStartTime)
-    )
+    const decisionXml = await waitForSpecificDecision(this.mrn, 'X00')
+    testLogger.info('Received decision with expected code X00')
+    const codes = await extractDecisionCodes(decisionXml)
     testLogger.info('Received decision codes:', { decisionCodes: codes })
-    assert(codes.includes('X00'), 'Expected decision code X00 not found')
   })
 })

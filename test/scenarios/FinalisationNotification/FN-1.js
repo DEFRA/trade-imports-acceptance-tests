@@ -46,39 +46,38 @@ describe('BTMS receives a Manual Override decision for an existing MRN - FN-1', 
     await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelope)
 
     testLogger.info('Wait for decision - should be a hold H01')
+    let decisionXml = await waitForSpecificDecision(this.mrn, 'H01')
+    testLogger.info('Received decision with expected code H01')
+    let codes = await extractDecisionCodes(decisionXml)
+    testLogger.info('Received decision codes:', { decisionCodes: codes })
 
-    const codes1 = await extractDecisionCodes(
-      await waitForDecision(this.mrn, thisStepStartTime)
-    )
-    testLogger.info('Received decision codes:', { decisionCodes: codes1 })
-    assert(codes1.includes('H01'), 'Expected decision code H01 not found')
     testLogger.info(
-      'Send updated IPAFFS notification with decision (to release)',
-      async () => {
-        await sendIpaffsMessage(
-          loadIPAFFSJson('CHEDA.json', {
-            referenceNumber: this.docRef,
-            lastUpdated: new Date().toISOString(),
-            version: 2,
-            status: 'VALIDATED',
-            partTwo: {
-              decision: {
-                consignmentAcceptable: true,
-                decision: 'Acceptable for Internal Market'
-              },
-              inspectionRequired: 'Not required'
-            }
-          })
-        )
-      }
+      'Send updated IPAFFS notification with decision (to release)'
+    )
+
+    await sendIpaffsMessage(
+      loadIPAFFSJson('CHEDA.json', {
+        referenceNumber: this.docRef,
+        lastUpdated: new Date().toISOString(),
+        version: 2,
+        status: 'VALIDATED',
+        partTwo: {
+          decision: {
+            consignmentAcceptable: true,
+            decision: 'Acceptable for Internal Market'
+          },
+          inspectionRequired: 'Not required'
+        }
+      })
     )
 
     testLogger.info('Wait for decision - should be a hold C03')
-    const codes2 = await extractDecisionCodes(
-      await waitForDecision(this.mrn, thisStepStartTime)
-    )
-    testLogger.info('Received decision codes:', { decisionCodes: codes2 })
-    assert(codes2.includes('C03'), 'Expected decision code C03 not found')
+
+    decisionXml = await waitForSpecificDecision(this.mrn, 'C03')
+    testLogger.info('Received decision with expected code C03')
+    codes = await extractDecisionCodes(decisionXml)
+    testLogger.info('Received decision codes:', { decisionCodes: codes })
+
     testLogger.info('Send finalisation')
     const finalisationSoapMsg = new SoapMessageBuilder(
       'finalisation'

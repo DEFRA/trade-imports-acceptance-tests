@@ -1,28 +1,25 @@
 describe('BTMS sends a DecisionNotification for a Data Error decision on a MRN - DN-5', function () {
   it('', async function () {
-    this.timeout(70000)
-
     testLogger.info(
-      'Send IPAFFS notification with decision (Data Error, Acceptable for Transit)',
-      async () => {
-        this.docRef = generateDocumentReference()
+      'Send IPAFFS notification with decision (Data Error, Acceptable for Transit)'
+    )
 
-        sendIpaffsMessage(
-          loadIPAFFSJson('CHEDA.json', {
-            referenceNumber: this.docRef,
-            lastUpdated: new Date().toISOString(),
-            version: 2,
-            status: 'VALIDATED',
-            partTwo: {
-              decision: {
-                consignmentAcceptable: true,
-                decision: 'Acceptable for Transit'
-              },
-              inspectionRequired: 'Not required'
-            }
-          })
-        )
-      }
+    this.docRef = generateDocumentReference()
+
+    sendIpaffsMessage(
+      loadIPAFFSJson('CHEDA.json', {
+        referenceNumber: this.docRef,
+        lastUpdated: new Date().toISOString(),
+        version: 2,
+        status: 'VALIDATED',
+        partTwo: {
+          decision: {
+            consignmentAcceptable: true,
+            decision: 'Acceptable for Transit'
+          },
+          inspectionRequired: 'Not required'
+        }
+      })
     )
 
     testLogger.info('Send Clearance Request')
@@ -41,10 +38,10 @@ describe('BTMS sends a DecisionNotification for a Data Error decision on a MRN -
 
     await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelope)
     testLogger.info('Wait for decision - should be a hold E03')
-    const codes = await extractDecisionCodes(
-      await waitForDecision(this.mrn, thisStepStartTime)
-    )
+
+    const decisionXml = await waitForSpecificDecision(this.mrn, 'E03')
+    testLogger.info('Received decision with expected code E03')
+    const codes = await extractDecisionCodes(decisionXml)
     testLogger.info('Received decision codes:', { decisionCodes: codes })
-    assert(codes.includes('E03'), 'Expected decision code E03 not found')
   })
 })

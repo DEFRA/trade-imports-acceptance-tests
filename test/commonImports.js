@@ -15,7 +15,10 @@ import {
 } from './utils/testDataFunctions.js'
 
 import { extractDecisionCodes } from './utils/decisionParser.js'
-import { waitForDecision } from './utils/waitForDecision.js'
+import {
+  waitForDecision,
+  waitForSpecificDecision
+} from './utils/waitForDecision.js'
 import { waitForDataInAPI } from './utils/tradeimportsdatapiMessageHandler.js'
 import { sendIpaffsMessage } from './utils/ipaffsMessageHandler.js'
 
@@ -36,6 +39,7 @@ export default {
   sendSoapRequest,
   extractDecisionCodes,
   waitForDecision,
+  waitForSpecificDecision,
   waitForDataInAPI,
   sendIpaffsMessage
 }

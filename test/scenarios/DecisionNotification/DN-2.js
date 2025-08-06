@@ -30,11 +30,11 @@ describe('BTMS sends a DecisionNotification for a Release decision on a MRN - DN
 
     await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelope)
     testLogger.info('Wait for decision - should be a hold H01')
-    const codes1 = await extractDecisionCodes(
-      await waitForDecision(this.mrn, thisStepStartTime)
-    )
-    testLogger.info('Received decision codes:', { decisionCodes: codes1 })
-    assert(codes1.includes('H01'), 'Expected decision code H01 not found')
+    let decisionXml = await waitForSpecificDecision(this.mrn, 'H01')
+    testLogger.info('Received decision with expected code H01')
+    let codes = await extractDecisionCodes(decisionXml)
+    testLogger.info('Received decision codes:', { decisionCodes: codes })
+
     testLogger.info(
       'Send updated IPAFFS notification with decision (to release)'
     )
@@ -55,10 +55,9 @@ describe('BTMS sends a DecisionNotification for a Release decision on a MRN - DN
     )
 
     testLogger.info('Wait for decision - should be a hold C03')
-    const codes2 = await extractDecisionCodes(
-      await waitForDecision(this.mrn, thisStepStartTime)
-    )
-    testLogger.info('Received decision codes:', { decisionCodes: codes2 })
-    assert(codes2.includes('C03'), 'Expected decision code C03 not found')
+    decisionXml = await waitForSpecificDecision(this.mrn, 'C03')
+    testLogger.info('Received decision with expected code C03')
+    codes = await extractDecisionCodes(decisionXml)
+    testLogger.info('Received decision codes:', { decisionCodes: codes })
   })
 })
