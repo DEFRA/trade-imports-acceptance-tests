@@ -27,6 +27,7 @@
     "report:publish": "npm run report; ./bin/publish-tests.sh"
   },
   "dependencies": {
+    "@azure/logger": "1.0.4",
     "@azure/service-bus": "7.9.5",
     "@wdio/allure-reporter": "9.9.0",
     "@wdio/browserstack-service": "9.9.1",
@@ -43,8 +44,10 @@
     "html-entities": "2.6.0",
     "p-wait-for": "5.0.2",
     "pino": "9.7.0",
+    "proxy-agent": "6.5.0",
     "undici": "7.3.0",
     "uuid": "11.1.0",
+    "ws": "8.18.3",
     "xml-formatter": "3.6.6"
   },
   "devDependencies": {
