@@ -45,7 +45,7 @@ export async function sendIpaffsMessage(json) {
   globalThis.testLogger.info({ message: 'Creating ServiceBus client' })
 
   let sbClient
-
+  globalThis.testLogger.info({ message: 'proxy', proxy: globalThis.proxy })
   if (globalThis.proxy) {
     const proxyAgent = createProxyAgent(globalThis.proxy)
 
