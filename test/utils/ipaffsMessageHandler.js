@@ -2,7 +2,7 @@ import { ServiceBusClient } from '@azure/service-bus'
 import { setLogLevel, AzureLogger } from '@azure/logger'
 import { v4 as uuidv4 } from 'uuid'
 import { WebSocket } from 'ws'
-import createProxyAgent from 'proxy-agent'
+import proxyAgent from 'proxy-agent'
 
 export async function sendIpaffsMessage(json) {
   AzureLogger.log = (...args) => {
@@ -45,9 +45,8 @@ export async function sendIpaffsMessage(json) {
   globalThis.testLogger.info({ message: 'Creating ServiceBus client' })
 
   let sbClient
-  globalThis.testLogger.info({ message: 'proxy', proxy: globalThis.proxy })
   if (globalThis.proxy) {
-    const proxyAgent = createProxyAgent(globalThis.proxy)
+    const agent = proxyAgent(globalThis.proxy)
 
     globalThis.testLogger.info({
       message: 'Creating ServiceBus client with WebSocket proxy agent',
@@ -58,7 +57,7 @@ export async function sendIpaffsMessage(json) {
       webSocketOptions: {
         webSocket: WebSocket,
         webSocketConstructorOptions: {
-          agent: proxyAgent
+          agent
         }
       }
     })
