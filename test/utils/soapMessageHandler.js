@@ -1,6 +1,10 @@
 import { request } from 'undici'
 
-const BASE_URL_BTMS_GATEWAY = `https://btms-gateway.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
+if (process.env.BASE_URL_BTMS_GATEWAY) {
+  globalThis.BASE_URL_BTMS_GATEWAY = process.env.BASE_URL_BTMS_GATEWAY
+} else {
+  globalThis.BASE_URL_BTMS_GATEWAY = `https://btms-gateway.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
+}
 
 export async function sendSoapRequest(endpoint, soapEnvelope) {
   const url = `${BASE_URL_BTMS_GATEWAY}/ITSW/CDS/${endpoint}`

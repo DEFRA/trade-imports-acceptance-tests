@@ -88,8 +88,19 @@ function initGlobals() {
   globalThis.__filename = fileURLToPath(import.meta.url)
   globalThis.__dirname = path.dirname(globalThis.__filename)
 
-  globalThis.BASE_URL_TRADE_IMPORTS_DATA_API = `https://trade-imports-data-api.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
-  globalThis.BASE_URL_TRADE_IMPORTS_DECISION_COMPARER = `https://trade-imports-decision-comparer.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
+  if (process.env.BASE_URL_TRADE_IMPORTS_DATA_API) {
+    globalThis.BASE_URL_TRADE_IMPORTS_DATA_API =
+      process.env.BASE_URL_TRADE_IMPORTS_DATA_API
+  } else {
+    globalThis.BASE_URL_TRADE_IMPORTS_DATA_API = `https://trade-imports-data-api.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
+  }
+
+  if (process.env.BASE_URL_TRADE_IMPORTS_DECISION_COMPARER) {
+    globalThis.BASE_URL_TRADE_IMPORTS_DECISION_COMPARER =
+      process.env.BASE_URL_TRADE_IMPORTS_DECISION_COMPARER
+  } else {
+    globalThis.BASE_URL_TRADE_IMPORTS_DECISION_COMPARER = `https://trade-imports-decision-comparer.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
+  }
 
   promoteEnvVars(['TRADE_IMPORTS_', 'IPAFFS_', 'BASE_URL_'])
 
