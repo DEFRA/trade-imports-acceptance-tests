@@ -11,14 +11,14 @@ export function generateRandomMRN(prefix = '25GB') {
 export function generateDocumentReference({
   letter = 'A',
   prefixLength = 4,
-  suffixLength = 7
+  suffixLength = 6
 } = {}) {
   const randomNumberString = (length) =>
     Array.from({ length }, () => Math.floor(Math.random() * 10)).join('')
 
   const prefix = randomNumberString(prefixLength)
   const suffix = randomNumberString(suffixLength)
-  const result = `CHED${letter}.GB.${prefix}.${suffix}`
+  const result = `CHED${letter}.GB.${prefix}.0${suffix}`
   globalThis.testLogger.info(`Generated new CHED reference`, { ched: result })
   return result
 }
