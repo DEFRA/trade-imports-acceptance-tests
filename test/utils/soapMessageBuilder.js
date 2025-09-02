@@ -1,8 +1,8 @@
 import Handlebars from 'handlebars'
 import {
   clearanceRequestTemplate,
-  finalisationNotificationTemplate,
-  errorNotificationTemplate
+  errorNotificationTemplate,
+  finalisationNotificationTemplate
 } from './soapTemplates.js'
 
 function generateRandomMRN() {
@@ -100,6 +100,16 @@ export class SoapMessageBuilder {
     if (this.templateType === 'clearance') {
       baseData.items = this.items
 
+      // Override EntryVersionNumber if explicitly set
+      if (this._entryVersionNumber !== undefined) {
+        baseData.EntryVersionNumber = this._entryVersionNumber
+      }
+
+      // Override CorrelationId if explicitly set
+      if (this._correlationId !== undefined) {
+        baseData.CorrelationId = this._correlationId
+      }
+
       if (baseData.PreviousVersionNumber == null) {
         const entryVersion = baseData.EntryVersionNumber
         if (entryVersion > 1) {
@@ -108,7 +118,10 @@ export class SoapMessageBuilder {
       }
     }
 
-    this._model = baseData
+    // Remove null values from the model to exclude them from the payload
+    this._model = Object.fromEntries(
+      Object.entries(baseData).filter(([_, value]) => value !== null)
+    )
     return this
   }
 
@@ -183,5 +196,121 @@ export class SoapMessageBuilder {
     const template = Handlebars.compile(templates[this.templateType])
     const fullData = this.buildModel(overrides)._model
     return template(fullData)
+  }
+
+  // Fluent builder methods for better readability
+  withDocument(documentCode, documentReference, overrides = {}) {
+    if (this.templateType !== 'clearance') {
+      throw new Error(`withDocument is only supported for clearance requests`)
+    }
+
+    const document = {
+      DocumentCode: documentCode,
+      DocumentReference: documentReference,
+      ...overrides
+    }
+
+    // Add to the last item if it exists, otherwise create a new item
+    if (this.items.length === 0) {
+      this.addItem({ Documents: [document] })
+    } else {
+      const lastItem = this.items[this.items.length - 1]
+      lastItem.Documents = lastItem.Documents || []
+      lastItem.Documents.push(document)
+    }
+
+    return this
+  }
+
+  withOnlyDocument(documentCode, documentReference, overrides = {}) {
+    if (this.templateType !== 'clearance') {
+      throw new Error(
+        `withOnlyDocument is only supported for clearance requests`
+      )
+    }
+
+    const document = {
+      DocumentCode: documentCode,
+      DocumentReference: documentReference,
+      ...overrides
+    }
+
+    // Replace documents in the last item if it exists, otherwise create a new item
+    if (this.items.length === 0) {
+      this.addItem({ Documents: [document] })
+    } else {
+      const lastItem = this.items[this.items.length - 1]
+      lastItem.Documents = [document] // Replace all documents with just this one
+    }
+
+    return this
+  }
+
+  withCheck(checkCode, departmentCode, overrides = {}) {
+    if (this.templateType !== 'clearance') {
+      throw new Error(`withCheck is only supported for clearance requests`)
+    }
+
+    const check = {
+      CheckCode: checkCode,
+      DepartmentCode: departmentCode,
+      ...overrides
+    }
+
+    // Add to the last item if it exists, otherwise create a new item
+    if (this.items.length === 0) {
+      this.addItem({ Checks: [check] })
+    } else {
+      const lastItem = this.items[this.items.length - 1]
+      lastItem.Checks = lastItem.Checks || []
+      lastItem.Checks.push(check)
+    }
+
+    return this
+  }
+
+  withCommodity(taricCode, overrides = {}) {
+    if (this.templateType !== 'clearance') {
+      throw new Error(`withCommodity is only supported for clearance requests`)
+    }
+
+    // Add to the last item if it exists, otherwise create a new item
+    if (this.items.length === 0) {
+      this.addItem({ TaricCommodityCode: taricCode, ...overrides })
+    } else {
+      const lastItem = this.items[this.items.length - 1]
+      Object.assign(lastItem, { TaricCommodityCode: taricCode, ...overrides })
+    }
+
+    return this
+  }
+
+  withMRN(mrn) {
+    this._generatedMRN = mrn
+    return this
+  }
+
+  withEntryVersionNumber(entryVersionNumber) {
+    if (this.templateType !== 'clearance') {
+      throw new Error(
+        `withEntryVersionNumber is only supported for clearance requests`
+      )
+    }
+
+    // Store the entry version number to be used in buildModel
+    this._entryVersionNumber = entryVersionNumber
+    return this
+  }
+
+  withCorrelationId(correlationId) {
+    if (this.templateType !== 'clearance') {
+      throw new Error(
+        `withCorrelationId is only supported for clearance requests`
+      )
+    }
+
+    // Store the correlation ID to be used in buildModel
+    this._correlationId = correlationId
+    return this
   }
 }
