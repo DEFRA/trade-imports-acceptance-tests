@@ -1,5 +1,87 @@
 describe('BTMS receives an update to an existing ClearanceRequest - Additional item added - CR-9', function () {
-  it.skip('', async function () {
+  it('', async function () {
     this.timeout(70000)
+    testLogger.info('Send initial IPAFFS notification')
+    this.docRef = generateDocumentReference()
+
+    await sendIpaffsMessage(
+      loadIPAFFSJson('CHEDA.json', {
+        referenceNumber: this.docRef,
+        lastUpdated: new Date().toISOString(),
+        partTwo: {
+          decision: {},
+          inspectionRequired: 'Not required'
+        }
+      })
+    )
+
+    thisStepStartTime = Date.now()
+    testLogger.info('Send Clearance Request')
+    const builder = new SoapMessageBuilder()
+
+    builder.addItem({
+      TaricCommodityCode: '0103911000',
+      Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef }],
+      Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
+    })
+
+    this.mrn = generateRandomMRN()
+
+    const soapEnvelope = builder.buildMessage({
+      ServiceCallTimestamp: thisStepStartTime,
+      EntryVersionNumber: 1,
+      PreviousVersionNumber: 0,
+      mrn: this.mrn
+    })
+
+    await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelope)
+
+    testLogger.info('Wait for decision - should be a hold H01')
+    const decisionXml = await waitForSpecificDecision(this.mrn, 'H01')
+    testLogger.info('Received decision with expected code H01')
+    const codes = await extractDecisionCodes(decisionXml)
+    testLogger.info('Received decision codes:', { decisionCodes: codes })
+
+    this.docRef2 = generateDocumentReference()
+
+    await sendIpaffsMessage(
+      loadIPAFFSJson('CHEDA.json', {
+        referenceNumber: this.docRef2,
+        lastUpdated: new Date().toISOString(),
+        partTwo: {
+          decision: {},
+          inspectionRequired: 'Not required'
+        }
+      })
+    )
+
+    thisStepStartTime = Date.now()
+    testLogger.info('Send Clearance Request')
+
+    const updateBuilder = new SoapMessageBuilder()
+    updateBuilder
+      .addItem({
+        TaricCommodityCode: '0103911000',
+        Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef2 }],
+        Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
+      })
+      .addItem({
+        TaricCommodityCode: '0103911000',
+        Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef2 }],
+        Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
+      })
+
+    const soapEnvelopeUpdate = updateBuilder.buildMessage({
+      EntryVersionNumber: 2,
+      PreviousVersionNumber: 1,
+      mrn: this.mrn
+    })
+
+    await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelopeUpdate)
+    testLogger.info('Wait for decision - should be a hold H01')
+    const decisionXmlUpdated = await waitForSpecificDecision(this.mrn, 'H01')
+    testLogger.info('Received decision with expected code H01')
+    const codesUpdated = await extractDecisionCodes(decisionXmlUpdated)
+    testLogger.info('Received decision codes:', { decisionCodes: codesUpdated })
   })
 })
