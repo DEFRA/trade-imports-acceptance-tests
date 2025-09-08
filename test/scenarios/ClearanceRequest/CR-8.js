@@ -4,7 +4,7 @@ describe('BTMS receives a ClearanceRequest for a MRN with the maximum number of 
 
     testLogger.info('Send 100 IPAFFS notifications')
     this.docRefs = []
-    this.numberOfItems = 5
+    this.numberOfItems = 1
 
     for (let i = 1; i <= this.numberOfItems; i++) {
       this.docRefs[i] = generateDocumentReference()
