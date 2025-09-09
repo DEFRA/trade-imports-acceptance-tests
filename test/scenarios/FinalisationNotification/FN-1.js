@@ -93,7 +93,9 @@ describe('BTMS receives a Manual Override decision for an existing MRN - FN-1', 
     await sendSoapRequest(SUBMIT_FINALSIATION_ENDPOINT, finalisationSoapMsg)
     testLogger.info('Sent finalisaton request')
 
-    const responseText = await waitForDataInAPI(this.mrn)
+    const responseText = await waitForDataInAPI(this.mrn, '', {
+      finalisation: { isManualRelease: true }
+    })
 
     testLogger.info('Finalisation response:', { responseText })
     assert.ok(
