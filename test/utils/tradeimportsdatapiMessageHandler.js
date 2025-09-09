@@ -34,11 +34,14 @@ export async function waitForDataInAPI(
   collection,
   expectedProperties = null,
   timeout = TIMEOUT_MS,
-  interval = POLL_INTERVAL_MS
+  interval = POLL_INTERVAL_MS,
+  stabilityDuration = 0
 ) {
   const url = (ENDPOINTS[collection] || ENDPOINTS.DEFAULT)(key)
 
   let lastResponse, lastResponseText
+  let stableStartTime = null
+  let lastStableState = null
 
   try {
     await pWaitFor(
@@ -62,6 +65,9 @@ export async function waitForDataInAPI(
               lastResponse,
               lastResponseText
             })
+            // Reset stability tracking on error
+            stableStartTime = null
+            lastStableState = null
             return false
           }
 
@@ -74,17 +80,68 @@ export async function waitForDataInAPI(
             testLogger.info(lastResponseText)
           }
 
+          // Check if current state matches expected properties
+          let currentStateMatches = true
           if (expectedProperties && parsed) {
             const match = deepMatch(parsed, expectedProperties)
             if (!match) {
               testLogger.info(`Expected properties not met yet`)
-              return false
+              currentStateMatches = false
             }
+          } else if (expectedProperties && !parsed) {
+            currentStateMatches = false
           }
 
-          return true
+          // For stability checking, we need to ensure the state remains consistent
+          if (stabilityDuration > 0) {
+            const currentState = JSON.stringify(parsed)
+
+            if (currentStateMatches) {
+              if (lastStableState === null) {
+                // First time we see the expected state
+                lastStableState = currentState
+                stableStartTime = Date.now()
+                testLogger.info(
+                  `Stability check started at ${new Date(stableStartTime).toISOString()}`
+                )
+              } else if (lastStableState === currentState) {
+                // State is still the same, check if we've been stable long enough
+                const stableDuration = Date.now() - stableStartTime
+                if (stableDuration >= stabilityDuration) {
+                  testLogger.info(
+                    `State has been stable for ${stableDuration}ms (required: ${stabilityDuration}ms)`
+                  )
+                  return true
+                } else {
+                  testLogger.info(
+                    `State stable for ${stableDuration}ms, waiting for ${stabilityDuration - stableDuration}ms more`
+                  )
+                  return false
+                }
+              } else {
+                // State changed, reset stability tracking
+                testLogger.info(`State changed, resetting stability check`)
+                lastStableState = currentState
+                stableStartTime = Date.now()
+                return false
+              }
+            } else {
+              // Current state doesn't match expected properties
+              stableStartTime = null
+              lastStableState = null
+              return false
+            }
+          } else {
+            // No stability duration required, return immediately if state matches
+            return currentStateMatches
+          }
+
+          return false
         } catch (err) {
           testLogger.error({ err })
+          // Reset stability tracking on error
+          stableStartTime = null
+          lastStableState = null
           return false
         }
       },
@@ -100,4 +157,23 @@ export async function waitForDataInAPI(
     }
     throw err
   }
+}
+
+// Convenience function for waiting with stability duration
+export async function waitForDataInAPIWithStability(
+  key,
+  collection,
+  expectedProperties = null,
+  stabilityDuration = 30000,
+  timeout = TIMEOUT_MS,
+  interval = POLL_INTERVAL_MS
+) {
+  return waitForDataInAPI(
+    key,
+    collection,
+    expectedProperties,
+    timeout,
+    interval,
+    stabilityDuration
+  )
 }
