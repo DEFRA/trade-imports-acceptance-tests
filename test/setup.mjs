@@ -102,6 +102,13 @@ function initGlobals() {
     globalThis.BASE_URL_TRADE_IMPORTS_DECISION_COMPARER = `https://trade-imports-decision-comparer.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
   }
 
+  if (process.env.BASE_URL_TRADE_IMPORTS_REPORTING) {
+    globalThis.BASE_URL_TRADE_IMPORTS_REPORTING =
+      process.env.BASE_URL_TRADE_IMPORTS_REPORTING
+  } else {
+    globalThis.BASE_URL_TRADE_IMPORTS_REPORTING = `https://trade-imports-reporting-api.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
+  }
+
   promoteEnvVars(['TRADE_IMPORTS_', 'IPAFFS_', 'BASE_URL_'])
 
   globalThis.COMPARER_AUTHORIZATION_HEADER =
