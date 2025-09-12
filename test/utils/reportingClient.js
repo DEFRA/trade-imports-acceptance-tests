@@ -76,6 +76,24 @@ export async function getReleasesSummary(from, to) {
   return body.json()
 }
 
+export async function getLastReceived(from, to) {
+  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/last-received`
+
+  const { statusCode, body } = await request(url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Basic ${encodedAuth}`,
+      Accept: 'application/json'
+    }
+  })
+
+  if (statusCode !== 200) {
+    throw new Error(`Request failed with status ${statusCode}`)
+  }
+
+  return body.json()
+}
+
 export async function pollForExpectedValue(
   fetchFn,
   extractFn,
