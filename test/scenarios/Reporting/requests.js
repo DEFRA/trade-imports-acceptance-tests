@@ -4,7 +4,8 @@ import {
   getNotificationSummary,
   getMatchesSummary,
   getReleasesSummary,
-  pollForExpectedValue
+  pollForExpectedValue,
+  getLastReceived
 } from '../../utils/reportingClient.js'
 
 describe('Clearance Request Summary for Reporting', function () {
@@ -30,6 +31,12 @@ describe('Clearance Request Summary for Reporting', function () {
     const releaseRequest = await getReleasesSummary(from, to)
     const expectedReleaseRequestManaul = releaseRequest.manual + 1
     const expectedReleaseRequestTotal = releaseRequest.total + 1
+
+    const lastReceivedRequest = await getLastReceived()
+    const finalisationTime = new Date(
+      lastReceivedRequest.finalisation.timestamp
+    )
+    const requestTime = new Date(lastReceivedRequest.request.timestamp)
 
     this.docRef = generateDocumentReference()
     testLogger.info('Send Clearance Request')
@@ -128,10 +135,6 @@ describe('Clearance Request Summary for Reporting', function () {
     expect(actualMatchesRequestTotal).to.equal(expectedMatchesRequestTotal)
 
     testLogger.info('Checking Release Request')
-    testLogger.info('From and To dates: ', { fromDate: from, toDate: to })
-    const releaseTemp = await getReleasesSummary(from, to)
-    console.log('Release Is: ', releaseTemp)
-
     const actualReleaseRequestManual = await pollForExpectedValue(
       () => getReleasesSummary(from, to),
       (data) => data.manual,
@@ -146,5 +149,25 @@ describe('Clearance Request Summary for Reporting', function () {
     )
     expect(actualReleaseRequestManual).to.equal(expectedReleaseRequestManaul)
     expect(actualReleaseRequestTotal).to.equal(expectedReleaseRequestTotal)
+
+    testLogger.info('Checking Last Received')
+    const updatedLastReceivedRequest = await getLastReceived()
+    const updatedFinalisationTime = new Date(
+      updatedLastReceivedRequest.finalisation.timestamp
+    )
+    const updatedRequestTime = new Date(
+      updatedLastReceivedRequest.request.timestamp
+    )
+    const finalisationMrn = updatedLastReceivedRequest.finalisation.reference
+    const requestMrn = updatedLastReceivedRequest.request.reference
+
+    expect(updatedFinalisationTime.getTime()).to.be.greaterThan(
+      finalisationTime.getTime()
+    )
+    expect(updatedRequestTime.getTime()).to.be.greaterThan(
+      requestTime.getTime()
+    )
+    expect(finalisationMrn).to.equal(this.mrn)
+    expect(requestMrn).to.equal(this.mrn)
   })
 })
