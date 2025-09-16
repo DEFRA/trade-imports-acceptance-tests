@@ -54,5 +54,26 @@ export function extractDecisionCodes(xmlString) {
 
   const itemList = Array.isArray(items) ? items : [items]
 
-  return itemList.map((item) => item?.Check?.DecisionCode).filter(Boolean)
+  return itemList
+    .map((item) => {
+      // Handle case where Check is an array of check objects
+      if (Array.isArray(item?.Check)) {
+        return item.Check.map((check) => ({
+          checkCode: check.CheckCode,
+          decisionCode: check.DecisionCode
+        })).filter((check) => check.checkCode && check.decisionCode)
+      } else {
+        // Handle case where Check is a single object
+        const check = item?.Check
+        if (check?.CheckCode && check?.DecisionCode) {
+          return {
+            checkCode: check.CheckCode,
+            decisionCode: check.DecisionCode
+          }
+        }
+        return null
+      }
+    })
+    .flat()
+    .filter(Boolean)
 }

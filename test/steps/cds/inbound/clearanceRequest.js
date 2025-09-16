@@ -95,15 +95,24 @@ export class ClearanceRequestTestBuilder {
       )
     }
 
-    const decisionXml = await globalThis.waitForSpecificDecision(
+    return await globalThis.waitForSpecificDecision(
       this.mrn,
       expectedDecisionCode
     )
-    const codes = await globalThis.extractDecisionCodes(decisionXml)
-    globalThis.testLogger.info('Received decision codes:', {
-      decisionCodes: codes
-    })
-    return decisionXml
+  }
+
+  async waitForCheckDecision(expectedCheckCode, expectedDecisionCode) {
+    if (!this.sent) {
+      throw new Error(
+        'Must call sendClearanceRequest() before waitForCheckDecision()'
+      )
+    }
+
+    return globalThis.waitForSpecificCheckDecision(
+      this.mrn,
+      expectedCheckCode,
+      expectedDecisionCode
+    )
   }
 
   async expectErrorResponse(expectedErrorPattern, customErrorMessage = null) {
@@ -235,6 +244,14 @@ export class FluentClearanceRequestTest {
     return this
   }
 
+  async waitForCheckDecision(expectedCheckCode, expectedDecisionCode) {
+    await this.builder.waitForCheckDecision(
+      expectedCheckCode,
+      expectedDecisionCode
+    )
+    return this
+  }
+
   getMrn() {
     return this.builder.getMrn()
   }
@@ -254,6 +271,14 @@ export class FluentClearanceRequestTest {
       expectMultipleErrors: (errorValidations) =>
         this.sendClearanceRequest().then(() =>
           this.expectMultipleErrors(errorValidations)
+        ),
+      waitForDecision: (expectedDecisionCode) =>
+        this.sendClearanceRequest().then(() =>
+          this.waitForDecision(expectedDecisionCode)
+        ),
+      waitForCheckDecision: (expectedCheckCode, expectedDecisionCode) =>
+        this.sendClearanceRequest().then(() =>
+          this.waitForCheckDecision(expectedCheckCode, expectedDecisionCode)
         )
     }
   }
@@ -399,10 +424,6 @@ export async function waitForDecision(mrn, expectedDecisionCode) {
     mrn,
     expectedDecisionCode
   )
-  const codes = await globalThis.extractDecisionCodes(decisionXml)
-  globalThis.testLogger.info('Received decision codes:', {
-    decisionCodes: codes
-  })
   return decisionXml
 }
 

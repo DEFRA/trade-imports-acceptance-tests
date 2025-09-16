@@ -1,0 +1,232 @@
+{
+  "id": 166218,
+  "referenceNumber": "CHEDD.GB.2025.1234567",
+  "version": 1,
+  "lastUpdated": "2025-08-08T14:18:43.805425844Z",
+  "lastUpdatedBy": {
+    "displayName": "Gary Admin-Tester",
+    "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+  },
+  "type": "CED",
+  "status": "VALIDATED",
+  "riskAssessment": {
+    "commodityResults": [
+      {
+        "uniqueId": "0d27c82c-03ff-4b56-ba32-d9629001605f",
+        "riskDecision": "REQUIRED",
+        "requiredInspectionRate": 100
+      }
+    ],
+    "assessmentDateTime": "2025-08-08T15:17:46.926849411"
+  },
+  "isHighRiskEuImport": false,
+  "partOne": {
+    "personResponsible": {
+      "name": "Gary Admin-Tester",
+      "companyId": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "companyName": "Defra Test BIP",
+      "address": [
+        "Animal and Plant Health Agency",
+        "Woodham Lane",
+        "New Haw",
+        "Surrey",
+        "Addlestone",
+        "KT15 3NB"
+      ],
+      "country": "GB",
+      "tracesID": 1001,
+      "phone": "020 8225 7295",
+      "email": "DefraTestBIP@anthunt3.33mail.com",
+      "contactId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+    },
+    "consignor": {
+      "id": "ee8a7125-37f6-475e-bcab-ece4b8178b43",
+      "type": "exporter",
+      "status": "nonapproved",
+      "companyName": "8d49793293ab482995e7ff002e2745fd",
+      "address": {
+        "addressLine1": "285 Kuphal Villages",
+        "addressLine2": "Apt. 957",
+        "addressLine3": "New York",
+        "city": "North Jazminberg",
+        "postalZipCode": "43910-9",
+        "countryISOCode": "BR",
+        "telephone": "01615555555",
+        "email": "ukoperator@email.com"
+      },
+      "tracesId": 10000886
+    },
+    "consignee": {
+      "id": "06f1a9e2-af0b-4a26-b2c1-2e132639271d",
+      "type": "destination",
+      "status": "nonapproved",
+      "companyName": "dead0d3deb3449acb73f1ff7f5080d04",
+      "address": {
+        "addressLine1": "0757 Dallas Lakes",
+        "addressLine2": "Apt. 810",
+        "addressLine3": "Florida",
+        "city": "Lake Erickville",
+        "postalZipCode": "56923",
+        "countryISOCode": "GB",
+        "telephone": "01615555555",
+        "email": "ukoperator@email.com"
+      },
+      "tracesId": 10011607
+    },
+    "importer": {
+      "id": "06f1a9e2-af0b-4a26-b2c1-2e132639271d",
+      "type": "importer",
+      "status": "nonapproved",
+      "companyName": "dead0d3deb3449acb73f1ff7f5080d04",
+      "address": {
+        "addressLine1": "0757 Dallas Lakes",
+        "addressLine2": "Apt. 810",
+        "addressLine3": "Florida",
+        "city": "Lake Erickville",
+        "postalZipCode": "56923",
+        "countryISOCode": "GB",
+        "telephone": "01615555555",
+        "email": "ukoperator@email.com"
+      },
+      "tracesId": 10011607
+    },
+    "placeOfDestination": {
+      "id": "06f1a9e2-af0b-4a26-b2c1-2e132639271d",
+      "type": "destination",
+      "status": "nonapproved",
+      "companyName": "dead0d3deb3449acb73f1ff7f5080d04",
+      "address": {
+        "addressLine1": "0757 Dallas Lakes",
+        "addressLine2": "Apt. 810",
+        "addressLine3": "Florida",
+        "city": "Lake Erickville",
+        "postalZipCode": "56923",
+        "countryISOCode": "GB",
+        "telephone": "01615555555",
+        "email": "ukoperator@email.com"
+      },
+      "tracesId": 10011607
+    },
+    "commodities": {
+      "totalGrossWeight": 500,
+      "totalNetWeight": 20,
+      "numberOfPackages": 4,
+      "temperature": "Ambient",
+      "commodityComplement": [
+        {
+          "commodityID": "09081100",
+          "commodityDescription": "Neither crushed nor ground",
+          "complementID": 1,
+          "speciesType": "09081100",
+          "speciesClass": "09081100"
+        }
+      ],
+      "complementParameterSet": [
+        {
+          "uniqueComplementID": "0d27c82c-03ff-4b56-ba32-d9629001605f",
+          "complementID": 1,
+          "keyDataPair": [
+            {
+              "key": "netweight",
+              "data": "20"
+            },
+            {
+              "key": "number_package",
+              "data": "4"
+            },
+            {
+              "key": "type_package",
+              "data": "Box"
+            }
+          ]
+        }
+      ],
+      "includeNonAblactedAnimals": false,
+      "countryOfOrigin": "AF",
+      "isLowRiskArticle72Country": false,
+      "consignedCountry": "AF",
+      "commodityIntendedFor": "feedingstuff"
+    },
+    "purpose": {
+      "purposeGroup": "For Import"
+    },
+    "pointOfEntry": "GBMNC1",
+    "arrivalDate": "2025-08-10",
+    "arrivalTime": "17:30:00",
+    "transporterDetailsRequired": false,
+    "meansOfTransport": {},
+    "meansOfTransportFromEntryPoint": {
+      "id": "F1235",
+      "type": "Aeroplane",
+      "document": "Tax bill"
+    },
+    "veterinaryInformation": {
+      "accompanyingDocuments": [
+        {
+          "documentType": "airWaybill",
+          "documentReference": "VET002",
+          "documentIssueDate": "2025-08-06",
+          "attachmentId": "203f1ec9-346e-473d-b522-7e97eee05ef8",
+          "attachmentFilename": "example.png",
+          "attachmentContentType": "image/png",
+          "uploadUserId": "79f6dc68-2144-e911-a96a-000d3a29ba60",
+          "uploadOrganisationId": "767ceb6a-2144-e911-a96c-000d3a29b5de"
+        }
+      ]
+    },
+    "submissionDate": "2025-08-08T14:17:46.261115667Z",
+    "submittedBy": {
+      "displayName": "Gary Admin-Tester",
+      "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+    },
+    "complexCommoditySelected": true,
+    "portOfEntry": "GBMAN",
+    "contactDetails": {
+      "name": "Michael Scott",
+      "telephone": "01234566234",
+      "email": "test14@hghumankainos.33mail.com"
+    },
+    "isGVMSRoute": false,
+    "provideCtcMrn": "NO"
+  },
+  "decisionBy": {
+    "displayName": "Gary Admin-Tester",
+    "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+  },
+  "decisionDate": "2025-08-08T14:18:43.763262611Z",
+  "partTwo": {
+    "decision": {
+      "consignmentAcceptable": true,
+      "decision": "Acceptable for Internal Market",
+      "freeCirculationPurpose": "Animal Feeding Stuff"
+    },
+    "consignmentCheck": {
+      "documentCheckResult": "Satisfactory",
+      "identityCheckDone": true,
+      "identityCheckResult": "Satisfactory",
+      "physicalCheckDone": true,
+      "physicalCheckResult": "Satisfactory"
+    },
+    "laboratoryTestsRequired": false,
+    "resealedContainersIncluded": false,
+    "controlAuthority": {
+      "officialVeterinarian": {
+        "firstName": "Gary",
+        "lastName": "Admin-Tester",
+        "email": "DefraTestBIP@anthunt3.33mail.com",
+        "phone": "020 8225 7295",
+        "signed": "2025-08-08T14:18:43.804659204"
+      }
+    },
+    "bipLocalReferenceNumber": "1234",
+    "checkDate": "2025-08-08T17:30:00Z",
+    "inspectionRequired": "Required"
+  },
+  "partThree": {
+    "sealCheckRequired": false
+  },
+  "etag": "000000000028360F",
+  "riskDecisionLockingTime": "2025-08-10T14:30:00Z",
+  "isRiskDecisionLocked": false,
+  "chedTypeVersion": 2
+}

@@ -1,0 +1,266 @@
+{
+  "id": 122461,
+  "referenceNumber": "CHEDPP.GB.2025.1234567",
+  "version": 1,
+  "lastUpdated": "2025-06-17T10:10:35.571788736Z",
+  "lastUpdatedBy": {
+    "displayName": "Gary Admin-Tester",
+    "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+  },
+  "type": "CHEDPP",
+  "status": "VALIDATED",
+  "riskAssessment": {
+    "commodityResults": [
+      {
+        "uniqueId": "7d7bfacd-871e-41c0-906d-4c8722824893",
+        "hmiDecision": "REQUIRED",
+        "phsiDecision": "NOTREQUIRED",
+        "phsiClassification": "NotNotifiable",
+        "phsi": {
+          "documentCheck": false,
+          "identityCheck": false,
+          "physicalCheck": false
+        },
+        "eppoCode": "DAUCS",
+        "indoorOutdoor": "None",
+        "propagation": "None",
+        "phsiRuleType": "None"
+      }
+    ],
+    "assessmentDateTime": "2025-06-17T11:10:35.547301963"
+  },
+  "partOne": {
+    "personResponsible": {
+      "name": "Gary Admin-Tester",
+      "companyId": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "companyName": "Defra Test BIP",
+      "address": [
+        "Animal and Plant Health Agency",
+        "Woodham Lane",
+        "New Haw",
+        "Surrey",
+        "Addlestone",
+        "KT15 3NB",
+        "GB"
+      ],
+      "country": "GB",
+      "tracesID": 1001,
+      "phone": "020 8225 7295",
+      "email": "DefraTestBIP@anthunt3.33mail.com",
+      "contactId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+    },
+    "consignor": {
+      "id": "74b69baf-236a-4517-b0f7-56b9128b73f8",
+      "type": "exporter",
+      "status": "nonapproved",
+      "companyName": "cb18997489454bc18856511243f48c75",
+      "address": {
+        "addressLine1": "782 Bogisich Squares",
+        "addressLine2": "Suite 347",
+        "addressLine3": "Arizona",
+        "city": "East Ardenport",
+        "postalZipCode": "23288-4",
+        "countryISOCode": "DE",
+        "telephone": "01615555555",
+        "email": "ukoperator@email.com"
+      },
+      "tracesId": 10014519
+    },
+    "consignee": {
+      "id": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "type": "consignee",
+      "companyName": "Defra Test BIP",
+      "address": {
+        "addressLine1": "Animal and Plant Health Agency",
+        "addressLine2": "Woodham Lane",
+        "addressLine3": "New Haw",
+        "city": "Addlestone",
+        "postalZipCode": "KT15 3NB",
+        "countryISOCode": "GB",
+        "telephone": "020 8225 7295",
+        "email": "DefraTestBIP@anthunt3.33mail.com"
+      },
+      "tracesId": 10000686
+    },
+    "importer": {
+      "id": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "type": "importer",
+      "companyName": "Defra Test BIP",
+      "address": {
+        "addressLine1": "Animal and Plant Health Agency",
+        "addressLine2": "Woodham Lane",
+        "addressLine3": "New Haw",
+        "city": "Addlestone",
+        "postalZipCode": "KT15 3NB",
+        "countryISOCode": "GB",
+        "telephone": "020 8225 7295",
+        "email": "DefraTestBIP@anthunt3.33mail.com"
+      },
+      "tracesId": 10000686
+    },
+    "placeOfDestination": {
+      "id": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "type": "destination",
+      "companyName": "Defra Test BIP",
+      "address": {
+        "addressLine1": "Animal and Plant Health Agency",
+        "addressLine2": "Woodham Lane",
+        "addressLine3": "New Haw",
+        "city": "Addlestone",
+        "postalZipCode": "KT15 3NB",
+        "countryISOCode": "GB",
+        "telephone": "020 8225 7295",
+        "email": "DefraTestBIP@anthunt3.33mail.com"
+      },
+      "tracesId": 10000686
+    },
+    "commodities": {
+      "totalGrossWeight": 500,
+      "totalNetWeight": 10,
+      "numberOfPackages": 20,
+      "commodityComplement": [
+        {
+          "commodityID": "0706100010",
+          "commodityDescription": "Carrots",
+          "complementID": 1,
+          "complementName": "Daucus carota subsp. sativus",
+          "eppoCode": "DAUCS",
+          "speciesID": "1496099",
+          "speciesName": "Daucus carota subsp. sativus",
+          "speciesClass": "1169444",
+          "speciesNomination": "Daucus carota subsp. sativus"
+        }
+      ],
+      "complementParameterSet": [
+        {
+          "uniqueComplementID": "7d7bfacd-871e-41c0-906d-4c8722824893",
+          "complementID": 1,
+          "speciesID": "1496099",
+          "keyDataPair": [
+            {
+              "key": "regulatory_authority",
+              "data": "JOINT"
+            },
+            {
+              "key": "marketing_standard",
+              "data": "SMS"
+            },
+            {
+              "key": "validity_period",
+              "data": "2"
+            },
+            {
+              "key": "type_package",
+              "data": "Bag"
+            },
+            {
+              "key": "netweight",
+              "data": "10"
+            },
+            {
+              "key": "number_package",
+              "data": "20"
+            },
+            {
+              "key": "quantity",
+              "data": "40"
+            },
+            {
+              "key": "type_quantity",
+              "data": "Stems"
+            },
+            {
+              "key": "container",
+              "data": "1496099"
+            },
+            {
+              "key": "commodity_group",
+              "data": "Vegetables"
+            },
+            {
+              "key": "low_risk_article72_commodity",
+              "data": "false"
+            }
+          ]
+        }
+      ],
+      "includeNonAblactedAnimals": false,
+      "countryOfOrigin": "DE",
+      "countryOfOriginIsPodCountry": true,
+      "isLowRiskArticle72Country": false,
+      "consignedCountry": "DE",
+      "consignedCountryInChargeGroup": true
+    },
+    "purpose": {
+      "purposeGroup": "For Import"
+    },
+    "pointOfEntry": "GBBXH4PP",
+    "pointOfEntryControlPoint": "INSPBHX1",
+    "arrivalDate": "2025-07-04",
+    "arrivalTime": "20:50:00",
+    "meansOfTransport": {},
+    "meansOfTransportFromEntryPoint": {
+      "id": "BA0021",
+      "type": "Aeroplane",
+      "document": "Road Waybill"
+    },
+    "veterinaryInformation": {
+      "accompanyingDocuments": [
+        {
+          "documentType": "phytosanitaryCertificate",
+          "documentReference": "Landing bill",
+          "documentIssueDate": "2025-06-09",
+          "attachmentId": "0ec4f1d6-d602-4191-a0df-7a80d69963fa",
+          "attachmentFilename": "example.png",
+          "attachmentContentType": "image/png",
+          "uploadUserId": "79f6dc68-2144-e911-a96a-000d3a29ba60",
+          "uploadOrganisationId": "767ceb6a-2144-e911-a96c-000d3a29b5de"
+        }
+      ]
+    },
+    "submissionDate": "2025-06-17T10:10:34.701640415Z",
+    "submittedBy": {
+      "displayName": "Gary Admin-Tester",
+      "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+    },
+    "complexCommoditySelected": true,
+    "contactDetails": {
+      "name": "Gary Admin-Tester",
+      "telephone": "020 8225 7295",
+      "email": "defratestbip@anthunt3.33mail.com"
+    },
+    "isGVMSRoute": false,
+    "provideCtcMrn": "NO"
+  },
+  "partTwo": {
+    "commodityChecks": [
+      {
+        "uniqueComplementId": "7d7bfacd-871e-41c0-906d-4c8722824893",
+        "checks": [
+          {
+            "type": "PHSI_DOCUMENT",
+            "status": "Compliant"
+          },
+          {
+            "type": "PHSI_IDENTITY",
+            "status": "Compliant"
+          },
+          {
+            "type": "PHSI_PHYSICAL",
+            "status": "Compliant"
+          },
+          {
+            "type": "HMI",
+            "status": "Compliant"
+          }
+        ]
+      }
+    ],
+    "inspectionRequired": "Required"
+  },
+  "partThree": {},
+  "etag": "000000000022BE04",
+  "riskDecisionLockingTime": "2025-07-04T17:50:00Z",
+  "isRiskDecisionLocked": false,
+  "chedTypeVersion": 1
+}
