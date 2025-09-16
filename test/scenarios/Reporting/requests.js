@@ -5,32 +5,55 @@ import {
   getMatchesSummary,
   getReleasesSummary,
   pollForExpectedValue,
-  getLastReceived
+  getLastReceived,
+  getClearanceRequestBucket,
+  getNotificationBucket,
+  getMatchesBucket,
+  getReleaseBucket
 } from '../../utils/reportingClient.js'
 
-describe('Clearance Request Summary for Reporting', function () {
-  it('should return unique and total for a given date range', async function () {
+describe('Clearance, Notification, Matches, Release and Last Received Request Summary for Reporting', function () {
+  it('', async function () {
     this.timeout(70000)
     const now = Date.now()
     const from = new Date(now - 10 * 1000).toISOString()
     const to = new Date(now + 10 * 1000).toISOString()
     testLogger.info('From and To dates: ', { fromDate: from, toDate: to })
 
+    testLogger.info('Getting Clearance Request Data')
     const clearanceRequest = await getClearanceRequestSummary(from, to)
     const expectedClearanceRequestTotal = clearanceRequest.total + 1
     const expectedClearanceRequestUnique = clearanceRequest.unique + 1
+
+    const clearanceRequestBucket = await getClearanceRequestBucket(
+      from,
+      to,
+      'day'
+    )
+    const clearanceRequestBucketUnique =
+      clearanceRequestBucket.buckets[0].summary.unique + 1
 
     const notificationRequest = await getNotificationSummary(from, to)
     const expectedNotificationRequestChedA = notificationRequest.chedA + 1
     const expectedNotificationRequestTotal = notificationRequest.total + 1
 
+    const notificationBucket = await getNotificationBucket(from, to, 'day')
+    const noticationBucketTotal =
+      notificationBucket.buckets[0].summary.total + 1
+
     const matchesRequest = await getMatchesSummary(from, to)
     const expectedMatchesRequestMatch = matchesRequest.match + 1
     const expectedMatchesRequestTotal = matchesRequest.total + 1
 
+    const matchesBucket = await getMatchesBucket(from, to, 'day')
+    const matchesBucketTotal = matchesBucket.buckets[0].summary.total + 1
+
     const releaseRequest = await getReleasesSummary(from, to)
     const expectedReleaseRequestManaul = releaseRequest.manual + 1
     const expectedReleaseRequestTotal = releaseRequest.total + 1
+
+    const releasesBucket = await getReleaseBucket(from, to, 'day')
+    const releasedBucketTotal = releasesBucket.buckets[0].summary.total + 1
 
     const lastReceivedRequest = await getLastReceived()
     const finalisationTime = new Date(
@@ -102,6 +125,15 @@ describe('Clearance Request Summary for Reporting', function () {
       expectedClearanceRequestUnique
     )
 
+    const actualClearanceRequestBucketUnique = await pollForExpectedValue(
+      () => getClearanceRequestBucket(from, to, 'day'),
+      (data) => data.buckets[0].summary.unique,
+      clearanceRequestBucketUnique
+    )
+    expect(actualClearanceRequestBucketUnique).to.equal(
+      clearanceRequestBucketUnique
+    )
+
     testLogger.info('Checking Notification Request')
     const actualNotificationRequestChedA = await pollForExpectedValue(
       () => getNotificationSummary(from, to),
@@ -120,6 +152,13 @@ describe('Clearance Request Summary for Reporting', function () {
       expectedNotificationRequestTotal
     )
 
+    const actualNoticationBucketTotal = await pollForExpectedValue(
+      () => getNotificationBucket(from, to, 'day'),
+      (data) => data.buckets[0].summary.total,
+      noticationBucketTotal
+    )
+    expect(actualNoticationBucketTotal).to.equal(noticationBucketTotal)
+
     testLogger.info('Checking Matches Request')
     const actualMatchesRequestMatch = await pollForExpectedValue(
       () => getMatchesSummary(from, to),
@@ -133,6 +172,14 @@ describe('Clearance Request Summary for Reporting', function () {
     )
     expect(actualMatchesRequestMatch).to.equal(expectedMatchesRequestMatch)
     expect(actualMatchesRequestTotal).to.equal(expectedMatchesRequestTotal)
+
+    const actualMatchesBucketTotal = await pollForExpectedValue(
+      () => getMatchesBucket(from, to, 'day'),
+      (data) => data.buckets[0].summary.total,
+      matchesBucketTotal
+    )
+
+    expect(actualMatchesBucketTotal).to.equal(matchesBucketTotal)
 
     testLogger.info('Checking Release Request')
     const actualReleaseRequestManual = await pollForExpectedValue(
@@ -149,6 +196,13 @@ describe('Clearance Request Summary for Reporting', function () {
     )
     expect(actualReleaseRequestManual).to.equal(expectedReleaseRequestManaul)
     expect(actualReleaseRequestTotal).to.equal(expectedReleaseRequestTotal)
+
+    const actualReleasedBucketTotal = await pollForExpectedValue(
+      () => getReleaseBucket(from, to, 'day'),
+      (data) => data.buckets[0].summary.total,
+      releasedBucketTotal
+    )
+    expect(actualReleasedBucketTotal).to.equal(releasedBucketTotal)
 
     testLogger.info('Checking Last Received')
     const updatedLastReceivedRequest = await getLastReceived()
