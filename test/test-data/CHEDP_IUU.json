@@ -190,9 +190,7 @@
           "id": "37967db3-8e20-94ed-7dfa-3898c684a28b",
           "name": "KLE & FAB",
           "country": "AL",
-          "types": [
-            "Category 3"
-          ],
+          "types": ["Category 3"],
           "approvalNumber": "C. 34/ Nr. 5 (AL)",
           "section": "Processing plants"
         }
@@ -226,9 +224,7 @@
               "catchCertificateReference": "1",
               "dateOfIssue": "2025-06-12",
               "flagState": "FR",
-              "species": [
-                ""
-              ]
+              "species": [""]
             }
           ],
           "numberOfCatchCertificates": 1

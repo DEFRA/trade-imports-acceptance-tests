@@ -1,4 +1,4 @@
-import { XMLParser } from "fast-xml-parser";
+import { XMLParser } from 'fast-xml-parser'
 
 function stripPrefixes(obj, prefix = 'NS2:') {
   if (typeof obj !== 'object' || obj === null) return obj
