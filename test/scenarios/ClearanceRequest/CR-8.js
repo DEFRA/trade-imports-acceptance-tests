@@ -51,7 +51,7 @@ describe('BTMS receives a ClearanceRequest for a MRN with the maximum number of 
     const decisionXml = await waitForSpecificDecision(this.mrn, 'H01')
     testLogger.info('Expecting 100 items to be H01')
     const codes = await extractDecisionCodes(decisionXml)
-    const h01Count = codes.filter((code) => code === 'H01').length
+    const h01Count = codes.filter((code) => code.decisionCode === 'H01').length
     expect(h01Count).to.equal(this.numberOfItems)
   })
 })
