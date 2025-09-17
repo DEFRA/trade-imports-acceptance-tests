@@ -1,116 +1,114 @@
 {
-  "id": 166218,
-  "referenceNumber": "CHEDD.GB.2025.1234567",
+  "id": 82875,
+  "referenceNumber": "CHEDD.GB.2025.{{SUFFIX}}",
   "version": 1,
-  "lastUpdated": "2025-08-08T14:18:43.805425844Z",
+  "lastUpdated": "2025-03-04T10:49:31Z",
   "lastUpdatedBy": {
-    "displayName": "Gary Admin-Tester",
-    "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+    "displayName": "Michael Scott",
+    "userId": "ebc98b54-834c-e911-a96a-000d3a29ba60"
   },
-  "type": "CED",
-  "status": "VALIDATED",
+  "type": "CHEDD",
+  "status": "SUBMITTED",
   "riskAssessment": {
     "commodityResults": [
       {
-        "uniqueId": "0d27c82c-03ff-4b56-ba32-d9629001605f",
-        "riskDecision": "REQUIRED",
-        "requiredInspectionRate": 100
+        "riskDecision": "INCONCLUSIVE",
+        "uniqueId": "590222ad-7a2b-480e-bb61-cc43839cef81"
       }
     ],
-    "assessmentDateTime": "2025-08-08T15:17:46.926849411"
+    "assessmentDateTime": "2025-03-04T10:49:30.974588842"
   },
   "isHighRiskEuImport": false,
   "partOne": {
     "personResponsible": {
-      "name": "Gary Admin-Tester",
-      "companyId": "767ceb6a-2144-e911-a96c-000d3a29b5de",
-      "companyName": "Defra Test BIP",
+      "name": "Michael Scott",
+      "companyName": "Michael Scott",
       "address": [
-        "Animal and Plant Health Agency",
-        "Woodham Lane",
-        "New Haw",
-        "Surrey",
-        "Addlestone",
-        "KT15 3NB"
+        "344 Market St",
+        "Suite 532",
+        "Building 13",
+        "Springfield",
+        "92057",
+        "01223 603792"
       ],
-      "country": "GB",
+      "country": "CH",
       "tracesID": 1001,
-      "phone": "020 8225 7295",
-      "email": "DefraTestBIP@anthunt3.33mail.com",
-      "contactId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+      "phone": "01234566234",
+      "email": "test14@hghumankainos.33mail.com",
+      "contactId": "ebc98b54-834c-e911-a96a-000d3a29ba60"
     },
     "consignor": {
-      "id": "ee8a7125-37f6-475e-bcab-ece4b8178b43",
+      "id": "ce2c5f4d-8d62-415c-950b-13c634502c12",
       "type": "exporter",
       "status": "nonapproved",
-      "companyName": "8d49793293ab482995e7ff002e2745fd",
+      "companyName": "Linus George Ltd",
       "address": {
-        "addressLine1": "285 Kuphal Villages",
-        "addressLine2": "Apt. 957",
-        "addressLine3": "New York",
-        "city": "North Jazminberg",
-        "postalZipCode": "43910-9",
-        "countryISOCode": "BR",
-        "telephone": "01615555555",
-        "email": "ukoperator@email.com"
+        "addressLine1": "381 Maple Ave",
+        "addressLine2": "Suite 425",
+        "addressLine3": "Building 11",
+        "city": "Springfield",
+        "postalZipCode": "79849",
+        "countryISOCode": "AT",
+        "telephone": "01760 799387",
+        "email": "peakperformance@mail.com"
       },
-      "tracesId": 10000886
+      "tracesId": 10209920
     },
     "consignee": {
-      "id": "06f1a9e2-af0b-4a26-b2c1-2e132639271d",
-      "type": "destination",
+      "id": "b14cad05-539e-4921-9e8d-840dff1080ae",
+      "type": "consignee",
       "status": "nonapproved",
-      "companyName": "dead0d3deb3449acb73f1ff7f5080d04",
+      "companyName": "Innovatech",
       "address": {
-        "addressLine1": "0757 Dallas Lakes",
-        "addressLine2": "Apt. 810",
-        "addressLine3": "Florida",
-        "city": "Lake Erickville",
-        "postalZipCode": "56923",
-        "countryISOCode": "GB",
-        "telephone": "01615555555",
-        "email": "ukoperator@email.com"
+        "addressLine1": "720 Main St",
+        "addressLine2": "Suite 145",
+        "addressLine3": "Building 10",
+        "city": "Sunnyvale",
+        "postalZipCode": "39129",
+        "countryISOCode": "FR",
+        "telephone": "01540 667275",
+        "email": "innovatech@example.com"
       },
-      "tracesId": 10011607
+      "tracesId": 10209922
     },
     "importer": {
-      "id": "06f1a9e2-af0b-4a26-b2c1-2e132639271d",
+      "id": "b14cad05-539e-4921-9e8d-840dff1080ae",
       "type": "importer",
       "status": "nonapproved",
-      "companyName": "dead0d3deb3449acb73f1ff7f5080d04",
+      "companyName": "Innovatech",
       "address": {
-        "addressLine1": "0757 Dallas Lakes",
-        "addressLine2": "Apt. 810",
-        "addressLine3": "Florida",
-        "city": "Lake Erickville",
-        "postalZipCode": "56923",
-        "countryISOCode": "GB",
-        "telephone": "01615555555",
-        "email": "ukoperator@email.com"
+        "addressLine1": "720 Main St",
+        "addressLine2": "Suite 145",
+        "addressLine3": "Building 10",
+        "city": "Sunnyvale",
+        "postalZipCode": "39129",
+        "countryISOCode": "FR",
+        "telephone": "01540 667275",
+        "email": "innovatech@example.com"
       },
-      "tracesId": 10011607
+      "tracesId": 10209922
     },
     "placeOfDestination": {
-      "id": "06f1a9e2-af0b-4a26-b2c1-2e132639271d",
+      "id": "b14cad05-539e-4921-9e8d-840dff1080ae",
       "type": "destination",
       "status": "nonapproved",
-      "companyName": "dead0d3deb3449acb73f1ff7f5080d04",
+      "companyName": "Innovatech",
       "address": {
-        "addressLine1": "0757 Dallas Lakes",
-        "addressLine2": "Apt. 810",
-        "addressLine3": "Florida",
-        "city": "Lake Erickville",
-        "postalZipCode": "56923",
-        "countryISOCode": "GB",
-        "telephone": "01615555555",
-        "email": "ukoperator@email.com"
+        "addressLine1": "720 Main St",
+        "addressLine2": "Suite 145",
+        "addressLine3": "Building 10",
+        "city": "Sunnyvale",
+        "postalZipCode": "39129",
+        "countryISOCode": "FR",
+        "telephone": "01540 667275",
+        "email": "innovatech@example.com"
       },
-      "tracesId": 10011607
+      "tracesId": 10209922
     },
     "commodities": {
-      "totalGrossWeight": 500,
-      "totalNetWeight": 20,
-      "numberOfPackages": 4,
+      "totalGrossWeight": 3,
+      "totalNetWeight": 1,
+      "numberOfPackages": 2,
       "temperature": "Ambient",
       "commodityComplement": [
         {
@@ -123,16 +121,16 @@
       ],
       "complementParameterSet": [
         {
-          "uniqueComplementID": "0d27c82c-03ff-4b56-ba32-d9629001605f",
+          "uniqueComplementID": "590222ad-7a2b-480e-bb61-cc43839cef81",
           "complementID": 1,
           "keyDataPair": [
             {
               "key": "netweight",
-              "data": "20"
+              "data": "1"
             },
             {
               "key": "number_package",
-              "data": "4"
+              "data": "2"
             },
             {
               "key": "type_package",
@@ -151,33 +149,32 @@
       "purposeGroup": "For Import"
     },
     "pointOfEntry": "GBMNC1",
-    "arrivalDate": "2025-08-10",
-    "arrivalTime": "17:30:00",
+    "arrivalDate": "2025-12-29",
+    "arrivalTime": "12:49:00",
     "transporterDetailsRequired": false,
     "meansOfTransport": {},
     "meansOfTransportFromEntryPoint": {
-      "id": "F1235",
+      "id": "F12345",
       "type": "Aeroplane",
-      "document": "Tax bill"
+      "document": "certificate"
     },
     "veterinaryInformation": {
       "accompanyingDocuments": [
         {
-          "documentType": "airWaybill",
-          "documentReference": "VET002",
-          "documentIssueDate": "2025-08-06",
-          "attachmentId": "203f1ec9-346e-473d-b522-7e97eee05ef8",
+          "documentType": "healthCertificate",
+          "documentReference": "REF-124",
+          "documentIssueDate": "2023-03-04",
+          "attachmentId": "1f349d0d-454f-40ab-a770-741b8d7d3619",
           "attachmentFilename": "example.png",
           "attachmentContentType": "image/png",
-          "uploadUserId": "79f6dc68-2144-e911-a96a-000d3a29ba60",
-          "uploadOrganisationId": "767ceb6a-2144-e911-a96c-000d3a29b5de"
+          "uploadUserId": "ebc98b54-834c-e911-a96a-000d3a29ba60"
         }
       ]
     },
-    "submissionDate": "2025-08-08T14:17:46.261115667Z",
+    "submissionDate": "2025-03-04T10:49:30.737759741Z",
     "submittedBy": {
-      "displayName": "Gary Admin-Tester",
-      "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+      "displayName": "Michael Scott",
+      "userId": "ebc98b54-834c-e911-a96a-000d3a29ba60"
     },
     "complexCommoditySelected": true,
     "portOfEntry": "GBMAN",
@@ -189,44 +186,63 @@
     "isGVMSRoute": false,
     "provideCtcMrn": "NO"
   },
-  "decisionBy": {
-    "displayName": "Gary Admin-Tester",
-    "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
-  },
-  "decisionDate": "2025-08-08T14:18:43.763262611Z",
   "partTwo": {
     "decision": {
-      "consignmentAcceptable": true,
       "decision": "Acceptable for Internal Market",
       "freeCirculationPurpose": "Animal Feeding Stuff"
     },
-    "consignmentCheck": {
-      "documentCheckResult": "Satisfactory",
-      "identityCheckDone": true,
-      "identityCheckResult": "Satisfactory",
-      "physicalCheckDone": true,
-      "physicalCheckResult": "Satisfactory"
-    },
-    "laboratoryTestsRequired": false,
-    "resealedContainersIncluded": false,
-    "controlAuthority": {
-      "officialVeterinarian": {
-        "firstName": "Gary",
-        "lastName": "Admin-Tester",
-        "email": "DefraTestBIP@anthunt3.33mail.com",
-        "phone": "020 8225 7295",
-        "signed": "2025-08-08T14:18:43.804659204"
+    "consignmentCheck": {},
+    "consignmentValidation": [
+      {
+        "field": "uk/gov/defra/tracesx/notificationschema/representation/parttwo/decision/consignmentacceptable",
+        "message": "What is the decision for this consignment"
+      },
+      {
+        "field": "uk/gov/defra/tracesx/notificationschema/representation/parttwo/consignmentcheck/documentcheckresult",
+        "message": "Documentary check"
+      },
+      {
+        "field": "uk/gov/defra/tracesx/notificationschema/representation/parttwo/consignmentcheck/physicalcheckdone",
+        "message": "Physical check"
+      },
+      {
+        "field": "uk/gov/defra/tracesx/notificationschema/representation/parttwo/consignmentcheck/identitycheckdone",
+        "message": "Identity check"
+      },
+      {
+        "field": "uk/gov/defra/tracesx/notificationschema/representation/parttwo/laboratorytestsrequired",
+        "message": "Are laboratory tests required"
       }
-    },
-    "bipLocalReferenceNumber": "1234",
-    "checkDate": "2025-08-08T17:30:00Z",
-    "inspectionRequired": "Required"
+    ],
+    "inspectionRequired": "Inconclusive"
   },
   "partThree": {
     "sealCheckRequired": false
   },
-  "etag": "000000000028360F",
-  "riskDecisionLockingTime": "2025-08-10T14:30:00Z",
+  "consignmentValidation": [
+    {
+      "field": "uk/gov/defra/tracesx/notificationschema/representation/notification/parttwo/consignmentcheck/documentcheckresult",
+      "message": "Documentary check"
+    },
+    {
+      "field": "uk/gov/defra/tracesx/notificationschema/representation/notification/parttwo/consignmentcheck/identitycheckdone",
+      "message": "Identity check"
+    },
+    {
+      "field": "uk/gov/defra/tracesx/notificationschema/representation/notification/parttwo/consignmentcheck/physicalcheckdone",
+      "message": "Physical check"
+    },
+    {
+      "field": "uk/gov/defra/tracesx/notificationschema/representation/notification/parttwo/laboratorytestsrequired",
+      "message": "Are laboratory tests required"
+    },
+    {
+      "field": "uk/gov/defra/tracesx/notificationschema/representation/notification/parttwo/decision/consignmentacceptable",
+      "message": "What is the decision for this consignment"
+    }
+  ],
+  "etag": "000000000016A09F",
+  "riskDecisionLockingTime": "2025-12-29T10:49:00Z",
   "isRiskDecisionLocked": false,
   "chedTypeVersion": 2
 }
