@@ -105,6 +105,10 @@ export class SoapMessageBuilder {
         baseData.EntryVersionNumber = this._entryVersionNumber
       }
 
+      if (this._previousVersionNumber !== undefined) {
+        baseData.PreviousVersionNumber = this._previousVersionNumber
+      }
+
       // Override CorrelationId if explicitly set
       if (this._correlationId !== undefined) {
         baseData.CorrelationId = this._correlationId
@@ -299,6 +303,18 @@ export class SoapMessageBuilder {
 
     // Store the entry version number to be used in buildModel
     this._entryVersionNumber = entryVersionNumber
+    return this
+  }
+
+  withPreviousVersionNumber(previousVersionNumber) {
+    if (this.templateType !== 'clearance') {
+      throw new Error(
+        `withPreviousVersionNumber is only supported for clearance requests`
+      )
+    }
+
+    // Store the previous version number to be used in buildModel
+    this._previousVersionNumber = previousVersionNumber
     return this
   }
 

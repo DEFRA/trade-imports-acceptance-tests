@@ -1,19 +1,19 @@
 {
-  "id": 122461,
-  "referenceNumber": "CHEDPP.GB.2025.1234567",
+  "id": 165810,
+  "referenceNumber": "CHEDPP.GB.2025.{{SUFFIX}}",
   "version": 1,
-  "lastUpdated": "2025-06-17T10:10:35.571788736Z",
+  "lastUpdated": "2025-08-06T23:21:15.018577817Z",
   "lastUpdatedBy": {
-    "displayName": "Gary Admin-Tester",
+    "displayName": "Percy Inspector-Tester",
     "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
   },
   "type": "CHEDPP",
-  "status": "VALIDATED",
+  "status": "SUBMITTED",
   "riskAssessment": {
     "commodityResults": [
       {
-        "uniqueId": "7d7bfacd-871e-41c0-906d-4c8722824893",
-        "hmiDecision": "REQUIRED",
+        "uniqueId": "81b9298c-e025-44b8-9530-36bca7f1b113",
+        "hmiDecision": "NOTREQUIRED",
         "phsiDecision": "NOTREQUIRED",
         "phsiClassification": "NotNotifiable",
         "phsi": {
@@ -21,137 +21,146 @@
           "identityCheck": false,
           "physicalCheck": false
         },
-        "eppoCode": "DAUCS",
+        "eppoCode": "NNNXX",
         "indoorOutdoor": "None",
         "propagation": "None",
         "phsiRuleType": "None"
+      },
+      {
+        "uniqueId": "86861d79-60aa-4102-b9e4-080bc001242f",
+        "hmiDecision": "NOTREQUIRED",
+        "phsiDecision": "REQUIRED",
+        "phsiClassification": "Reduced",
+        "phsi": {
+          "documentCheck": true,
+          "identityCheck": true,
+          "physicalCheck": true
+        },
+        "eppoCode": "CXQDA",
+        "indoorOutdoor": "None",
+        "propagation": "None",
+        "phsiRuleType": "Commodity"
       }
     ],
-    "assessmentDateTime": "2025-06-17T11:10:35.547301963"
+    "assessmentDateTime": "2025-08-07T00:20:53.206873941"
   },
   "partOne": {
     "personResponsible": {
-      "name": "Gary Admin-Tester",
-      "companyId": "767ceb6a-2144-e911-a96c-000d3a29b5de",
-      "companyName": "Defra Test BIP",
-      "address": [
-        "Animal and Plant Health Agency",
-        "Woodham Lane",
-        "New Haw",
-        "Surrey",
-        "Addlestone",
-        "KT15 3NB",
-        "GB"
-      ],
+      "name": "Michael Scott",
+      "companyName": "Michael Scott",
+      "address": ["34 GREYSTONE PARK, CREWE, CHESHIRE EAST, CW1 2AL"],
       "country": "GB",
       "tracesID": 1001,
-      "phone": "020 8225 7295",
-      "email": "DefraTestBIP@anthunt3.33mail.com",
-      "contactId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+      "phone": "01234566234",
+      "email": "test14@hghumankainos.33mail.com",
+      "contactId": "ebc98b54-834c-e911-a96a-000d3a29ba60"
     },
     "consignor": {
-      "id": "74b69baf-236a-4517-b0f7-56b9128b73f8",
+      "id": "a2fcebcb-d75a-4a4b-87b9-ee5a6d9b89d6",
       "type": "exporter",
       "status": "nonapproved",
-      "companyName": "cb18997489454bc18856511243f48c75",
+      "companyName": "Linus George Ltd",
       "address": {
-        "addressLine1": "782 Bogisich Squares",
-        "addressLine2": "Suite 347",
-        "addressLine3": "Arizona",
-        "city": "East Ardenport",
-        "postalZipCode": "23288-4",
-        "countryISOCode": "DE",
-        "telephone": "01615555555",
-        "email": "ukoperator@email.com"
+        "addressLine1": "364 Broadway",
+        "addressLine2": "Suite 411",
+        "addressLine3": "Building 11",
+        "city": "Lakeside",
+        "postalZipCode": "92680",
+        "countryISOCode": "CH",
+        "telephone": "01428 630445",
+        "email": "peakperformance@test.com"
       },
-      "tracesId": 10014519
+      "tracesId": 10296097
     },
     "consignee": {
-      "id": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "id": "ebc98b54-834c-e911-a96a-000d3a29ba60",
       "type": "consignee",
-      "companyName": "Defra Test BIP",
+      "companyName": "Michael Scott",
       "address": {
-        "addressLine1": "Animal and Plant Health Agency",
-        "addressLine2": "Woodham Lane",
-        "addressLine3": "New Haw",
-        "city": "Addlestone",
-        "postalZipCode": "KT15 3NB",
+        "addressLine1": "34 GREYSTONE PARK",
+        "city": "CREWE",
+        "postalZipCode": "CW1 2AL",
         "countryISOCode": "GB",
-        "telephone": "020 8225 7295",
-        "email": "DefraTestBIP@anthunt3.33mail.com"
+        "telephone": "01234566234",
+        "email": "test14@hghumankainos.33mail.com"
       },
-      "tracesId": 10000686
+      "tracesId": 10044491
     },
     "importer": {
-      "id": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "id": "ebc98b54-834c-e911-a96a-000d3a29ba60",
       "type": "importer",
-      "companyName": "Defra Test BIP",
+      "companyName": "Michael Scott",
       "address": {
-        "addressLine1": "Animal and Plant Health Agency",
-        "addressLine2": "Woodham Lane",
-        "addressLine3": "New Haw",
-        "city": "Addlestone",
-        "postalZipCode": "KT15 3NB",
+        "addressLine1": "34 GREYSTONE PARK",
+        "city": "CREWE",
+        "postalZipCode": "CW1 2AL",
         "countryISOCode": "GB",
-        "telephone": "020 8225 7295",
-        "email": "DefraTestBIP@anthunt3.33mail.com"
+        "telephone": "01234566234",
+        "email": "test14@hghumankainos.33mail.com"
       },
-      "tracesId": 10000686
+      "tracesId": 10044491
     },
     "placeOfDestination": {
-      "id": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "id": "b9a491c6-cced-4dc6-8ff2-968ab0c72fa9",
       "type": "destination",
-      "companyName": "Defra Test BIP",
+      "status": "nonapproved",
+      "companyName": "Tech Solutions",
       "address": {
-        "addressLine1": "Animal and Plant Health Agency",
-        "addressLine2": "Woodham Lane",
-        "addressLine3": "New Haw",
-        "city": "Addlestone",
-        "postalZipCode": "KT15 3NB",
-        "countryISOCode": "GB",
-        "telephone": "020 8225 7295",
-        "email": "DefraTestBIP@anthunt3.33mail.com"
+        "addressLine1": "785 Market St",
+        "addressLine2": "Suite 898",
+        "addressLine3": "Building 15",
+        "city": "Greenville",
+        "postalZipCode": "13385",
+        "countryISOCode": "DE",
+        "telephone": "01473 563976",
+        "email": "techsolutions@sample.com"
       },
-      "tracesId": 10000686
+      "tracesId": 10296096
     },
     "commodities": {
-      "totalGrossWeight": 500,
-      "totalNetWeight": 10,
-      "numberOfPackages": 20,
+      "totalGrossWeight": 100,
+      "totalNetWeight": 20,
+      "numberOfPackages": 4,
       "commodityComplement": [
         {
-          "commodityID": "0706100010",
-          "commodityDescription": "Carrots",
+          "commodityID": "84321000",
+          "commodityDescription": "Ploughs",
           "complementID": 1,
-          "complementName": "Daucus carota subsp. sativus",
-          "eppoCode": "DAUCS",
-          "speciesID": "1496099",
-          "speciesName": "Daucus carota subsp. sativus",
-          "speciesClass": "1169444",
-          "speciesNomination": "Daucus carota subsp. sativus"
+          "complementName": "Farm Machinery",
+          "eppoCode": "NNNXX",
+          "speciesID": "1591031",
+          "speciesName": "Farm Machinery",
+          "speciesClass": "1591031",
+          "speciesNomination": "Farm Machinery"
+        },
+        {
+          "commodityID": "06042090",
+          "commodityDescription": "Other",
+          "complementID": 2,
+          "complementName": "+ Crataegomespilus dardarii",
+          "eppoCode": "CXQDA",
+          "speciesID": "1345651",
+          "speciesName": "+ Crataegomespilus dardarii",
+          "speciesNomination": "+ Crataegomespilus dardarii"
         }
       ],
       "complementParameterSet": [
         {
-          "uniqueComplementID": "7d7bfacd-871e-41c0-906d-4c8722824893",
+          "uniqueComplementID": "81b9298c-e025-44b8-9530-36bca7f1b113",
           "complementID": 1,
-          "speciesID": "1496099",
+          "speciesID": "1591031",
           "keyDataPair": [
             {
               "key": "regulatory_authority",
-              "data": "JOINT"
+              "data": "PHSI"
             },
             {
-              "key": "marketing_standard",
-              "data": "SMS"
-            },
-            {
-              "key": "validity_period",
-              "data": "2"
+              "key": "commodity_group",
+              "data": "Machinery and vehicles which have been operated for agricultural or forestry purposes"
             },
             {
               "key": "type_package",
-              "data": "Bag"
+              "data": "Box"
             },
             {
               "key": "netweight",
@@ -159,108 +168,121 @@
             },
             {
               "key": "number_package",
-              "data": "20"
+              "data": "2"
             },
             {
               "key": "quantity",
-              "data": "40"
+              "data": "2"
             },
             {
               "key": "type_quantity",
-              "data": "Stems"
+              "data": "Bulbs"
+            }
+          ]
+        },
+        {
+          "uniqueComplementID": "86861d79-60aa-4102-b9e4-080bc001242f",
+          "complementID": 2,
+          "speciesID": "1345651",
+          "keyDataPair": [
+            {
+              "key": "regulatory_authority",
+              "data": "PHSI"
             },
             {
-              "key": "container",
-              "data": "1496099"
+              "key": "type_package",
+              "data": "Box"
+            },
+            {
+              "key": "netweight",
+              "data": "10"
+            },
+            {
+              "key": "number_package",
+              "data": "2"
+            },
+            {
+              "key": "quantity",
+              "data": "2"
+            },
+            {
+              "key": "type_quantity",
+              "data": "Bulbs"
             },
             {
               "key": "commodity_group",
-              "data": "Vegetables"
-            },
-            {
-              "key": "low_risk_article72_commodity",
-              "data": "false"
+              "data": "Foliage, branches and other parts of plants"
             }
           ]
         }
       ],
       "includeNonAblactedAnimals": false,
-      "countryOfOrigin": "DE",
+      "countryOfOrigin": "FR",
       "countryOfOriginIsPodCountry": true,
-      "isLowRiskArticle72Country": false,
-      "consignedCountry": "DE",
+      "isLowRiskArticle72Country": true,
+      "consignedCountry": "FR",
       "consignedCountryInChargeGroup": true
     },
     "purpose": {
       "purposeGroup": "For Import"
     },
-    "pointOfEntry": "GBBXH4PP",
-    "pointOfEntryControlPoint": "INSPBHX1",
-    "arrivalDate": "2025-07-04",
-    "arrivalTime": "20:50:00",
+    "pointOfEntry": "CONPNT",
+    "pointOfEntryControlPoint": "INSPBAR1",
+    "arrivalDate": "2025-08-07",
+    "arrivalTime": "01:20:00",
     "meansOfTransport": {},
     "meansOfTransportFromEntryPoint": {
-      "id": "BA0021",
+      "id": "F12345",
       "type": "Aeroplane",
-      "document": "Road Waybill"
+      "document": "Phytosanitary certificate"
     },
     "veterinaryInformation": {
       "accompanyingDocuments": [
         {
           "documentType": "phytosanitaryCertificate",
-          "documentReference": "Landing bill",
-          "documentIssueDate": "2025-06-09",
-          "attachmentId": "0ec4f1d6-d602-4191-a0df-7a80d69963fa",
+          "documentReference": "REF-123",
+          "documentIssueDate": "2023-03-04",
+          "attachmentId": "67bcacf6-2393-46d3-abe8-e1bb542ef358",
           "attachmentFilename": "example.png",
           "attachmentContentType": "image/png",
-          "uploadUserId": "79f6dc68-2144-e911-a96a-000d3a29ba60",
-          "uploadOrganisationId": "767ceb6a-2144-e911-a96c-000d3a29b5de"
+          "uploadUserId": "ebc98b54-834c-e911-a96a-000d3a29ba60"
         }
       ]
     },
-    "submissionDate": "2025-06-17T10:10:34.701640415Z",
+    "submissionDate": "2025-08-06T23:20:52.707698787Z",
     "submittedBy": {
-      "displayName": "Gary Admin-Tester",
-      "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+      "displayName": "Michael Scott",
+      "userId": "ebc98b54-834c-e911-a96a-000d3a29ba60"
     },
     "complexCommoditySelected": true,
     "contactDetails": {
-      "name": "Gary Admin-Tester",
-      "telephone": "020 8225 7295",
-      "email": "defratestbip@anthunt3.33mail.com"
+      "name": "Michael Scott",
+      "telephone": "01234566234",
+      "email": "test14@hghumankainos.33mail.com"
     },
     "isGVMSRoute": false,
     "provideCtcMrn": "NO"
   },
+  "decisionBy": {
+    "displayName": "Percy Inspector-Tester",
+    "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+  },
+  "decisionDate": "2025-08-06T23:21:12.646721917Z",
   "partTwo": {
-    "commodityChecks": [
-      {
-        "uniqueComplementId": "7d7bfacd-871e-41c0-906d-4c8722824893",
-        "checks": [
-          {
-            "type": "PHSI_DOCUMENT",
-            "status": "Compliant"
-          },
-          {
-            "type": "PHSI_IDENTITY",
-            "status": "Compliant"
-          },
-          {
-            "type": "PHSI_PHYSICAL",
-            "status": "Compliant"
-          },
-          {
-            "type": "HMI",
-            "status": "Compliant"
-          }
-        ]
+    "controlAuthority": {
+      "officialVeterinarian": {
+        "firstName": "Percy",
+        "lastName": "Inspector-Tester",
+        "email": "DefraTestBIP@anthunt3.33mail.com",
+        "phone": "020 8225 7295",
+        "signed": "2025-08-06T23:21:12.67258701"
       }
-    ],
+    },
     "inspectionRequired": "Required"
   },
   "partThree": {},
-  "etag": "000000000022BE04",
-  "riskDecisionLockingTime": "2025-07-04T17:50:00Z",
+  "etag": "000000000027FEEC",
+  "riskDecisionLockingTime": "2025-08-06T22:20:00Z",
   "isRiskDecisionLocked": false,
   "chedTypeVersion": 1
 }

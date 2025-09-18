@@ -66,6 +66,11 @@ export class ClearanceRequestTestBuilder {
     return this
   }
 
+  withPreviousVersionNumber(previousVersionNumber) {
+    this.builder.withPreviousVersionNumber(previousVersionNumber)
+    return this
+  }
+
   addItem(overrides = {}) {
     this.builder.addItem(overrides)
     return this
@@ -183,6 +188,11 @@ export class FluentClearanceRequestTest {
 
   withEntryVersionNumber(entryVersionNumber) {
     this.builder.withEntryVersionNumber(entryVersionNumber)
+    return this
+  }
+
+  withPreviousVersionNumber(previousVersionNumber) {
+    this.builder.withPreviousVersionNumber(previousVersionNumber)
     return this
   }
 
