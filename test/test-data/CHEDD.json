@@ -1,127 +1,128 @@
 {
-  "id": 82875,
-  "referenceNumber": "CHEDD.GB.2025.{{SUFFIX}}",
+  "id": 74666,
+  "referenceNumber": "CHEDD.GB.2025.1074666",
   "version": 1,
-  "lastUpdated": "2025-03-04T10:49:31Z",
+  "lastUpdated": "2025-02-11T14:08:00.549354199Z",
   "lastUpdatedBy": {
-    "displayName": "Michael Scott",
-    "userId": "ebc98b54-834c-e911-a96a-000d3a29ba60"
+    "displayName": "Percy Inspector-Tester",
+    "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
   },
-  "type": "CHEDD",
-  "status": "SUBMITTED",
+  "type": "CED",
+  "status": "IN_PROGRESS",
   "riskAssessment": {
     "commodityResults": [
       {
-        "riskDecision": "INCONCLUSIVE",
-        "uniqueId": "590222ad-7a2b-480e-bb61-cc43839cef81"
+        "riskDecision": "REQUIRED",
+        "uniqueId": "daef10e7-a4e6-4e8f-874b-7e2446583074"
       }
     ],
-    "assessmentDateTime": "2025-03-04T10:49:30.974588842"
+    "assessmentDateTime": "2025-02-11T14:04:21.21208115"
   },
   "isHighRiskEuImport": false,
   "partOne": {
     "personResponsible": {
-      "name": "Michael Scott",
-      "companyName": "Michael Scott",
+      "name": "Percy Inspector-Tester",
+      "companyId": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "companyName": "Defra Test BIP",
       "address": [
-        "344 Market St",
-        "Suite 532",
-        "Building 13",
-        "Springfield",
-        "92057",
-        "01223 603792"
+        "Animal and Plant Health Agency",
+        "Woodham Lane",
+        "New Haw",
+        "Surrey",
+        "Addlestone",
+        "KT15 3NB"
       ],
-      "country": "CH",
+      "country": "GB",
       "tracesID": 1001,
-      "phone": "01234566234",
-      "email": "test14@hghumankainos.33mail.com",
-      "contactId": "ebc98b54-834c-e911-a96a-000d3a29ba60"
+      "phone": "020 8225 7295",
+      "email": "DefraTestBIP@anthunt3.33mail.com",
+      "contactId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
     },
     "consignor": {
-      "id": "ce2c5f4d-8d62-415c-950b-13c634502c12",
+      "id": "2ab17df9-e875-4bb9-a5e9-4c9ce6c5695c",
       "type": "exporter",
       "status": "nonapproved",
-      "companyName": "Linus George Ltd",
+      "companyName": "f10888e8744d402c963c13352b53e736",
       "address": {
-        "addressLine1": "381 Maple Ave",
-        "addressLine2": "Suite 425",
-        "addressLine3": "Building 11",
-        "city": "Springfield",
-        "postalZipCode": "79849",
-        "countryISOCode": "AT",
-        "telephone": "01760 799387",
-        "email": "peakperformance@mail.com"
+        "addressLine1": "53096 Murphy Station",
+        "addressLine2": "Suite 555",
+        "addressLine3": "Kansas",
+        "city": "South Ryleyview",
+        "postalZipCode": "12674",
+        "countryISOCode": "PL",
+        "telephone": "01615555555",
+        "email": "ukoperator@email.com"
       },
-      "tracesId": 10209920
+      "tracesId": 10005792
     },
     "consignee": {
-      "id": "b14cad05-539e-4921-9e8d-840dff1080ae",
+      "id": "3723e71f-435b-4fbe-bff4-31bbba5e3087",
       "type": "consignee",
       "status": "nonapproved",
-      "companyName": "Innovatech",
+      "companyName": "3a893995727842dea17fc0d1ea4a98eb",
       "address": {
-        "addressLine1": "720 Main St",
-        "addressLine2": "Suite 145",
-        "addressLine3": "Building 10",
-        "city": "Sunnyvale",
-        "postalZipCode": "39129",
-        "countryISOCode": "FR",
-        "telephone": "01540 667275",
-        "email": "innovatech@example.com"
+        "addressLine1": "447 Ebert Pine",
+        "addressLine2": "Apt. 462",
+        "addressLine3": "New York",
+        "city": "Quitzonburgh",
+        "postalZipCode": "90474-9",
+        "countryISOCode": "GB",
+        "telephone": "01615555555",
+        "email": "ukoperator@email.com"
       },
-      "tracesId": 10209922
+      "tracesId": 10007657
     },
     "importer": {
-      "id": "b14cad05-539e-4921-9e8d-840dff1080ae",
+      "id": "3723e71f-435b-4fbe-bff4-31bbba5e3087",
       "type": "importer",
       "status": "nonapproved",
-      "companyName": "Innovatech",
+      "companyName": "3a893995727842dea17fc0d1ea4a98eb",
       "address": {
-        "addressLine1": "720 Main St",
-        "addressLine2": "Suite 145",
-        "addressLine3": "Building 10",
-        "city": "Sunnyvale",
-        "postalZipCode": "39129",
-        "countryISOCode": "FR",
-        "telephone": "01540 667275",
-        "email": "innovatech@example.com"
+        "addressLine1": "447 Ebert Pine",
+        "addressLine2": "Apt. 462",
+        "addressLine3": "New York",
+        "city": "Quitzonburgh",
+        "postalZipCode": "90474-9",
+        "countryISOCode": "GB",
+        "telephone": "01615555555",
+        "email": "ukoperator@email.com"
       },
-      "tracesId": 10209922
+      "tracesId": 10007657
     },
     "placeOfDestination": {
-      "id": "b14cad05-539e-4921-9e8d-840dff1080ae",
+      "id": "3723e71f-435b-4fbe-bff4-31bbba5e3087",
       "type": "destination",
       "status": "nonapproved",
-      "companyName": "Innovatech",
+      "companyName": "3a893995727842dea17fc0d1ea4a98eb",
       "address": {
-        "addressLine1": "720 Main St",
-        "addressLine2": "Suite 145",
-        "addressLine3": "Building 10",
-        "city": "Sunnyvale",
-        "postalZipCode": "39129",
-        "countryISOCode": "FR",
-        "telephone": "01540 667275",
-        "email": "innovatech@example.com"
+        "addressLine1": "447 Ebert Pine",
+        "addressLine2": "Apt. 462",
+        "addressLine3": "New York",
+        "city": "Quitzonburgh",
+        "postalZipCode": "90474-9",
+        "countryISOCode": "GB",
+        "telephone": "01615555555",
+        "email": "ukoperator@email.com"
       },
-      "tracesId": 10209922
+      "tracesId": 10007657
     },
     "commodities": {
-      "totalGrossWeight": 3,
+      "totalGrossWeight": 100,
       "totalNetWeight": 1,
-      "numberOfPackages": 2,
+      "numberOfPackages": 1,
       "temperature": "Ambient",
       "commodityComplement": [
         {
-          "commodityID": "09081100",
-          "commodityDescription": "Neither crushed nor ground",
+          "commodityID": "07096010",
+          "commodityDescription": "Sweet peppers",
           "complementID": 1,
-          "speciesType": "09081100",
-          "speciesClass": "09081100"
+          "speciesType": "07096010",
+          "speciesClass": "07096010"
         }
       ],
       "complementParameterSet": [
         {
-          "uniqueComplementID": "590222ad-7a2b-480e-bb61-cc43839cef81",
+          "uniqueComplementID": "daef10e7-a4e6-4e8f-874b-7e2446583074",
           "complementID": 1,
           "keyDataPair": [
             {
@@ -130,67 +131,58 @@
             },
             {
               "key": "number_package",
-              "data": "2"
+              "data": "1"
             },
             {
               "key": "type_package",
-              "data": "Box"
+              "data": "Bag"
             }
           ]
         }
       ],
       "includeNonAblactedAnimals": false,
-      "countryOfOrigin": "AF",
-      "isLowRiskArticle72Country": false,
-      "consignedCountry": "AF",
+      "countryOfOrigin": "AR",
+      "consignedCountry": "AR",
       "commodityIntendedFor": "feedingstuff"
     },
     "purpose": {
       "purposeGroup": "For Import"
     },
     "pointOfEntry": "GBMNC1",
-    "arrivalDate": "2025-12-29",
-    "arrivalTime": "12:49:00",
+    "arrivalDate": "2025-02-11",
+    "arrivalTime": "11:11:00",
     "transporterDetailsRequired": false,
     "meansOfTransport": {},
     "meansOfTransportFromEntryPoint": {
-      "id": "F12345",
+      "id": "m123 abc",
       "type": "Aeroplane",
-      "document": "certificate"
+      "document": "12345677"
     },
     "veterinaryInformation": {
       "accompanyingDocuments": [
         {
           "documentType": "healthCertificate",
-          "documentReference": "REF-124",
-          "documentIssueDate": "2023-03-04",
-          "attachmentId": "1f349d0d-454f-40ab-a770-741b8d7d3619",
-          "attachmentFilename": "example.png",
-          "attachmentContentType": "image/png",
-          "uploadUserId": "ebc98b54-834c-e911-a96a-000d3a29ba60"
+          "documentReference": "m123446",
+          "documentIssueDate": "2025-02-11"
         }
       ]
     },
-    "submissionDate": "2025-03-04T10:49:30.737759741Z",
+    "submissionDate": "2025-02-11T14:04:20.440204247Z",
     "submittedBy": {
-      "displayName": "Michael Scott",
-      "userId": "ebc98b54-834c-e911-a96a-000d3a29ba60"
+      "displayName": "Percy Inspector-Tester",
+      "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
     },
     "complexCommoditySelected": true,
     "portOfEntry": "GBMAN",
     "contactDetails": {
-      "name": "Michael Scott",
-      "telephone": "01234566234",
-      "email": "test14@hghumankainos.33mail.com"
+      "name": "Percy Inspector-Tester",
+      "telephone": "020 8225 7295",
+      "email": "defratestbip@anthunt3.33mail.com"
     },
     "isGVMSRoute": false,
     "provideCtcMrn": "NO"
   },
   "partTwo": {
-    "decision": {
-      "decision": "Acceptable for Internal Market",
-      "freeCirculationPurpose": "Animal Feeding Stuff"
-    },
     "consignmentCheck": {},
     "consignmentValidation": [
       {
@@ -214,19 +206,19 @@
         "message": "Are laboratory tests required"
       }
     ],
-    "inspectionRequired": "Inconclusive"
+    "inspectionRequired": "Required"
   },
   "partThree": {
     "sealCheckRequired": false
   },
   "consignmentValidation": [
     {
-      "field": "uk/gov/defra/tracesx/notificationschema/representation/notification/parttwo/consignmentcheck/documentcheckresult",
-      "message": "Documentary check"
-    },
-    {
       "field": "uk/gov/defra/tracesx/notificationschema/representation/notification/parttwo/consignmentcheck/identitycheckdone",
       "message": "Identity check"
+    },
+    {
+      "field": "uk/gov/defra/tracesx/notificationschema/representation/notification/parttwo/consignmentcheck/documentcheckresult",
+      "message": "Documentary check"
     },
     {
       "field": "uk/gov/defra/tracesx/notificationschema/representation/notification/parttwo/consignmentcheck/physicalcheckdone",
@@ -241,8 +233,8 @@
       "message": "What is the decision for this consignment"
     }
   ],
-  "etag": "000000000016A09F",
-  "riskDecisionLockingTime": "2025-12-29T10:49:00Z",
-  "isRiskDecisionLocked": false,
+  "etag": "000000000014203D",
+  "riskDecisionLockingTime": "2025-02-11T09:11:00Z",
+  "isRiskDecisionLocked": true,
   "chedTypeVersion": 2
 }
