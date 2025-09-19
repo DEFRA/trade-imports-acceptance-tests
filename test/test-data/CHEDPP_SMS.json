@@ -1,0 +1,272 @@
+{
+  "id": 66133,
+  "referenceNumber": "CHEDPP.GB.2025.1066133",
+  "version": 1,
+  "lastUpdated": "2025-01-04T15:00:00.21Z",
+  "lastUpdatedBy": {
+    "displayName": "Andrew Inspector-Tester",
+    "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+  },
+  "type": "CHEDPP",
+  "status": "IN_PROGRESS",
+  "riskAssessment": {
+    "commodityResults": [
+      {
+        "hmiDecision": "REQUIRED",
+        "phsiDecision": "REQUIRED",
+        "phsiClassification": "Mandatory",
+        "uniqueId": "1ce48710-916e-4925-9cea-1113a103dd8a",
+        "eppoCode": "LYPSS"
+      }
+    ],
+    "assessmentDateTime": "2025-01-03T11:17:38.878023108"
+  },
+  "partOne": {
+    "personResponsible": {
+      "name": "Andrew Inspector-Tester",
+      "companyId": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "companyName": "Defra Test BIP",
+      "address": [
+        "Animal and Plant Health Agency",
+        "Woodham Lane",
+        "New Haw",
+        "Surrey",
+        "Addlestone",
+        "KT15 3NB",
+        "GB"
+      ],
+      "country": "GB",
+      "tracesID": 1001,
+      "phone": "020 8225 7295",
+      "email": "DefraTestBIP@anthunt3.33mail.com",
+      "contactId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+    },
+    "consignor": {
+      "id": "67075265-373f-4b32-a5ad-1c95f4bfa6bc",
+      "type": "exporter",
+      "status": "nonapproved",
+      "companyName": "38e5dd254dba41ceba55f24b216e5a26",
+      "address": {
+        "addressLine1": "585 Jayce Parkways",
+        "addressLine2": "Apt. 416",
+        "addressLine3": "Iowa",
+        "city": "North Colemanstad",
+        "postalZipCode": "90945",
+        "countryISOCode": "BR",
+        "telephone": "01615555555",
+        "email": "ukoperator@email.com"
+      },
+      "tracesId": 10003761
+    },
+    "consignee": {
+      "id": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "type": "consignee",
+      "companyName": "Defra Test BIP",
+      "address": {
+        "addressLine1": "Animal and Plant Health Agency",
+        "addressLine2": "Woodham Lane",
+        "addressLine3": "New Haw",
+        "city": "Addlestone",
+        "postalZipCode": "KT15 3NB",
+        "countryISOCode": "GB",
+        "telephone": "020 8225 7295",
+        "email": "DefraTestBIP@anthunt3.33mail.com"
+      },
+      "tracesId": 10000686
+    },
+    "importer": {
+      "id": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "type": "importer",
+      "companyName": "Defra Test BIP",
+      "address": {
+        "addressLine1": "Animal and Plant Health Agency",
+        "addressLine2": "Woodham Lane",
+        "addressLine3": "New Haw",
+        "city": "Addlestone",
+        "postalZipCode": "KT15 3NB",
+        "countryISOCode": "GB",
+        "telephone": "020 8225 7295",
+        "email": "DefraTestBIP@anthunt3.33mail.com"
+      },
+      "tracesId": 10000686
+    },
+    "placeOfDestination": {
+      "id": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "type": "destination",
+      "companyName": "Defra Test BIP",
+      "address": {
+        "addressLine1": "Animal and Plant Health Agency",
+        "addressLine2": "Woodham Lane",
+        "addressLine3": "New Haw",
+        "city": "Addlestone",
+        "postalZipCode": "KT15 3NB",
+        "countryISOCode": "GB",
+        "telephone": "020 8225 7295",
+        "email": "DefraTestBIP@anthunt3.33mail.com"
+      },
+      "tracesId": 10000686
+    },
+    "commodities": {
+      "totalGrossWeight": 20,
+      "totalNetWeight": 10,
+      "numberOfPackages": 1,
+      "commodityComplement": [
+        {
+          "commodityID": "0702001007",
+          "commodityDescription": "Cherry tomatoes",
+          "complementID": 1,
+          "complementName": "Lycopersicon sp.",
+          "eppoCode": "LYPSS",
+          "speciesID": "471138",
+          "speciesName": "Lycopersicon sp.",
+          "speciesClass": "471138",
+          "speciesNomination": "Lycopersicon sp."
+        }
+      ],
+      "complementParameterSet": [
+        {
+          "uniqueComplementID": "1ce48710-916e-4925-9cea-1113a103dd8a",
+          "complementID": 1,
+          "speciesID": "471138",
+          "keyDataPair": [
+            {
+              "key": "marketing_standard",
+              "data": "SMS"
+            },
+            {
+              "key": "validity_period",
+              "data": "6"
+            },
+            {
+              "key": "regulatory_authority",
+              "data": "JOINT"
+            },
+            {
+              "key": "variety",
+              "data": "Other than Solanum lycopersicum"
+            },
+            {
+              "key": "class",
+              "data": "Class I"
+            },
+            {
+              "key": "type_package",
+              "data": "Box"
+            },
+            {
+              "key": "netweight",
+              "data": "10"
+            },
+            {
+              "key": "number_package",
+              "data": "1"
+            },
+            {
+              "key": "quantity",
+              "data": "1"
+            },
+            {
+              "key": "type_quantity",
+              "data": "Kilograms"
+            },
+            {
+              "key": "container",
+              "data": "471138"
+            },
+            {
+              "key": "commodity_group",
+              "data": "Vegetables"
+            }
+          ]
+        }
+      ],
+      "includeNonAblactedAnimals": false,
+      "countryOfOrigin": "AF",
+      "countryOfOriginIsPodCountry": false,
+      "consignedCountry": "AF",
+      "consignedCountryInChargeGroup": false
+    },
+    "purpose": {
+      "purposeGroup": "For Import"
+    },
+    "pointOfEntry": "GBBXH4PP",
+    "pointOfEntryControlPoint": "INSPBHX1",
+    "arrivalDate": "2025-01-04",
+    "arrivalTime": "11:00:00",
+    "meansOfTransport": {},
+    "meansOfTransportFromEntryPoint": {
+      "id": "Repo123",
+      "type": "Aeroplane",
+      "document": "Repo123"
+    },
+    "veterinaryInformation": {
+      "accompanyingDocuments": [
+        {
+          "documentType": "phytosanitaryCertificate",
+          "documentReference": "Repo123",
+          "documentIssueDate": "2015-01-03",
+          "attachmentId": "f386b136-fa4d-4e89-9e9b-8198803165d6",
+          "attachmentFilename": "TestingImg.jpg",
+          "attachmentContentType": "image/jpeg",
+          "uploadUserId": "79f6dc68-2144-e911-a96a-000d3a29ba60",
+          "uploadOrganisationId": "767ceb6a-2144-e911-a96c-000d3a29b5de"
+        }
+      ]
+    },
+    "submissionDate": "2025-01-03T11:17:38.087609675Z",
+    "submittedBy": {
+      "displayName": "Andrew Inspector-Tester",
+      "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+    },
+    "complexCommoditySelected": true,
+    "contactDetails": {
+      "name": "Andrew Inspector-Tester",
+      "telephone": "020 8225 7295",
+      "email": "defratestbip@anthunt3.33mail.com"
+    },
+    "isGVMSRoute": false,
+    "provideCtcMrn": "NO"
+  },
+  "partTwo": {
+    "controlAuthority": {
+      "officialVeterinarian": {
+        "firstName": "Auto",
+        "lastName": "Cleared",
+        "email": "PlantHealth.Info@apha.gov.uk",
+        "phone": "0300 1000 313",
+        "signed": "2025-01-04T23:00:00.207517121"
+      }
+    },
+    "commodityChecks": [
+      {
+        "uniqueComplementId": "1ce48710-916e-4925-9cea-1113a103dd8a",
+        "checks": [
+          {
+            "type": "PHSI_DOCUMENT",
+            "status": "To do"
+          },
+          {
+            "type": "PHSI_IDENTITY",
+            "status": "To do"
+          },
+          {
+            "type": "PHSI_PHYSICAL",
+            "status": "To do"
+          },
+          {
+            "type": "HMI",
+            "status": "To do"
+          }
+        ]
+      }
+    ],
+    "phsiAutoCleared": true,
+    "hmiAutoCleared": true,
+    "inspectionRequired": "Required"
+  },
+  "partThree": {},
+  "etag": "00000000001199F9",
+  "riskDecisionLockingTime": "2025-01-04T09:00:00Z",
+  "isRiskDecisionLocked": true,
+  "chedTypeVersion": 1
+}
