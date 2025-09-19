@@ -31,7 +31,7 @@ describe('Clearance, Notification, Matches, Release and Last Received Request Su
       'day'
     )
     const clearanceRequestBucketUnique =
-      clearanceRequestBucket.buckets[0].summary.unique + 1
+      clearanceRequestBucket.intervals[0].summary.unique + 1
 
     const notificationRequest = await getNotificationSummary(from, to)
     const expectedNotificationRequestChedA = notificationRequest.chedA + 1
@@ -39,21 +39,21 @@ describe('Clearance, Notification, Matches, Release and Last Received Request Su
 
     const notificationBucket = await getNotificationBucket(from, to, 'day')
     const noticationBucketTotal =
-      notificationBucket.buckets[0].summary.total + 1
+      notificationBucket.intervals[0].summary.total + 1
 
     const matchesRequest = await getMatchesSummary(from, to)
     const expectedMatchesRequestMatch = matchesRequest.match + 1
     const expectedMatchesRequestTotal = matchesRequest.total + 1
 
     const matchesBucket = await getMatchesBucket(from, to, 'day')
-    const matchesBucketTotal = matchesBucket.buckets[0].summary.total + 1
+    const matchesBucketTotal = matchesBucket.intervals[0].summary.total + 1
 
     const releaseRequest = await getReleasesSummary(from, to)
     const expectedReleaseRequestManaul = releaseRequest.manual + 1
     const expectedReleaseRequestTotal = releaseRequest.total + 1
 
     const releasesBucket = await getReleaseBucket(from, to, 'day')
-    const releasedBucketTotal = releasesBucket.buckets[0].summary.total + 1
+    const releasedBucketTotal = releasesBucket.intervals[0].summary.total + 1
 
     const lastReceivedRequest = await getLastReceived()
     const finalisationTime = new Date(
@@ -127,7 +127,7 @@ describe('Clearance, Notification, Matches, Release and Last Received Request Su
 
     const actualClearanceRequestBucketUnique = await pollForExpectedValue(
       () => getClearanceRequestBucket(from, to, 'day'),
-      (data) => data.buckets[0].summary.unique,
+      (data) => data.intervals[0].summary.unique,
       clearanceRequestBucketUnique
     )
     expect(actualClearanceRequestBucketUnique).to.equal(
@@ -154,7 +154,7 @@ describe('Clearance, Notification, Matches, Release and Last Received Request Su
 
     const actualNoticationBucketTotal = await pollForExpectedValue(
       () => getNotificationBucket(from, to, 'day'),
-      (data) => data.buckets[0].summary.total,
+      (data) => data.intervals[0].summary.total,
       noticationBucketTotal
     )
     expect(actualNoticationBucketTotal).to.equal(noticationBucketTotal)
@@ -175,7 +175,7 @@ describe('Clearance, Notification, Matches, Release and Last Received Request Su
 
     const actualMatchesBucketTotal = await pollForExpectedValue(
       () => getMatchesBucket(from, to, 'day'),
-      (data) => data.buckets[0].summary.total,
+      (data) => data.intervals[0].summary.total,
       matchesBucketTotal
     )
 
@@ -199,7 +199,7 @@ describe('Clearance, Notification, Matches, Release and Last Received Request Su
 
     const actualReleasedBucketTotal = await pollForExpectedValue(
       () => getReleaseBucket(from, to, 'day'),
-      (data) => data.buckets[0].summary.total,
+      (data) => data.intervals[0].summary.total,
       releasedBucketTotal
     )
     expect(actualReleasedBucketTotal).to.equal(releasedBucketTotal)
