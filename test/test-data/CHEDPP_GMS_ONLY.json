@@ -1,0 +1,248 @@
+{
+  "id": 101362,
+  "referenceNumber": "CHEDPP.GB.2025.1101362",
+  "version": 1,
+  "lastUpdated": "2025-04-10T21:00:00.367Z",
+  "lastUpdatedBy": {
+    "displayName": "Flower Company",
+    "userId": "fbd0e18d-1192-ef11-8a69-6045bdf38872"
+  },
+  "type": "CHEDPP",
+  "status": "VALIDATED",
+  "riskAssessment": {
+    "commodityResults": [
+      {
+        "hmiDecision": "REQUIRED",
+        "uniqueId": "6927df30-909c-4641-9fe4-a1fb521dc994",
+        "eppoCode": "MUBSS",
+        "indoorOutdoor": "None",
+        "propagation": "None",
+        "phsiRuleType": "None"
+      }
+    ],
+    "assessmentDateTime": "2025-04-09T09:57:01.038455117"
+  },
+  "partOne": {
+    "personResponsible": {
+      "name": "Flower Company",
+      "companyId": "20d1e18d-1192-ef11-8a69-6045bdf38872",
+      "companyName": "FLOWER AIR LIMITED",
+      "address": [
+        "7 High Street",
+        "Saltburn-By-The-Sea",
+        "Brotton",
+        "TS12 2SP",
+        "GB"
+      ],
+      "country": "GB",
+      "tracesID": 1001,
+      "phone": "788340060",
+      "email": "test-vaishnavi123@yopmail.com",
+      "contactId": "fbd0e18d-1192-ef11-8a69-6045bdf38872"
+    },
+    "consignor": {
+      "id": "87f8540f-1c8d-4b0e-93c5-ff8747e75a17",
+      "type": "exporter",
+      "status": "nonapproved",
+      "companyName": "Test",
+      "address": {
+        "addressLine1": "Test",
+        "city": "London",
+        "postalZipCode": "RG30 2HT",
+        "countryISOCode": "DZ",
+        "telephone": "020 8225 7295",
+        "email": "test@test.com"
+      },
+      "tracesId": 10185121
+    },
+    "consignee": {
+      "id": "20d1e18d-1192-ef11-8a69-6045bdf38872",
+      "type": "consignee",
+      "companyName": "FLOWER AIR LIMITED",
+      "address": {
+        "addressLine1": "7 High Street",
+        "addressLine2": "Saltburn-By-The-Sea",
+        "city": "Brotton",
+        "postalZipCode": "TS12 2SP",
+        "countryISOCode": "GB",
+        "telephone": "8779877876",
+        "email": "test-vaishnavi123@yopmail.com"
+      },
+      "tracesId": 10185120
+    },
+    "importer": {
+      "id": "20d1e18d-1192-ef11-8a69-6045bdf38872",
+      "type": "importer",
+      "companyName": "FLOWER AIR LIMITED",
+      "address": {
+        "addressLine1": "7 High Street",
+        "addressLine2": "Saltburn-By-The-Sea",
+        "city": "Brotton",
+        "postalZipCode": "TS12 2SP",
+        "countryISOCode": "GB",
+        "telephone": "8779877876",
+        "email": "test-vaishnavi123@yopmail.com"
+      },
+      "tracesId": 10185120
+    },
+    "placeOfDestination": {
+      "id": "20d1e18d-1192-ef11-8a69-6045bdf38872",
+      "type": "destination",
+      "companyName": "FLOWER AIR LIMITED",
+      "address": {
+        "addressLine1": "7 High Street",
+        "addressLine2": "Saltburn-By-The-Sea",
+        "city": "Brotton",
+        "postalZipCode": "TS12 2SP",
+        "countryISOCode": "GB",
+        "telephone": "8779877876",
+        "email": "test-vaishnavi123@yopmail.com"
+      },
+      "tracesId": 10185120
+    },
+    "commodities": {
+      "totalGrossWeight": 500,
+      "totalNetWeight": 10,
+      "numberOfPackages": 5,
+      "commodityComplement": [
+        {
+          "commodityID": "08031010",
+          "commodityDescription": "Fresh",
+          "complementID": 2,
+          "complementName": "Musa sp.",
+          "eppoCode": "MUBSS",
+          "speciesID": "540651",
+          "speciesName": "Musa sp.",
+          "speciesClass": "16741",
+          "speciesNomination": "Musa sp."
+        }
+      ],
+      "complementParameterSet": [
+        {
+          "uniqueComplementID": "6927df30-909c-4641-9fe4-a1fb521dc994",
+          "complementID": 2,
+          "speciesID": "540651",
+          "keyDataPair": [
+            {
+              "key": "regulatory_authority",
+              "data": "HMI"
+            },
+            {
+              "key": "marketing_standard",
+              "data": "GMS"
+            },
+            {
+              "key": "validity_period",
+              "data": "2"
+            },
+            {
+              "key": "commodity_group",
+              "data": "Fruit and nuts"
+            },
+            {
+              "key": "type_package",
+              "data": "Bag"
+            },
+            {
+              "key": "netweight",
+              "data": "10"
+            },
+            {
+              "key": "number_package",
+              "data": "5"
+            },
+            {
+              "key": "quantity",
+              "data": "6"
+            },
+            {
+              "key": "type_quantity",
+              "data": "Stems"
+            },
+            {
+              "key": "container",
+              "data": "540651"
+            }
+          ]
+        }
+      ],
+      "includeNonAblactedAnimals": false,
+      "countryOfOrigin": "AU",
+      "countryOfOriginIsPodCountry": false,
+      "consignedCountry": "AU",
+      "gmsDeclarationAccepted": true,
+      "consignedCountryInChargeGroup": false
+    },
+    "purpose": {
+      "purposeGroup": "For Import"
+    },
+    "pointOfEntry": "GBEMA4PP",
+    "pointOfEntryControlPoint": "IPGBEM1",
+    "arrivalDate": "2025-04-10",
+    "arrivalTime": "22:00:00",
+    "meansOfTransport": {},
+    "meansOfTransportFromEntryPoint": {
+      "id": "ABC123",
+      "type": "Aeroplane",
+      "document": "123"
+    },
+    "veterinaryInformation": {
+      "accompanyingDocuments": [
+        {
+          "documentType": "phytosanitaryCertificate",
+          "documentReference": "ABC123",
+          "documentIssueDate": "2025-04-09",
+          "attachmentId": "79259217-25de-47e4-a19f-5d2f66799a82",
+          "attachmentFilename": "upload_ipaffs.png",
+          "attachmentContentType": "image/png",
+          "uploadUserId": "fbd0e18d-1192-ef11-8a69-6045bdf38872",
+          "uploadOrganisationId": "20d1e18d-1192-ef11-8a69-6045bdf38872"
+        }
+      ]
+    },
+    "submissionDate": "2025-04-09T08:57:00.376796195Z",
+    "submittedBy": {
+      "displayName": "Flower Company",
+      "userId": "fbd0e18d-1192-ef11-8a69-6045bdf38872"
+    },
+    "complexCommoditySelected": true,
+    "contactDetails": {
+      "name": "Flower Company",
+      "telephone": "788340060",
+      "email": "test-vaishnavi123@yopmail.com"
+    },
+    "isGVMSRoute": false,
+    "provideCtcMrn": "NO"
+  },
+  "partTwo": {
+    "controlAuthority": {
+      "officialVeterinarian": {
+        "firstName": "Auto",
+        "lastName": "Cleared",
+        "email": "PlantHealth.Info@apha.gov.uk",
+        "phone": "0300 1000 313",
+        "signed": "2025-04-11T10:00:00.169120997"
+      }
+    },
+    "commodityChecks": [
+      {
+        "uniqueComplementId": "6927df30-909c-4641-9fe4-a1fb521dc994",
+        "checks": [
+          {
+            "type": "HMI",
+            "status": "Auto cleared",
+            "hasChecksComplete": true
+          }
+        ]
+      }
+    ],
+    "phsiAutoCleared": true,
+    "hmiAutoCleared": true,
+    "inspectionRequired": "Required"
+  },
+  "partThree": {},
+  "etag": "00000000001CC0B7",
+  "riskDecisionLockingTime": "2025-04-10T19:00:00Z",
+  "isRiskDecisionLocked": true,
+  "chedTypeVersion": 1
+}

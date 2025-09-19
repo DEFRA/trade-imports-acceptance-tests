@@ -1,0 +1,278 @@
+{
+  "id": 66139,
+  "referenceNumber": "CHEDPP.GB.2025.1066139",
+  "version": 1,
+  "lastUpdated": "2025-01-03T13:05:00.532965046Z",
+  "lastUpdatedBy": {
+    "displayName": "Andrew Inspector-Tester",
+    "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+  },
+  "type": "CHEDPP",
+  "status": "VALIDATED",
+  "riskAssessment": {
+    "commodityResults": [
+      {
+        "hmiDecision": "NOTREQUIRED",
+        "phsiClassification": "Controlled",
+        "phsi": {
+          "documentCheck": false,
+          "identityCheck": false,
+          "physicalCheck": false
+        },
+        "uniqueId": "3b4a8287-73a3-430c-b623-32bd10326dc3",
+        "eppoCode": "THYSE",
+        "indoorOutdoor": "None",
+        "propagation": "None",
+        "phsiRuleType": "None"
+      }
+    ],
+    "assessmentDateTime": "2025-01-03T12:58:53.798633125"
+  },
+  "partOne": {
+    "personResponsible": {
+      "name": "Andrew Inspector-Tester",
+      "companyId": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "companyName": "Defra Test BIP",
+      "address": [
+        "Animal and Plant Health Agency",
+        "Woodham Lane",
+        "New Haw",
+        "Surrey",
+        "Addlestone",
+        "KT15 3NB",
+        "GB"
+      ],
+      "country": "GB",
+      "tracesID": 1001,
+      "phone": "020 8225 7295",
+      "email": "DefraTestBIP@anthunt3.33mail.com",
+      "contactId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+    },
+    "consignor": {
+      "id": "b6e48823-4ecd-4dab-8ab6-d873e6fe49fd",
+      "type": "exporter",
+      "status": "nonapproved",
+      "companyName": "03b40ff99ce5449dbc38e102e1b77be4",
+      "address": {
+        "addressLine1": "04402 Darryl Walk",
+        "addressLine2": "Suite 255",
+        "addressLine3": "Maine",
+        "city": "Jailynbury",
+        "postalZipCode": "64393-2",
+        "countryISOCode": "AL",
+        "telephone": "01615555555",
+        "email": "ukoperator@email.com"
+      },
+      "tracesId": 10003739
+    },
+    "consignee": {
+      "id": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "type": "consignee",
+      "companyName": "Defra Test BIP",
+      "address": {
+        "addressLine1": "Animal and Plant Health Agency",
+        "addressLine2": "Woodham Lane",
+        "addressLine3": "New Haw",
+        "city": "Addlestone",
+        "postalZipCode": "KT15 3NB",
+        "countryISOCode": "GB",
+        "telephone": "020 8225 7295",
+        "email": "DefraTestBIP@anthunt3.33mail.com"
+      },
+      "tracesId": 10000686
+    },
+    "importer": {
+      "id": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "type": "importer",
+      "companyName": "Defra Test BIP",
+      "address": {
+        "addressLine1": "Animal and Plant Health Agency",
+        "addressLine2": "Woodham Lane",
+        "addressLine3": "New Haw",
+        "city": "Addlestone",
+        "postalZipCode": "KT15 3NB",
+        "countryISOCode": "GB",
+        "telephone": "020 8225 7295",
+        "email": "DefraTestBIP@anthunt3.33mail.com"
+      },
+      "tracesId": 10000686
+    },
+    "placeOfDestination": {
+      "id": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "type": "destination",
+      "companyName": "Defra Test BIP",
+      "address": {
+        "addressLine1": "Animal and Plant Health Agency",
+        "addressLine2": "Woodham Lane",
+        "addressLine3": "New Haw",
+        "city": "Addlestone",
+        "postalZipCode": "KT15 3NB",
+        "countryISOCode": "GB",
+        "telephone": "020 8225 7295",
+        "email": "DefraTestBIP@anthunt3.33mail.com"
+      },
+      "tracesId": 10000686
+    },
+    "commodities": {
+      "totalGrossWeight": 9,
+      "totalNetWeight": 6,
+      "numberOfPackages": 6,
+      "commodityComplement": [
+        {
+          "commodityID": "09109931",
+          "commodityDescription": "Wild thyme (Thymus serpyllum)",
+          "complementID": 1,
+          "complementName": "Thymus serpyllum",
+          "eppoCode": "THYSE",
+          "speciesID": "127755",
+          "speciesName": "Thymus serpyllum",
+          "speciesClass": "234129",
+          "speciesNomination": "Thymus serpyllum"
+        }
+      ],
+      "complementParameterSet": [
+        {
+          "uniqueComplementID": "3b4a8287-73a3-430c-b623-32bd10326dc3",
+          "complementID": 1,
+          "speciesID": "127755",
+          "keyDataPair": [
+            {
+              "key": "regulatory_authority",
+              "data": "JOINT"
+            },
+            {
+              "key": "marketing_standard",
+              "data": "GMS"
+            },
+            {
+              "key": "validity_period",
+              "data": "2"
+            },
+            {
+              "key": "type_package",
+              "data": "Bag"
+            },
+            {
+              "key": "netweight",
+              "data": "6"
+            },
+            {
+              "key": "number_package",
+              "data": "6"
+            },
+            {
+              "key": "quantity",
+              "data": "6"
+            },
+            {
+              "key": "type_quantity",
+              "data": "Stems"
+            },
+            {
+              "key": "commodity_group",
+              "data": "Plants for Planting"
+            }
+          ]
+        }
+      ],
+      "includeNonAblactedAnimals": false,
+      "countryOfOrigin": "AF",
+      "countryOfOriginIsPodCountry": false,
+      "consignedCountry": "AF",
+      "consignedCountryInChargeGroup": false
+    },
+    "purpose": {
+      "purposeGroup": "For Import"
+    },
+    "pointOfEntry": "GBLHR4PP",
+    "pointOfEntryControlPoint": "IPGBLHR1",
+    "arrivalDate": "2025-01-08",
+    "arrivalTime": "08:00:00",
+    "meansOfTransport": {},
+    "meansOfTransportFromEntryPoint": {
+      "id": "abcd",
+      "type": "Aeroplane",
+      "document": "abc1123"
+    },
+    "veterinaryInformation": {
+      "accompanyingDocuments": [
+        {
+          "documentType": "phytosanitaryCertificate",
+          "documentReference": "abcd",
+          "documentIssueDate": "2025-01-02",
+          "attachmentId": "7765e4aa-f6dc-4589-b5d9-87a336a27509",
+          "attachmentFilename": "ipaff_scree.png",
+          "attachmentContentType": "image/png",
+          "uploadUserId": "79f6dc68-2144-e911-a96a-000d3a29ba60",
+          "uploadOrganisationId": "767ceb6a-2144-e911-a96c-000d3a29b5de"
+        }
+      ]
+    },
+    "submissionDate": "2025-01-03T12:58:53.077746667Z",
+    "submittedBy": {
+      "displayName": "Andrew Inspector-Tester",
+      "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+    },
+    "complexCommoditySelected": true,
+    "contactDetails": {
+      "name": "Andrew Inspector-Tester",
+      "telephone": "020 8225 7295",
+      "email": "defratestbip@anthunt3.33mail.com"
+    },
+    "isGVMSRoute": false,
+    "provideCtcMrn": "NO"
+  },
+  "decisionBy": {
+    "displayName": "Heathrow Airport (plants) - GBLHR4PP",
+    "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+  },
+  "decisionDate": "2025-01-03T13:05:00.505677077Z",
+  "partTwo": {
+    "controlAuthority": {
+      "officialVeterinarian": {
+        "firstName": "Auto",
+        "lastName": "Cleared",
+        "email": "PlantHealth.Info@apha.gov.uk",
+        "phone": "0300 1000 313",
+        "signed": "2025-01-03T13:05:00.532886945"
+      }
+    },
+    "commodityChecks": [
+      {
+        "uniqueComplementId": "3b4a8287-73a3-430c-b623-32bd10326dc3",
+        "checks": [
+          {
+            "type": "PHSI_DOCUMENT",
+            "status": "Auto cleared",
+            "hasChecksComplete": true
+          },
+          {
+            "type": "PHSI_IDENTITY",
+            "status": "Auto cleared",
+            "hasChecksComplete": true
+          },
+          {
+            "type": "PHSI_PHYSICAL",
+            "status": "Auto cleared",
+            "hasChecksComplete": true
+          },
+          {
+            "type": "HMI",
+            "status": "Auto cleared",
+            "hasChecksComplete": true
+          }
+        ],
+        "validityPeriod": 2
+      }
+    ],
+    "phsiAutoCleared": true,
+    "hmiAutoCleared": true,
+    "inspectionRequired": "Not required",
+    "autoClearedDateTime": "2025-01-03T13:05:00.460614459Z"
+  },
+  "partThree": {},
+  "etag": "0000000000119192",
+  "riskDecisionLockingTime": "2025-01-03T12:58:00Z",
+  "isRiskDecisionLocked": true,
+  "chedTypeVersion": 1
+}
