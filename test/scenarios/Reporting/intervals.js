@@ -32,7 +32,8 @@ describe('Reporting Intervals Results for Reporting', function () {
 
     testLogger.info('Getting Release Interval Data')
     const releaseRequest = await getReleasesInterval(from, to, from)
-    const expectedReleaseRequestManaul = releaseRequest.intervals[0].summary.manual + 1
+    const expectedReleaseRequestManaul =
+      releaseRequest.intervals[0].summary.manual + 1
 
     testLogger.info('Send Clearance Request')
     this.docRef = generateDocumentReference()
