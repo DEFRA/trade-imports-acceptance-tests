@@ -6,151 +6,70 @@ const encodedAuth = Buffer.from(
 
 export async function getClearanceRequestSummary(from, to) {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/clearance-requests/summary?from=${from}&to=${to}`
-
-  const { statusCode, body } = await request(url, {
-    method: 'GET',
-    headers: {
-      Authorization: `Basic ${encodedAuth}`,
-      Accept: 'application/json'
-    }
-  })
-
-  if (statusCode !== 200) {
-    throw new Error(`Request failed with status ${statusCode}`)
-  }
-
-  return body.json()
+  return await makeGetRequest(url)
 }
 
 export async function getClearanceRequestBucket(from, to, unit) {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/clearance-requests/buckets?from=${from}&to=${to}&unit=${unit}`
+  return await makeGetRequest(url)
+}
 
-  const { statusCode, body } = await request(url, {
-    method: 'GET',
-    headers: {
-      Authorization: `Basic ${encodedAuth}`,
-      Accept: 'application/json'
-    }
-  })
-
-  if (statusCode !== 200) {
-    throw new Error(`Request failed with status ${statusCode}`)
-  }
-
-  return body.json()
+export async function getClearanceRequestInterval(from, to, interval) {
+  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/clearance-requests/intervals?from=${from}&to=${to}&intervals=${interval}`
+  return await makeGetRequest(url)
 }
 
 export async function getNotificationSummary(from, to) {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/notifications/summary?from=${from}&to=${to}`
-
-  const { statusCode, body } = await request(url, {
-    method: 'GET',
-    headers: {
-      Authorization: `Basic ${encodedAuth}`,
-      Accept: 'application/json'
-    }
-  })
-
-  if (statusCode !== 200) {
-    throw new Error(`Request failed with status ${statusCode}`)
-  }
-
-  return body.json()
+  return await makeGetRequest(url)
 }
 
 export async function getNotificationBucket(from, to, unit) {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/notifications/buckets?from=${from}&to=${to}&unit=${unit}`
+  return await makeGetRequest(url)
+}
 
-  const { statusCode, body } = await request(url, {
-    method: 'GET',
-    headers: {
-      Authorization: `Basic ${encodedAuth}`,
-      Accept: 'application/json'
-    }
-  })
-
-  if (statusCode !== 200) {
-    throw new Error(`Request failed with status ${statusCode}`)
-  }
-
-  return body.json()
+export async function getNotificationInterval(from, to, interval) {
+  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/notifications/intervals?from=${from}&to=${to}&intervals=${interval}`
+  return await makeGetRequest(url)
 }
 
 export async function getMatchesSummary(from, to) {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/matches/summary?from=${from}&to=${to}`
-
-  const { statusCode, body } = await request(url, {
-    method: 'GET',
-    headers: {
-      Authorization: `Basic ${encodedAuth}`,
-      Accept: 'application/json'
-    }
-  })
-
-  if (statusCode !== 200) {
-    throw new Error(`Request failed with status ${statusCode}`)
-  }
-
-  return body.json()
+  return await makeGetRequest(url)
 }
 
 export async function getMatchesBucket(from, to, unit) {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/matches/buckets?from=${from}&to=${to}&unit=${unit}`
+  return await makeGetRequest(url)
+}
 
-  const { statusCode, body } = await request(url, {
-    method: 'GET',
-    headers: {
-      Authorization: `Basic ${encodedAuth}`,
-      Accept: 'application/json'
-    }
-  })
-
-  if (statusCode !== 200) {
-    throw new Error(`Request failed with status ${statusCode}`)
-  }
-
-  return body.json()
+export async function getMatchesInterval(from, to, interval) {
+  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/matches/intervals?from=${from}&to=${to}&intervals=${interval}`
+  return await makeGetRequest(url)
 }
 
 export async function getReleasesSummary(from, to) {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/releases/summary?from=${from}&to=${to}`
-
-  const { statusCode, body } = await request(url, {
-    method: 'GET',
-    headers: {
-      Authorization: `Basic ${encodedAuth}`,
-      Accept: 'application/json'
-    }
-  })
-
-  if (statusCode !== 200) {
-    throw new Error(`Request failed with status ${statusCode}`)
-  }
-
-  return body.json()
+  return await makeGetRequest(url)
 }
 
 export async function getReleaseBucket(from, to, unit) {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/releases/buckets?from=${from}&to=${to}&unit=${unit}`
+  return await makeGetRequest(url)
+}
 
-  const { statusCode, body } = await request(url, {
-    method: 'GET',
-    headers: {
-      Authorization: `Basic ${encodedAuth}`,
-      Accept: 'application/json'
-    }
-  })
-
-  if (statusCode !== 200) {
-    throw new Error(`Request failed with status ${statusCode}`)
-  }
-
-  return body.json()
+export async function getReleasesInterval(from, to, interval) {
+  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/releases/intervals?from=${from}&to=${to}&intervals=${interval}`
+  return await makeGetRequest(url)
 }
 
 export async function getLastReceived(from, to) {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/last-received`
+  return await makeGetRequest(url)
+}
 
+async function makeGetRequest(url) {
   const { statusCode, body } = await request(url, {
     method: 'GET',
     headers: {
