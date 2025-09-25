@@ -120,6 +120,25 @@ export class ClearanceRequestTestBuilder {
     )
   }
 
+  async waitForCheckDecisionWithChedRef(
+    expectedCheckCode,
+    expectedDecisionCode,
+    expectedChedReference
+  ) {
+    if (!this.sent) {
+      throw new Error(
+        'Must call sendClearanceRequest() before waitForCheckDecisionWithChedRef()'
+      )
+    }
+
+    return globalThis.waitForSpecificCheckDecisionWithChedRef(
+      this.mrn,
+      expectedCheckCode,
+      expectedDecisionCode,
+      expectedChedReference
+    )
+  }
+
   async expectErrorResponse(expectedErrorPattern, customErrorMessage = null) {
     if (!this.sent) {
       throw new Error(
@@ -262,6 +281,19 @@ export class FluentClearanceRequestTest {
     return this
   }
 
+  async waitForCheckDecisionWithChedRef(
+    expectedCheckCode,
+    expectedDecisionCode,
+    expectedChedReference
+  ) {
+    await this.builder.waitForCheckDecisionWithChedRef(
+      expectedCheckCode,
+      expectedDecisionCode,
+      expectedChedReference
+    )
+    return this
+  }
+
   getMrn() {
     return this.builder.getMrn()
   }
@@ -289,6 +321,18 @@ export class FluentClearanceRequestTest {
       waitForCheckDecision: (expectedCheckCode, expectedDecisionCode) =>
         this.sendClearanceRequest().then(() =>
           this.waitForCheckDecision(expectedCheckCode, expectedDecisionCode)
+        ),
+      waitForCheckDecisionWithChedRef: (
+        expectedCheckCode,
+        expectedDecisionCode,
+        expectedChedReference
+      ) =>
+        this.sendClearanceRequest().then(() =>
+          this.waitForCheckDecisionWithChedRef(
+            expectedCheckCode,
+            expectedDecisionCode,
+            expectedChedReference
+          )
         )
     }
   }
@@ -420,6 +464,23 @@ export class FluentFinalisationTest {
       return await waitForDataInAPI(this.mrn, '', {
         finalisation: { finalState: expectedState }
       })
+    }
+  }
+
+  async expectJson(expectedProperties, stabilityDuration = 0) {
+    if (!this.sent) {
+      throw new Error('Must call sendFinalisation() before expectJson()')
+    }
+
+    if (stabilityDuration > 0) {
+      return await waitForDataInAPIWithStability(
+        this.mrn,
+        '',
+        expectedProperties,
+        stabilityDuration
+      )
+    } else {
+      return await waitForDataInAPI(this.mrn, '', expectedProperties)
     }
   }
 }

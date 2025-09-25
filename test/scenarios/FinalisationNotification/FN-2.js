@@ -1,10 +1,9 @@
-import '#steps/steps.js'
-
 describe('BTMS receives a Cancelled after arrival message for an existing MRN', function () {
-  it.skip('', async function () {
+  it('', async function () {
     this.timeout(70000)
 
     this.docRef = generateDocumentReference()
+    this.mrn = generateRandomMRN()
 
     sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
@@ -17,48 +16,30 @@ describe('BTMS receives a Cancelled after arrival message for an existing MRN', 
       })
     )
 
-    const builder = new SoapMessageBuilder()
-
-    builder.addItem({
-      TaricCommodityCode: '0103911000',
-      Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef }],
-      Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
-    })
-
-    this.mrn = generateRandomMRN()
-    const soapEnvelope = builder.buildMessage({
-      EntryVersionNumber: 3,
-      mrn: this.mrn
-    })
-    testLogger.info(soapEnvelope)
-
-    await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelope)
-
-    const codes = await extractDecisionCodes(
-      await waitForDecision(this.clearanceRequest.mrn, thisStepStartTime)
-    )
-    testLogger.info('Received decision codes:', { decisionCodes: codes })
-    assert(codes.includes('H01'), 'Expected decision code H01 not found')
-
-    await step('Send finalisation', async () => {
-      const finalisationSoapMsg = new SoapMessageBuilder('finalisation').build({
-        EntryReference: this.mrn,
-        EntryVersionNumber: 3,
-        FinalState: 1,
-        DecisionNumber: 1
+    await newFluentClearanceRequestTest()
+      .addItem({
+        TaricCommodityCode: '0103911000',
+        Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef }],
+        Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
+      })
+      .withMRN(this.mrn)
+      .withEntryVersionNumber(3)
+      .withPreviousVersionNumber(2)
+      .sendClearanceRequest()
+      .then(async (test) => {
+        await test.waitForCheckDecision('H221', 'H01')
       })
 
-      testLogger.info(finalisationSoapMsg)
-      await sendSoapRequest(SUBMIT_FINALSIATION_ENDPOINT, finalisationSoapMsg)
-      testLogger.info('Sent finalisaton request')
-
-      const responseText = await waitForDataInAPI(this.mrn)
-
-      testLogger.info('Finalisation response:', { responseText })
-      assert.ok(
-        responseText.includes('"isManualRelease":true'),
-        'Expected a manual release'
-      )
-    })
+    await newFluentFinalisationTest()
+      .withMRN(this.mrn)
+      .withEntryVersionNumber(3)
+      .withFinalState('1')
+      .withDecisionNumber(1)
+      .withManualAction('Y')
+      .sendFinalisation()
+      .then(async (test) => {
+        await test.expectFinalisationState('1')
+        await test.expectJson({ finalisation: { isManualRelease: true } })
+      })
   })
 })
