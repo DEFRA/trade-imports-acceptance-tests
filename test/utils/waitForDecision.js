@@ -2,6 +2,7 @@ import { request } from 'undici'
 import pWaitFor from 'p-wait-for'
 import { TimeoutError } from 'p-timeout'
 import { extractDecisionCodes } from './decisionParser.js'
+import { waitForDataInAPI } from './tradeimportsdatapiMessageHandler.js'
 
 export async function getExistingDecisions(mrn) {
   const url = `${BASE_URL_TRADE_IMPORTS_DECISION_COMPARER}/decisions/${mrn}`
@@ -250,6 +251,89 @@ export async function waitForSpecificCheckDecision(
     if (err instanceof TimeoutError) {
       testLogger.error(
         `Timed out waiting for check code ${expectedCheckCode} with decision code ${expectedDecisionCode} for MRN: ${mrn}`
+      )
+    }
+    throw err
+  }
+}
+
+export async function waitForSpecificCheckDecisionWithChedRef(
+  mrn,
+  expectedCheckCode,
+  expectedDecisionCode,
+  expectedChedReference,
+  timeout = TIMEOUT_MS,
+  interval = POLL_INTERVAL_MS
+) {
+  testLogger.info(
+    `Starting to wait for check code ${expectedCheckCode} with decision code ${expectedDecisionCode} and CHED reference ${expectedChedReference} for MRN: ${mrn}`
+  )
+
+  testLogger.info({
+    checkCode: expectedCheckCode,
+    decisionCode: expectedDecisionCode,
+    documentReference: expectedChedReference
+  })
+  try {
+    // eslint-disable-next-line no-unused-vars
+    let foundMatch = false
+    let lastApiResponse = null
+
+    await pWaitFor(
+      async () => {
+        try {
+          // Use waitForDataInAPI to get the full JSON response
+          const apiResponseText = await waitForDataInAPI(
+            mrn,
+            undefined,
+            null,
+            10000, // Short timeout for individual calls
+            1000 // Short interval for individual calls
+          )
+          lastApiResponse = JSON.parse(apiResponseText)
+
+          // Check if the clearanceDecision.results contains the expected CHED reference
+          const hasChedRef = lastApiResponse.clearanceDecision?.results?.some(
+            (result) =>
+              result.checkCode === expectedCheckCode &&
+              result.decisionCode === expectedDecisionCode &&
+              result.documentReference === expectedChedReference
+          )
+
+          if (hasChedRef) {
+            testLogger.info(
+              `✅ Found matching CHED reference: ${expectedChedReference}`
+            )
+            foundMatch = true
+            return true
+          } else {
+            // Log what we found for debugging
+            const foundResults =
+              lastApiResponse.clearanceDecision?.results?.filter(
+                (result) =>
+                  result.checkCode === expectedCheckCode &&
+                  result.decisionCode === expectedDecisionCode
+              ) || []
+
+            testLogger.info(
+              `CHED reference ${expectedChedReference} not found yet. Found results for ${expectedCheckCode}:${expectedDecisionCode}:`,
+              foundResults.map((r) => r.documentReference)
+            )
+            return false
+          }
+        } catch (err) {
+          testLogger.info(`Error checking for CHED reference: ${err.message}`)
+          return false
+        }
+      },
+      { interval: 2000, timeout } // Use the provided timeout and interval
+    )
+
+    return JSON.stringify(lastApiResponse)
+  } catch (err) {
+    if (err instanceof TimeoutError) {
+      testLogger.error(
+        `Timed out waiting for check code ${expectedCheckCode} with decision code ${expectedDecisionCode} and CHED reference ${expectedChedReference} for MRN: ${mrn}`
       )
     }
     throw err
