@@ -36,7 +36,7 @@ describe('Reporting Intervals Results for Reporting', function () {
       releaseRequest.intervals[0].summary.manual + 1
 
     testLogger.info('Send Clearance Request')
-    this.docRef = generateDocumentReference()
+    this.docRef = await generateDocumentReference()
     const builder = new SoapMessageBuilder()
     builder.addItem({
       TaricCommodityCode: '0103911000',
