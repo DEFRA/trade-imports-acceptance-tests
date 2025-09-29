@@ -3,10 +3,9 @@ describe('CHED-PP BTMS receives a message to change the status of an existing CH
     this.timeout(70000)
 
     // Create a ched-pp with multiple commodities
-    this.docRef = generateDocumentReference({
+    this.docRef = await generateDocumentReference({
       letter: 'PP',
-      prefixLength: 4,
-      suffixLength: 7
+      prefixLength: 4
     })
     this.mrn = generateRandomMRN()
 

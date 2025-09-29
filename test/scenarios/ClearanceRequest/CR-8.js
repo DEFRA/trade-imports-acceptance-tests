@@ -7,7 +7,7 @@ describe('BTMS receives a ClearanceRequest for a MRN with the maximum number of 
     this.numberOfItems = 1
 
     for (let i = 1; i <= this.numberOfItems; i++) {
-      this.docRefs[i] = generateDocumentReference()
+      this.docRefs[i] = await generateDocumentReference()
       await sendIpaffsMessage(
         loadIPAFFSJson('CHEDA.json', {
           referenceNumber: this.docRefs[i],

@@ -1,0 +1,363 @@
+{
+  "id": 121786,
+  "referenceNumber": "CHEDP.GB.2025.1121786",
+  "externalReferences": [
+    {
+      "system": "NCTS",
+      "reference": "24GB123456789AB012",
+      "exactMatch": true,
+      "verifiedByImporter": true,
+      "verifiedByInspector": false
+    }
+  ],
+  "version": 1,
+  "lastUpdated": "2025-06-12T15:44:34.797250335Z",
+  "lastUpdatedBy": {
+    "displayName": "Mark Admin-Tester",
+    "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+  },
+  "type": "CVEDP",
+  "status": "VALIDATED",
+  "riskAssessment": {
+    "commodityResults": [
+      {
+        "uniqueId": "bc24e7b0-0e29-4516-97d7-1287ace1c236",
+        "riskDecision": "NOTREQUIRED",
+        "requiredInspectionRate": 0
+      }
+    ],
+    "assessmentDateTime": "2025-06-12T16:42:04.043227207"
+  },
+  "journeyRiskCategorisation": {
+    "riskLevel": "Medium",
+    "riskLevelMethod": "User",
+    "riskLevelDateTime": "2025-06-12T15:39:27.696"
+  },
+  "isHighRiskEuImport": false,
+  "partOne": {
+    "personResponsible": {
+      "name": "Mark Admin-Tester",
+      "companyId": "767ceb6a-2144-e911-a96c-000d3a29b5de",
+      "companyName": "Defra Test BIP",
+      "address": [
+        "Animal and Plant Health Agency",
+        "Woodham Lane",
+        "New Haw",
+        "Surrey",
+        "Addlestone",
+        "KT15 3NB"
+      ],
+      "country": "GB",
+      "tracesID": 1001,
+      "phone": "020 8225 7295",
+      "email": "DefraTestBIP@anthunt3.33mail.com",
+      "contactId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+    },
+    "consignor": {
+      "id": "5d6e380c-4b34-41b9-af84-707eb8a832f9",
+      "type": "exporter",
+      "status": "nonapproved",
+      "companyName": "9748cf3e588b46f18027a69b5b093daa",
+      "address": {
+        "addressLine1": "409 Towne Knolls",
+        "addressLine2": "Apt. 399",
+        "addressLine3": "Kentucky",
+        "city": "South Christopherton",
+        "postalZipCode": "50180-2",
+        "countryISOCode": "DE",
+        "telephone": "01615555555",
+        "email": "ukoperator@email.com"
+      },
+      "tracesId": 10010807
+    },
+    "consignee": {
+      "id": "7f1f6854-58ab-4a8a-a593-456bf36bc206",
+      "type": "destination",
+      "status": "nonapproved",
+      "companyName": "989b4e33df874e36b6ce3f34bbcb2c8d",
+      "address": {
+        "addressLine1": "60047 Watsica Plains",
+        "addressLine2": "Apt. 452",
+        "addressLine3": "Iowa",
+        "city": "North Maurine",
+        "postalZipCode": "73232",
+        "countryISOCode": "GB",
+        "telephone": "01615555555",
+        "email": "ukoperator@email.com"
+      },
+      "tracesId": 10019508
+    },
+    "importer": {
+      "id": "7f1f6854-58ab-4a8a-a593-456bf36bc206",
+      "type": "importer",
+      "status": "nonapproved",
+      "companyName": "989b4e33df874e36b6ce3f34bbcb2c8d",
+      "address": {
+        "addressLine1": "60047 Watsica Plains",
+        "addressLine2": "Apt. 452",
+        "addressLine3": "Iowa",
+        "city": "North Maurine",
+        "postalZipCode": "73232",
+        "countryISOCode": "GB",
+        "telephone": "01615555555",
+        "email": "ukoperator@email.com"
+      },
+      "tracesId": 10019508
+    },
+    "placeOfDestination": {
+      "id": "7f1f6854-58ab-4a8a-a593-456bf36bc206",
+      "type": "destination",
+      "status": "nonapproved",
+      "companyName": "989b4e33df874e36b6ce3f34bbcb2c8d",
+      "address": {
+        "addressLine1": "60047 Watsica Plains",
+        "addressLine2": "Apt. 452",
+        "addressLine3": "Iowa",
+        "city": "North Maurine",
+        "postalZipCode": "73232",
+        "countryISOCode": "GB",
+        "telephone": "01615555555",
+        "email": "ukoperator@email.com"
+      },
+      "tracesId": 10019508
+    },
+    "commodities": {
+      "totalGrossWeight": 2,
+      "totalNetWeight": 1,
+      "numberOfPackages": 1,
+      "temperature": "Chilled",
+      "commodityComplement": [
+        {
+          "commodityID": "03019500",
+          "commodityDescription": "Southern bluefin tunas (Thunnus maccoyii)",
+          "complementID": 1,
+          "speciesType": "03019500",
+          "speciesClass": "03019500"
+        }
+      ],
+      "complementParameterSet": [
+        {
+          "uniqueComplementID": "bc24e7b0-0e29-4516-97d7-1287ace1c236",
+          "complementID": 1,
+          "keyDataPair": [
+            {
+              "key": "netweight",
+              "data": "1"
+            },
+            {
+              "key": "number_package",
+              "data": "1"
+            },
+            {
+              "key": "type_package",
+              "data": "Bag"
+            },
+            {
+              "key": "is_catch_certificate_required",
+              "data": "true"
+            }
+          ]
+        }
+      ],
+      "includeNonAblactedAnimals": false,
+      "countryOfOrigin": "AL",
+      "consignedCountry": "AL"
+    },
+    "purpose": {
+      "conformsToEU": true,
+      "internalMarketPurpose": "Human Consumption",
+      "purposeGroup": "For Import"
+    },
+    "pointOfEntry": "GBSEV25",
+    "arrivalDate": "2025-06-13",
+    "arrivalTime": "11:11:00",
+    "transporterDetailsRequired": true,
+    "meansOfTransport": {
+      "id": "ABD123",
+      "type": "Road Vehicle",
+      "document": "1241241"
+    },
+    "meansOfTransportFromEntryPoint": {
+      "id": "123",
+      "type": "Railway Wagon",
+      "document": "1241241"
+    },
+    "departureDate": "2025-06-13",
+    "departureTime": "12:10:00",
+    "veterinaryInformation": {
+      "establishmentsOfOrigin": [
+        {
+          "id": "37967db3-8e20-94ed-7dfa-3898c684a28b",
+          "name": "KLE & FAB",
+          "country": "AL",
+          "types": ["Category 3"],
+          "approvalNumber": "C. 34/ Nr. 5 (AL)",
+          "section": "Processing plants"
+        }
+      ],
+      "accompanyingDocuments": [
+        {
+          "documentType": "catchCertificate",
+          "attachmentId": "7289e2df-f468-4421-8f6a-f113f2ec2674",
+          "attachmentFilename": "Screenshot 2025-06-12 a.png",
+          "attachmentContentType": "image/png",
+          "uploadUserId": "79f6dc68-2144-e911-a96a-000d3a29ba60",
+          "uploadOrganisationId": "767ceb6a-2144-e911-a96c-000d3a29b5de"
+        },
+        {
+          "documentType": "latestVeterinaryHealthCertificate",
+          "documentReference": "124",
+          "documentIssueDate": "2025-06-12",
+          "attachmentId": "129e9676-f5b6-41a4-a65a-9eff0c8734ac",
+          "attachmentFilename": "Screenshot 2025-06-12 a(1).png",
+          "attachmentContentType": "image/png",
+          "uploadUserId": "79f6dc68-2144-e911-a96a-000d3a29ba60",
+          "uploadOrganisationId": "767ceb6a-2144-e911-a96c-000d3a29b5de"
+        }
+      ],
+      "catchCertificateAttachments": [
+        {
+          "attachmentId": "7289e2df-f468-4421-8f6a-f113f2ec2674",
+          "catchCertificateDetails": [
+            {
+              "catchCertificateId": "617251eb-538f-4758-a0c2-1df80fe14697",
+              "catchCertificateReference": "1",
+              "dateOfIssue": "2025-06-12",
+              "flagState": "FR",
+              "species": [""]
+            }
+          ],
+          "numberOfCatchCertificates": 1
+        }
+      ]
+    },
+    "sealsContainers": [
+      {
+        "sealNumber": "NZMPI01354359",
+        "containerNumber": "MNBU4285672",
+        "officialSeal": true
+      }
+    ],
+    "submissionDate": "2025-06-12T15:42:03.635980242Z",
+    "submittedBy": {
+      "displayName": "Mark Admin-Tester",
+      "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+    },
+    "complexCommoditySelected": true,
+    "portOfEntry": "GBSEV",
+    "contactDetails": {
+      "name": "Mark Admin-Tester",
+      "telephone": "020 8225 7295",
+      "email": "defratestbip@anthunt3.33mail.com"
+    },
+    "isCatchCertificateRequired": true,
+    "isGVMSRoute": false,
+    "isChargeable": true,
+    "wasChargeable": true,
+    "billingInformation": {
+      "isConfirmed": true,
+      "emailAddress": "sndb173@grr.la",
+      "phoneNumber": "+447825006321",
+      "postalAddress": {
+        "addressLine1": "THE GARAGE COMPUTER CO LTD, 30817",
+        "county": "GREATER LONDON",
+        "cityOrTown": "LONDON",
+        "postalCode": "W10 4WL"
+      }
+    },
+    "commonUserCharge": {
+      "wasSentToTradeCharge": true
+    },
+    "provideCtcMrn": "YES"
+  },
+  "decisionBy": {
+    "displayName": "Mark Admin-Tester",
+    "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+  },
+  "decisionDate": "2025-06-12T15:44:34.748517542Z",
+  "partTwo": {
+    "decision": {
+      "consignmentAcceptable": true,
+      "decision": "Acceptable for Internal Market",
+      "freeCirculationPurpose": "Human Consumption"
+    },
+    "consignmentCheck": {
+      "documentCheckResult": "Satisfactory",
+      "identityCheckType": "Seal Check",
+      "identityCheckResult": "Satisfactory",
+      "physicalCheckResult": "Satisfactory"
+    },
+    "laboratoryTestsRequired": true,
+    "laboratoryTests": {
+      "testDate": "2025-06-12T15:44:04.625",
+      "testReason": "Random",
+      "singleLaboratoryTests": [
+        {
+          "commodityCode": "03019500",
+          "tracesID": 1,
+          "testName": ".AMINOGLYCOSIDE/AMINOSIDE",
+          "applicant": {
+            "analysisType": "Initial analysis",
+            "laboratory": "Aberdeen Scientific Services Laboratory (AA PA FE)",
+            "laboratoryAddress": "Aberdeen City Council, Old Aberdeen House, Dunbar Street, Aberdeen, Scotland AB24 3UJ",
+            "laboratoryIdentification": "Aberdeen Scientific Services Laboratory",
+            "laboratoryEmail": "ASSL@aberdeencity.gov.uk",
+            "laboratoryPhoneNumber": "01224 491648",
+            "sampleBatchNumber": "133AD",
+            "numberOfSamples": 12,
+            "sampleType": "Adult",
+            "conservationOfSample": "Ambient",
+            "inspector": {
+              "name": "Mark Admin-Tester",
+              "phone": "020 8225 7295",
+              "email": "DefraTestBIP@anthunt3.33mail.com"
+            },
+            "sampleDate": "2025-06-12",
+            "sampleTime": "15:43:00"
+          },
+          "laboratoryTestResult": {
+            "conclusion": "Pending",
+            "labTestCreatedDate": "2025-06-12"
+          }
+        }
+      ]
+    },
+    "resealedContainersIncluded": false,
+    "resealedContainersMapping": [
+      {
+        "sealNumber": "NZMPI01354359",
+        "containerNumber": "MNBU4285672",
+        "officialSeal": true
+      }
+    ],
+    "controlAuthority": {
+      "officialVeterinarian": {
+        "firstName": "Mark",
+        "lastName": "Admin-Tester",
+        "email": "DefraTestBIP@anthunt3.33mail.com",
+        "phone": "020 8225 7295",
+        "signed": "2025-06-12T15:44:34.7729383"
+      },
+      "iuuCheckRequired": true,
+      "iuuOption": "IUUOK"
+    },
+    "bipLocalReferenceNumber": "GBAPHA1A",
+    "checkDate": "2025-06-12T11:11:00Z",
+    "inspectionRequired": "Required",
+    "inspectionOverride": {
+      "originalDecision": "Not required",
+      "overriddenOn": "2025-06-12T15:42:23Z",
+      "overriddenBy": {
+        "displayName": "Mark Admin-Tester",
+        "userId": "79f6dc68-2144-e911-a96a-000d3a29ba60"
+      }
+    }
+  },
+  "partThree": {
+    "sealCheckRequired": false
+  },
+  "etag": "0000000000228865",
+  "riskDecisionLockingTime": "2025-06-13T08:11:00Z",
+  "isRiskDecisionLocked": false,
+  "chedTypeVersion": 1
+}

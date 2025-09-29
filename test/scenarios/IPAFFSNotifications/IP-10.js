@@ -2,10 +2,9 @@ describe('BTMS receives a ClearanceRequest for a MRN with a HMI GMS Check Only -
   it('', async function () {
     this.timeout(70000)
 
-    this.docRef = generateDocumentReference({
+    this.docRef = await generateDocumentReference({
       letter: 'PP',
-      prefixLength: 4,
-      suffixLength: 7
+      prefixLength: 4
     })
     this.mrn = generateRandomMRN()
 

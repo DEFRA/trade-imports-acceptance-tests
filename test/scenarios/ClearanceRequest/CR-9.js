@@ -2,7 +2,7 @@ describe('BTMS receives an update to an existing ClearanceRequest - Additional i
   it('', async function () {
     this.timeout(70000)
     testLogger.info('Send initial IPAFFS notification')
-    this.docRef = generateDocumentReference()
+    this.docRef = await generateDocumentReference()
 
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
@@ -42,7 +42,7 @@ describe('BTMS receives an update to an existing ClearanceRequest - Additional i
     const codes = await extractDecisionCodes(decisionXml)
     testLogger.info('Received decision codes:', { decisionCodes: codes })
 
-    this.docRef2 = generateDocumentReference()
+    this.docRef2 = await generateDocumentReference()
 
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {

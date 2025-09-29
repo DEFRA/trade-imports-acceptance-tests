@@ -2,8 +2,8 @@ describe('BTMS receives a Cancelled after arrival message for an existing MRN', 
   it('', async function () {
     this.timeout(70000)
 
-    this.docRef = generateDocumentReference()
     this.mrn = generateRandomMRN()
+    this.docRef = await generateDocumentReference()
 
     sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {

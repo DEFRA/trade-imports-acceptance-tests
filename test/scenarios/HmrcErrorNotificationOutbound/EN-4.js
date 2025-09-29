@@ -3,7 +3,7 @@ describe('BTMS receives a duplicate ClearanceRequest (same MRN, EntryVersionNumb
     this.timeout(70000)
 
     // Arrange: Set up test data
-    this.docRef = generateDocumentReference()
+    this.docRef = await generateDocumentReference()
     this.mrn = generateRandomMRN()
     this.expectedError = `There is already a current import declaration in BTMS with EntryReference ${this.mrn}`
 

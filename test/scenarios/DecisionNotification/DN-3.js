@@ -3,7 +3,7 @@ describe('BTMS sends a DecisionNotification for a Refusal decision on a MRN', fu
     newStep('Send initial IPAFFS notification')
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
-        referenceNumber: (testData.docRef = generateDocumentReference()),
+        referenceNumber: (testData.docRef = await generateDocumentReference()),
         lastUpdated: new Date().toISOString(),
         partTwo: {
           decision: {},

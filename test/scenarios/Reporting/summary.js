@@ -43,6 +43,7 @@ describe('Reporting Summary Results for Reporting', function () {
     )
     const requestTime = new Date(lastReceivedRequest.request.timestamp)
 
+    this.docRef = await generateDocumentReference()
     testLogger.info('Send Clearance Request')
     this.docRef = generateDocumentReference()
     const builder = new SoapMessageBuilder()

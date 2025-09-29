@@ -5,7 +5,7 @@ describe('BTMS sends a DecisionNotification for a No Match decision on a MRN - D
     testLogger.info('Send Clearance Request')
     const builder = new SoapMessageBuilder()
 
-    this.docRef = generateDocumentReference()
+    this.docRef = await generateDocumentReference()
 
     builder.addItem({
       TaricCommodityCode: '0103911000',

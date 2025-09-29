@@ -4,7 +4,7 @@ describe('BTMS sends a DecisionNotification for a Data Error decision on a MRN -
       'Send IPAFFS notification with decision (Data Error, Acceptable for Transit)'
     )
 
-    this.docRef = generateDocumentReference()
+    this.docRef = await generateDocumentReference()
 
     sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {

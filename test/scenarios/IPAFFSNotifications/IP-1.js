@@ -2,7 +2,7 @@ describe('BTMS receives an IPAFFS Notification that does not have an associated 
   it('', async function () {
     this.timeout(70000)
     testLogger.info('Send IPAFFS notification')
-    this.docRef = generateDocumentReference()
+    this.docRef = await generateDocumentReference()
     sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
         referenceNumber: this.docRef,
