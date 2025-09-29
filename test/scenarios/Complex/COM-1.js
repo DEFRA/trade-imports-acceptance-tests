@@ -2,10 +2,9 @@ describe('Multiple CDS MRNs - in a GVMS EU crossing we will have multiple CDS MR
   it('', async function () {
     this.timeout(70000)
 
-    this.docRef = generateDocumentReference({
+    this.docRef = await generateDocumentReference({
       letter: 'PP',
-      prefixLength: 4,
-      suffixLength: 7
+      prefixLength: 4
     })
 
     await sendIpaffsMessage(
