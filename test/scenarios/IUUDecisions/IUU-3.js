@@ -2,10 +2,9 @@ describe('BTMS receives an IPAFFS decision - IUU Compliant - IUU-3', function ()
   it('should receive both C03 and C07 decisions for IUU compliant clearance', async function () {
     this.timeout(70000)
 
-    this.docRef = generateDocumentReference({
+    this.docRef = await generateDocumentReference({
       letter: 'P',
-      prefixLength: 4,
-      suffixLength: 7
+      prefixLength: 4
     })
     this.mrn = generateRandomMRN()
 

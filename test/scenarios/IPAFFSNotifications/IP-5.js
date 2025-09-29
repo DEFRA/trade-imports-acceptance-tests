@@ -3,7 +3,7 @@ describe('BTMS receives an update to an existing IPAFFS Notification - IP-5', fu
     this.timeout(70000)
 
     testLogger.info('Send initial IPAFFS notification')
-    this.docRef = generateDocumentReference()
+    this.docRef = await generateDocumentReference()
     this.mrn = generateRandomMRN()
 
     await sendIpaffsMessage(

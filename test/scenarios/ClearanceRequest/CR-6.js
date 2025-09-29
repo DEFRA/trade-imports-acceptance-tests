@@ -2,7 +2,7 @@ describe('BTMS receives a ClearanceRequest for a MRN with a single item with a s
   it('', async function () {
     this.timeout(70000)
     testLogger.info('Send initial IPAFFS notification')
-    this.docRef = generateDocumentReference()
+    this.docRef = await generateDocumentReference()
 
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {

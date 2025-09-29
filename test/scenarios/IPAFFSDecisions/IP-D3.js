@@ -2,7 +2,7 @@ describe('BTMS receives an IPAFFS message to change the status of an existing CH
   it('', async function () {
     this.timeout(70000)
 
-    this.docRef = generateDocumentReference()
+    this.docRef = await generateDocumentReference()
     this.mrn = generateRandomMRN()
 
     await sendIpaffsMessage(

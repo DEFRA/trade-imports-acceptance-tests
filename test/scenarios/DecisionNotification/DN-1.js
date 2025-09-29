@@ -2,7 +2,7 @@ import '#steps/steps.js'
 
 describe('BTMS sends a DecisionNotification for a Hold decision on a MRN - DN-1', function () {
   it('', async function () {
-    this.docRef = generateDocumentReference()
+    this.docRef = await generateDocumentReference()
 
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {

@@ -1,7 +1,7 @@
 describe('BTMS receives a Manual Override decision for an existing MRN - FN-1', function () {
   it('', async function () {
     testLogger.info('Send initial IPAFFS notification')
-    this.docRef = generateDocumentReference()
+    this.docRef = await generateDocumentReference()
 
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {

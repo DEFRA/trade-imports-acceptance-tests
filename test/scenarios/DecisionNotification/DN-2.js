@@ -1,7 +1,7 @@
 describe('BTMS sends a DecisionNotification for a Release decision on a MRN - DN-2', function () {
   it('', async function () {
     testLogger.info('Send initial IPAFFS notification')
-    this.docRef = generateDocumentReference()
+    this.docRef = await generateDocumentReference()
 
     await sendIpaffsMessage(
       await loadIPAFFSJson('CHEDA.json', {

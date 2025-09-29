@@ -43,6 +43,10 @@ describe('Reporting Summary Results for Reporting', function () {
     )
     const requestTime = new Date(lastReceivedRequest.request.timestamp)
 
+<<<<<<< Updated upstream:test/scenarios/Reporting/summary.js
+=======
+    this.docRef = await generateDocumentReference()
+>>>>>>> Stashed changes:test/scenarios/Reporting/requests.js
     testLogger.info('Send Clearance Request')
     this.docRef = generateDocumentReference()
     const builder = new SoapMessageBuilder()

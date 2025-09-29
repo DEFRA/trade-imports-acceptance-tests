@@ -2,15 +2,9 @@ describe('BTMS receives a ClearanceRequest for a MRN that is tri-regulated (CHED
   it('', async function () {
     this.timeout(70000)
 
-    this.chedppDocRef = generateDocumentReference({
+    this.chedppDocRef = await generateDocumentReference({
       letter: 'PP',
-      prefixLength: 4,
-      suffixLength: 7
-    })
-    this.cheddDocRef = generateDocumentReference({
-      letter: 'D',
-      prefixLength: 4,
-      suffixLength: 7
+      prefixLength: 4
     })
     this.mrn = generateRandomMRN()
 
@@ -44,6 +38,11 @@ describe('BTMS receives a ClearanceRequest for a MRN that is tri-regulated (CHED
       })
     )
 
+    this.cheddDocRef = await generateDocumentReference({
+      letter: 'D',
+      prefixLength: 4,
+      increment: 2
+    })
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDD.json', {
         version: 1,

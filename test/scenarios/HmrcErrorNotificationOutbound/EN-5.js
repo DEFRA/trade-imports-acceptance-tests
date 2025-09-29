@@ -2,7 +2,7 @@ describe('BTMS receives a FinalisationNotification for an MRN which is already c
   it('should handle finalisation notification for already cancelled MRN', async function () {
     this.timeout(70000)
 
-    this.docRef = generateDocumentReference()
+    this.docRef = await generateDocumentReference()
     this.mrn = generateRandomMRN()
 
     testLogger.info('Send initial IPAFFS notification')

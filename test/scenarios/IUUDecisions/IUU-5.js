@@ -2,10 +2,9 @@ describe('BTMS receives an IPAFFS decision - IUU No Need to inspect (IUUNA) - IU
   it('', async function () {
     this.timeout(70000)
 
-    this.docRef = generateDocumentReference({
+    this.docRef = await generateDocumentReference({
       letter: 'P',
-      prefixLength: 4,
-      suffixLength: 7
+      prefixLength: 4
     })
     this.mrn = generateRandomMRN()
 

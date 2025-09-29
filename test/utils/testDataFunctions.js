@@ -8,17 +8,35 @@ export function generateRandomMRN(prefix = '25GB') {
   return result
 }
 
-export function generateDocumentReference({
+export async function generateDocumentReference({
   letter = 'A',
   prefixLength = 4,
-  suffixLength = 7
+  increment = 1
 } = {}) {
   const randomNumberString = (length) =>
     Array.from({ length }, () => Math.floor(Math.random() * 10)).join('')
 
   const prefix = randomNumberString(prefixLength)
-  const suffix = randomNumberString(suffixLength)
+
+  const resp = await fetch(`${BASE_URL_TRADE_IMPORTS_DATA_API}/admin/max-id`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: TRADE_IMPORTS_DATA_API_AUTHORIZATION_HEADER
+    }
+  })
+  if (!resp.ok) throw new Error(`HTTP ${resp.status} ${resp.statusText}`)
+
+  const data = await resp.json()
+  const match = data.importPreNotification?.match(/(\d{7})(?:[A-Z])?$/i)
+  if (!match)
+    throw new Error(
+      `Could not extract 7-digit suffix from "${data.importPreNotification}"`
+    )
+
+  const suffix = String(Number(match[1]) + increment).padStart(7, '0')
   const result = `CHED${letter}.GB.${prefix}.${suffix}`
+
   globalThis.testLogger.info(`Generated new CHED reference`, { ched: result })
   return result
 }

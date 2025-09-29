@@ -3,10 +3,9 @@ describe('BTMS receives an IPAFFS CHED-PP that requires PHSI inspection only - I
     this.timeout(70000)
 
     // Create a ched-pp with multiple commodities
-    this.docRef = generateDocumentReference({
+    this.docRef = await generateDocumentReference({
       letter: 'PP',
-      prefixLength: 4,
-      suffixLength: 7
+      prefixLength: 4
     })
     this.mrn = generateRandomMRN()
 

@@ -4,7 +4,7 @@ describe('BTMS receives a ClearanceRequest with many items. One item does not ha
 
     // Arrange: Set up test data
     this.documentCode = 'C640'
-    this.docRef = generateDocumentReference()
+    this.docRef = await generateDocumentReference()
     this.mrn = generateRandomMRN()
 
     // Act & Assert: Send clearance request with validation errors and expect multiple errors using fluent API
