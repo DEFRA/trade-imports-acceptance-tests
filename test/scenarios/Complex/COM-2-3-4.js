@@ -11,10 +11,10 @@ Multiple commodity lines on a CHED - COM-4`, function () {
 
     // First two CHEDs without iuuOption
     for (let i = 0; i < 2; i++) {
-      const docRef = generateDocumentReference({
+      const docRef = await generateDocumentReference({
         letter: 'P',
         prefixLength: 4,
-        suffixLength: 7
+        increment: i + 1
       })
       chedDocRefs.push(docRef)
 
@@ -28,10 +28,10 @@ Multiple commodity lines on a CHED - COM-4`, function () {
 
     // Remaining 6 CHEDs with iuuOption
     for (let i = 0; i < 5; i++) {
-      const docRef = generateDocumentReference({
+      const docRef = await generateDocumentReference({
         letter: 'P',
         prefixLength: 4,
-        suffixLength: 7
+        increment: i + chedDocRefs.length + 1 // adding a ched id 'buffer of 10 here to avoid more complicated synchronising code
       })
       chedDocRefs.push(docRef)
 
@@ -48,10 +48,10 @@ Multiple commodity lines on a CHED - COM-4`, function () {
       )
     }
 
-    const docRef8 = generateDocumentReference({
+    const docRef8 = await generateDocumentReference({
       letter: 'P',
       prefixLength: 4,
-      suffixLength: 7
+      increment: chedDocRefs.length + 1
     })
 
     await sendIpaffsMessage(
