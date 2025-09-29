@@ -19,7 +19,7 @@ describe('BTMS receives an update to an existing IPAFFS Notification - IP-5', fu
       })
     )
 
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '0103911000',
         Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef }],

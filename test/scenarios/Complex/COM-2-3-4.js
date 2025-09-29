@@ -86,7 +86,7 @@ Multiple commodity lines on a CHED - COM-4`, function () {
     this.chedPPDocRef7 = chedDocRefs[6]
     this.chedPPDocRef8 = docRef8
 
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '1601009104',
         ItemNumber: 1,

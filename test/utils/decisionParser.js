@@ -20,36 +20,49 @@ export function extractDecisionCodes(xmlString) {
     parseTagValue: false
   })
 
-  const outerParsed = parser.parse(xmlString)
+  const parsed = parser.parse(xmlString)
 
-  const innerEncodedXml =
-    outerParsed['NS1:Envelope']?.['NS1:Body']?.['NS3:DecisionNotification']?.[
-      '#text'
+  // Try the new structure first: NS1:Envelope > NS1:Body > NS3:DecisionNotification > NS2:DecisionNotification
+  let decisionNotification =
+    parsed['NS1:Envelope']?.['NS1:Body']?.['NS3:DecisionNotification']?.[
+      'NS2:DecisionNotification'
     ]
-  if (!innerEncodedXml) return []
 
-  const decodeHtmlEntities = (str) =>
-    str
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&quot;/g, '"')
-      .replace(/&apos;/g, "'")
-      .replace(/&amp;/g, '&')
+  // If not found, try the old structure with encoded XML
+  if (!decisionNotification) {
+    const innerEncodedXml =
+      parsed['NS1:Envelope']?.['NS1:Body']?.['NS3:DecisionNotification']?.[
+        '#text'
+      ]
+    if (!innerEncodedXml) return []
 
-  const decodedXmlString = decodeHtmlEntities(innerEncodedXml)
+    const decodeHtmlEntities = (str) =>
+      str
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&apos;/g, "'")
+        .replace(/&amp;/g, '&')
 
-  const innerParser = new XMLParser({
-    ignoreAttributes: false,
-    ignoreDeclaration: true,
-    parseTagValue: false,
-    ignoreNameSpace: false
-  })
+    const decodedXmlString = decodeHtmlEntities(innerEncodedXml)
 
-  const innerParsedRaw = innerParser.parse(decodedXmlString)
+    const innerParser = new XMLParser({
+      ignoreAttributes: false,
+      ignoreDeclaration: true,
+      parseTagValue: false,
+      ignoreNameSpace: false
+    })
 
-  const innerParsed = stripPrefixes(innerParsedRaw, 'NS2:')
+    const innerParsedRaw = innerParser.parse(decodedXmlString)
+    decisionNotification = stripPrefixes(innerParsedRaw, 'NS2:')
+  } else {
+    // Strip prefixes for the new structure
+    decisionNotification = stripPrefixes(decisionNotification, 'NS2:')
+  }
 
-  const items = innerParsed?.DecisionNotification?.Item
+  const items =
+    decisionNotification?.DecisionNotification?.Item ||
+    decisionNotification?.Item
   if (!items) return []
 
   const itemList = Array.isArray(items) ? items : [items]

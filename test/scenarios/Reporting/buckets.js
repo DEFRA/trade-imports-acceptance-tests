@@ -1,12 +1,3 @@
-import { expect } from 'chai'
-import {
-  pollForExpectedValue,
-  getClearanceRequestBucket,
-  getNotificationBucket,
-  getMatchesBucket,
-  getReleaseBucket
-} from '../../utils/reportingClient.js'
-
 describe('Reporting Bucket Results for Reporting', function () {
   it('', async function () {
     this.timeout(70000)
@@ -39,18 +30,20 @@ describe('Reporting Bucket Results for Reporting', function () {
 
     testLogger.info('Send Clearance Request')
     this.docRef = await generateDocumentReference()
-    const builder = new SoapMessageBuilder()
-    builder.addItem({
-      TaricCommodityCode: '0103911000',
-      Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef }],
-      Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
-    })
     this.mrn = generateRandomMRN()
-    const soapEnvelope = builder.buildMessage({
-      mrn: this.mrn
-    })
-    await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelope)
-    await waitForSpecificDecision(this.mrn, 'X00')
+
+    await newClearanceRequest()
+      .addItem({
+        TaricCommodityCode: '0103911000',
+        Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef }],
+        Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
+      })
+      .withMRN(this.mrn)
+      .withEntryVersionNumber(1)
+      .sendClearanceRequest()
+      .then(async (test) => {
+        await test.waitForDecision('X00')
+      })
 
     testLogger.info('Send IPAFFS notification')
     await sendIpaffsMessage(
@@ -67,23 +60,17 @@ describe('Reporting Bucket Results for Reporting', function () {
     await waitForSpecificDecision(this.mrn, 'H01')
 
     testLogger.info('Send Finalisation')
-    const finalisationSoapMsg = new SoapMessageBuilder(
-      'finalisation'
-    ).buildMessage({
-      EntryReference: this.mrn,
-      EntryVersionNumber: 1,
-      FinalState: '0',
-      DecisionNumber: 2,
-      ManualAction: 'Y'
-    })
-
-    testLogger.info(finalisationSoapMsg)
-    await sendSoapRequest(SUBMIT_FINALSIATION_ENDPOINT, finalisationSoapMsg)
-    testLogger.info('Sent finalisaton request')
-    const responseText = await waitForDataInAPI(this.mrn, '', {
-      finalisation: { isManualRelease: true }
-    })
-    testLogger.info('Finalisation response:', { responseText })
+    await newFinalisationRequest()
+      .withMRN(this.mrn)
+      .withEntryVersionNumber(1)
+      .withFinalState('0')
+      .withDecisionNumber(2)
+      .withManualAction('Y')
+      .sendFinalisation()
+      .then(async (test) => {
+        await test.expectJson({ finalisation: { isManualRelease: true } })
+        testLogger.info('Finalisation response received')
+      })
 
     testLogger.info('Asserting on Clearance Requests')
     const actualClearanceRequestBucketUnique = await pollForExpectedValue(

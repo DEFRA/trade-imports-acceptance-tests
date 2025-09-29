@@ -23,7 +23,7 @@ describe('BTMS receives an IPAFFS CHED-PP that requires both a PHSI & HMI (SMS) 
     testLogger.info('✓ A new IPAFFS notification sent successfully')
 
     // Send a Clearance request
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '0702001007',
         GoodsDescription: 'Cherry tomatoes',

@@ -5,7 +5,7 @@ describe('BTMS receives a Cancelled after arrival message for an existing MRN', 
     this.mrn = generateRandomMRN()
     this.docRef = await generateDocumentReference()
 
-    sendIpaffsMessage(
+    await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
         referenceNumber: this.docRef,
         lastUpdated: new Date().toISOString(),
@@ -16,7 +16,7 @@ describe('BTMS receives a Cancelled after arrival message for an existing MRN', 
       })
     )
 
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '0103911000',
         Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef }],
@@ -30,7 +30,7 @@ describe('BTMS receives a Cancelled after arrival message for an existing MRN', 
         await test.waitForCheckDecision('H221', 'H01')
       })
 
-    await newFluentFinalisationTest()
+    await newFinalisationRequest()
       .withMRN(this.mrn)
       .withEntryVersionNumber(3)
       .withFinalState('1')

@@ -23,7 +23,7 @@ describe('CHED-PP BTMS receives a message to change the status of an existing CH
     testLogger.info('✓ A new IPAFFS notification sent successfully')
 
     // Send a Clearance request
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '8432100000',
         GoodsDescription: 'Farm Machinery',
@@ -328,7 +328,7 @@ describe('CHED-PP BTMS receives a message to change the status of an existing CH
 
     // Amend the Clearance request
     testLogger.info('Sending updated clearance request with V & R')
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '8432100000',
         GoodsDescription: 'Farm Machinery',

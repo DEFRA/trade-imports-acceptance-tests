@@ -18,7 +18,7 @@ describe('BTMS receives a FinalisationNotification for an MRN which is already c
     )
 
     testLogger.info('Send Clearance Request')
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '0103911000',
         ItemNumber: 1,
@@ -65,7 +65,7 @@ describe('BTMS receives a FinalisationNotification for an MRN which is already c
     testLogger.info('Received decision with expected code C03')
 
     testLogger.info('Send cancellation')
-    let responseText = await newFluentFinalisationTest()
+    let responseText = await newFinalisationRequest()
       .withMRN(this.mrn)
       .withEntryVersionNumber(1)
       .withFinalState('1')
@@ -77,7 +77,7 @@ describe('BTMS receives a FinalisationNotification for an MRN which is already c
     testLogger.info('Cancellation response:', { responseText })
 
     testLogger.info('Send finalisation')
-    responseText = await newFluentFinalisationTest()
+    responseText = await newFinalisationRequest()
       .withMRN(this.mrn)
       .withEntryVersionNumber(1)
       .withFinalState('0')

@@ -22,6 +22,7 @@ import * as rawSendSoapRequest from './utils/soapMessageHandler.js'
 import * as rawWaitForDecision from './utils/waitForDecision.js'
 import * as rawTradeimportsdatapiMessageHandler from './utils/tradeimportsdatapiMessageHandler.js'
 import * as rawIpaffsMessageHandler from './utils/ipaffsMessageHandler.js'
+import * as rawReportingClient from './utils/reportingClient.js'
 import * as rawTestContext from '../utils/testContext.js'
 
 import process from 'process'
@@ -40,7 +41,8 @@ function initGlobals() {
     SoapMessageBuilder: rawSoapMessageBuilder,
     sendSoapRequest: rawSendSoapRequest,
     waitForDecision: rawWaitForDecision,
-    tradeimportsdatapiMessageHandler: rawTradeimportsdatapiMessageHandler
+    tradeimportsdatapiMessageHandler: rawTradeimportsdatapiMessageHandler,
+    reportingClient: rawReportingClient
   })
 
   registerGlobalFunctions({
@@ -95,11 +97,11 @@ function initGlobals() {
     globalThis.BASE_URL_TRADE_IMPORTS_DATA_API = `https://trade-imports-data-api.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
   }
 
-  if (process.env.BASE_URL_TRADE_IMPORTS_DECISION_COMPARER) {
-    globalThis.BASE_URL_TRADE_IMPORTS_DECISION_COMPARER =
-      process.env.BASE_URL_TRADE_IMPORTS_DECISION_COMPARER
+  if (process.env.BASE_URL_TRADE_IMPORTS_CDS_SIMULATOR) {
+    globalThis.BASE_URL_TRADE_IMPORTS_CDS_SIMULATOR =
+      process.env.BASE_URL_TRADE_IMPORTS_CDS_SIMULATOR
   } else {
-    globalThis.BASE_URL_TRADE_IMPORTS_DECISION_COMPARER = `https://trade-imports-decision-comparer.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
+    globalThis.BASE_URL_TRADE_IMPORTS_CDS_SIMULATOR = `https://trade-imports-cds-simulator-api.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
   }
 
   if (process.env.BASE_URL_TRADE_IMPORTS_REPORTING) {
@@ -111,10 +113,10 @@ function initGlobals() {
 
   promoteEnvVars(['TRADE_IMPORTS_', 'IPAFFS_', 'BASE_URL_'])
 
-  globalThis.COMPARER_AUTHORIZATION_HEADER =
+  globalThis.CDS_SIMULATOR_AUTHORIZATION_HEADER =
     'Basic ' +
     Buffer.from(
-      `${process.env.TRADE_IMPORTS_DECISION_COMPARER_USER}:${process.env.TRADE_IMPORTS_DECISION_COMPARER_KEY}`
+      `${process.env.TRADE_IMPORTS_CDS_SIMULATOR_USER}:${process.env.TRADE_IMPORTS_CDS_SIMULATOR_KEY}`
     ).toString('base64')
 
   globalThis.TRADE_IMPORTS_DATA_API_AUTHORIZATION_HEADER =

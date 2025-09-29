@@ -6,7 +6,7 @@ describe('BTMS receives a ClearanceRequest where the DocumentCode does not map t
     this.documentCode = 'C640'
     this.expectedError = `Document code ${this.documentCode} is not appropriate for the check code requested on ItemNumber 1`
 
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '0103911000',
         Documents: [
@@ -17,7 +17,7 @@ describe('BTMS receives a ClearanceRequest where the DocumentCode does not map t
         ],
         Checks: [{ CheckCode: 'H223', DepartmentCode: 'PHA' }]
       })
-      .sendFluent()
+      .send()
       .expectError(this.expectedError, 'Expected wrong Department Code error')
   })
 })
