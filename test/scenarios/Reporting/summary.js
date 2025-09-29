@@ -45,7 +45,7 @@ describe('Reporting Summary Results for Reporting', function () {
 
     this.docRef = await generateDocumentReference()
     testLogger.info('Send Clearance Request')
-    this.docRef = generateDocumentReference()
+    this.docRef = await generateDocumentReference()
     const builder = new SoapMessageBuilder()
     builder.addItem({
       TaricCommodityCode: '0103911000',
