@@ -28,13 +28,16 @@ export async function generateDocumentReference({
   if (!resp.ok) throw new Error(`HTTP ${resp.status} ${resp.statusText}`)
 
   const data = await resp.json()
-  const match = data.importPreNotification?.match(/(\d{7})(?:[A-Z])?$/i)
-  if (!match)
-    throw new Error(
-      `Could not extract 7-digit suffix from "${data.importPreNotification}"`
-    )
+  let baseNumber = 1000000
 
-  const suffix = String(Number(match[1]) + increment).padStart(7, '0')
+  if (typeof data.importPreNotification === 'string') {
+    const match = data.importPreNotification.match(/(\d{7})(?:[A-Z])?$/i)
+    if (match) {
+      baseNumber = Number(match[1])
+    }
+  }
+
+  const suffix = String(baseNumber + increment).padStart(7, '0')
   const result = `CHED${letter}.GB.${prefix}.${suffix}`
 
   globalThis.testLogger.info(`Generated new CHED reference`, { ched: result })
