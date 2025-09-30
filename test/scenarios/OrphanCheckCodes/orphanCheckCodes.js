@@ -54,39 +54,45 @@ describe('Orphan Check Codes', function () {
           })
         )
 
-        const builder = new SoapMessageBuilder()
-
-        builder.addItem({
-          TaricCommodityCode: '0103911000',
-          Documents: documents.map((d) => ({
-            ...d,
-            DocumentReference: d.DocumentReference ?? this.docRef
-          })),
-          Checks: checks
-        })
-
         this.mrn = generateRandomMRN()
-        const soapEnvelope = builder.buildMessage({ mrn: this.mrn })
 
-        const firstExpectedDecision =
-          expected?.[0]?.decisionCode ?? decisionCode
+        await newClearanceRequest()
+          .addItem({
+            TaricCommodityCode: '0103911000',
+            Documents: documents.map((d) => ({
+              ...d,
+              DocumentReference: d.DocumentReference ?? this.docRef
+            })),
+            Checks: checks
+          })
+          .withMRN(this.mrn)
+          .sendClearanceRequest()
+          .then(async (test) => {
+            const firstExpectedDecision =
+              expected?.[0]?.decisionCode ?? decisionCode
 
-        await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelope)
-        const decisionXml = await waitForSpecificDecision(
-          this.mrn,
-          firstExpectedDecision
-        )
-        const codes = await extractDecisionCodes(decisionXml)
+            if (expected?.length > 1) {
+              // Wait for multiple decisions
+              for (const expectedPair of expected) {
+                await test.waitForCheckDecision(
+                  expectedPair.checkCode,
+                  expectedPair.decisionCode
+                )
+              }
+            } else {
+              // Wait for single decision
+              if (expected?.[0]?.checkCode) {
+                await test.waitForCheckDecision(
+                  expected[0].checkCode,
+                  firstExpectedDecision
+                )
+              } else {
+                await test.waitForDecision(firstExpectedDecision)
+              }
+            }
 
-        testLogger.info('Received decision codes:', { decisionCodes: codes })
-
-        const expectedPairs = expected?.length
-          ? expected
-          : [{ checkCode: checks[0].CheckCode, decisionCode }]
-
-        expectedPairs.forEach((pair) => {
-          expect(codes).to.deep.include(pair)
-        })
+            testLogger.info('Received all expected decisions')
+          })
       })
     }
   )

@@ -16,7 +16,7 @@ describe('BTMS receives an IPAFFS decision - IUU Compliant - IUU-3', function ()
     )
     testLogger.info('✓ IPAFFS notification sent successfully')
 
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '1601009104',
         ItemNumber: 1,

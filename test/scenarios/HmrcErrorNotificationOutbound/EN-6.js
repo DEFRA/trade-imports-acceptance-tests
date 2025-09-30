@@ -8,7 +8,7 @@ describe('BTMS receives a ClearanceRequest with many items. One item does not ha
     this.mrn = generateRandomMRN()
 
     // Act & Assert: Send clearance request with validation errors and expect multiple errors using fluent API
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '0103911000',
         Documents: [
@@ -29,7 +29,7 @@ describe('BTMS receives a ClearanceRequest with many items. One item does not ha
         Checks: [{ CheckCode: null, DepartmentCode: 'AHVLA' }]
       })
       .withMRN(this.mrn)
-      .sendFluent()
+      .send()
       .expectMultipleErrors([
         // Item 2 errors (missing DocumentCode)
         {

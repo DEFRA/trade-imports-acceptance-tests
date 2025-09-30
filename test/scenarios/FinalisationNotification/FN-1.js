@@ -1,5 +1,7 @@
 describe('BTMS receives a Manual Override decision for an existing MRN - FN-1', function () {
   it('', async function () {
+    this.timeout(70000)
+
     testLogger.info('Send initial IPAFFS notification')
     this.docRef = await generateDocumentReference()
 
@@ -13,10 +15,11 @@ describe('BTMS receives a Manual Override decision for an existing MRN - FN-1', 
         }
       })
     )
-    testLogger.info('Send Clearance Request')
-    const builder = new SoapMessageBuilder()
 
-    builder
+    testLogger.info('Send Clearance Request')
+    this.mrn = generateRandomMRN()
+
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '0103911000',
         ItemNumber: 1,
@@ -34,22 +37,14 @@ describe('BTMS receives a Manual Override decision for an existing MRN - FN-1', 
         ],
         Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
       })
-
-    this.mrn = generateRandomMRN()
-    const soapEnvelope = builder.buildMessage({
-      EntryVersionNumber: 1,
-      mrn: this.mrn
-    })
-
-    testLogger.info(soapEnvelope)
-
-    await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelope)
-
-    testLogger.info('Wait for decision - should be a hold H01')
-    let decisionXml = await waitForSpecificDecision(this.mrn, 'H01')
-    testLogger.info('Received decision with expected code H01')
-    let codes = await extractDecisionCodes(decisionXml)
-    testLogger.info('Received decision codes:', { decisionCodes: codes })
+      .withMRN(this.mrn)
+      .withEntryVersionNumber(1)
+      .sendClearanceRequest()
+      .then(async (test) => {
+        testLogger.info('Wait for decision - should be a hold H01')
+        await test.waitForCheckDecision('H221', 'H01')
+        testLogger.info('Received decision with expected code H01')
+      })
 
     testLogger.info(
       'Send updated IPAFFS notification with decision (to release)'
@@ -72,35 +67,20 @@ describe('BTMS receives a Manual Override decision for an existing MRN - FN-1', 
     )
 
     testLogger.info('Wait for decision - should be a hold C03')
-
-    decisionXml = await waitForSpecificDecision(this.mrn, 'C03')
+    await waitForSpecificDecision(this.mrn, 'C03')
     testLogger.info('Received decision with expected code C03')
-    codes = await extractDecisionCodes(decisionXml)
-    testLogger.info('Received decision codes:', { decisionCodes: codes })
 
     testLogger.info('Send finalisation')
-    const finalisationSoapMsg = new SoapMessageBuilder(
-      'finalisation'
-    ).buildMessage({
-      EntryReference: this.mrn,
-      EntryVersionNumber: 1,
-      FinalState: '0',
-      DecisionNumber: 2,
-      ManualAction: 'Y'
-    })
-
-    testLogger.info(finalisationSoapMsg)
-    await sendSoapRequest(SUBMIT_FINALSIATION_ENDPOINT, finalisationSoapMsg)
-    testLogger.info('Sent finalisaton request')
-
-    const responseText = await waitForDataInAPI(this.mrn, '', {
-      finalisation: { isManualRelease: true }
-    })
-
-    testLogger.info('Finalisation response:', { responseText })
-    assert.ok(
-      responseText.includes('"isManualRelease":true'),
-      'Expected a manual release'
-    )
+    await newFinalisationRequest()
+      .withMRN(this.mrn)
+      .withEntryVersionNumber(1)
+      .withFinalState('0')
+      .withDecisionNumber(2)
+      .withManualAction('Y')
+      .sendFinalisation()
+      .then(async (test) => {
+        await test.expectJson({ finalisation: { isManualRelease: true } })
+        testLogger.info('Finalisation response received')
+      })
   })
 })

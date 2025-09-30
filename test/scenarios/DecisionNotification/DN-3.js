@@ -1,9 +1,13 @@
 describe('BTMS sends a DecisionNotification for a Refusal decision on a MRN', function () {
-  testCase('Description', async function () {
-    newStep('Send initial IPAFFS notification')
+  it('', async function () {
+    this.timeout(70000)
+
+    testLogger.info('Send initial IPAFFS notification')
+    this.docRef = await generateDocumentReference()
+
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
-        referenceNumber: (testData.docRef = await generateDocumentReference()),
+        referenceNumber: this.docRef,
         lastUpdated: new Date().toISOString(),
         partTwo: {
           decision: {},
@@ -12,43 +16,31 @@ describe('BTMS sends a DecisionNotification for a Refusal decision on a MRN', fu
       })
     )
 
-    await waitForDataInAPI(testData.docRef, 'IPAFFS')
+    await waitForDataInAPI(this.docRef, 'IPAFFS')
 
-    newStep('Send Clearance Request')
-    testData.existingDecisions = await getExistingDecisions(testData.mrn)
+    testLogger.info('Send Clearance Request')
+    this.mrn = generateRandomMRN()
 
-    const builder = new SoapMessageBuilder()
+    await newClearanceRequest()
+      .addItem({
+        TaricCommodityCode: '0103911000',
+        Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef }],
+        Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
+      })
+      .withMRN(this.mrn)
+      .sendClearanceRequest()
+      .then(async (test) => {
+        testLogger.info('Wait for decision - should be a hold H01')
+        await test.waitForCheckDecision('H221', 'H01')
+        testLogger.info('Received decision with expected code H01')
+      })
 
-    await sendSoapRequest(
-      SUBMIT_CLEARANCE_REQUEST_ENDPOINT,
-      builder
-        .addItem({
-          TaricCommodityCode: '0103911000',
-          Documents: [
-            { DocumentCode: 'C640', DocumentReference: testData.docRef }
-          ],
-          Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
-        })
-        .buildMessage({
-          mrn: (testData.mrn = generateRandomMRN())
-        })
-    )
+    await waitForDataInAPI(this.mrn)
 
-    await waitForDataInAPI(testData.mrn)
-
-    newStep('Wait for decision - should be a hold H01')
-
-    let decisionXml = await waitForSpecificDecision(testData.mrn, 'H01')
-    testLogger.info('Received decision with expected code H01')
-    let codes = await extractDecisionCodes(decisionXml)
-    testLogger.info('Received decision codes:', { decisionCodes: codes })
-
-    newStep('Send updated IPAFFS notification with decision (refusal)')
-    testData.existingDecisions = await getExistingDecisions(testData.mrn)
-
+    testLogger.info('Send updated IPAFFS notification with decision (refusal)')
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
-        referenceNumber: testData.docRef,
+        referenceNumber: this.docRef,
         lastUpdated: new Date().toISOString(),
         version: 2,
         status: 'REJECTED',
@@ -67,14 +59,12 @@ describe('BTMS sends a DecisionNotification for a Refusal decision on a MRN', fu
       })
     )
 
-    await waitForDataInAPI(testData.docRef, 'IPAFFS', {
+    await waitForDataInAPI(this.docRef, 'IPAFFS', {
       importPreNotification: { version: 2 }
     })
 
-    newStep('Wait for decision - should be a Refusal N04')
-    decisionXml = await waitForSpecificDecision(testData.mrn, 'N04')
+    testLogger.info('Wait for decision - should be a Refusal N04')
+    await waitForSpecificDecision(this.mrn, 'N04')
     testLogger.info('Received decision with expected code N04')
-    codes = await extractDecisionCodes(decisionXml)
-    testLogger.info('Received decision codes:', { decisionCodes: codes })
   })
 })

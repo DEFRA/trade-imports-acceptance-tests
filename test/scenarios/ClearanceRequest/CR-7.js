@@ -1,6 +1,7 @@
 describe('BTMS receives a ClearanceRequest for a MRN with a single item with a multiple known IPAFFS DocumentReferences - CR-7', function () {
   it('', async function () {
     this.timeout(70000)
+
     testLogger.info('Send 2 IPAFFS notifications')
     this.docRef1 = await generateDocumentReference()
     this.docRef2 = await generateDocumentReference()
@@ -33,9 +34,7 @@ describe('BTMS receives a ClearanceRequest for a MRN with a single item with a m
     )
 
     testLogger.info('Send Clearance Request')
-    const builder = new SoapMessageBuilder()
-
-    builder
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '0103911000',
         Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef2 }],
@@ -46,23 +45,12 @@ describe('BTMS receives a ClearanceRequest for a MRN with a single item with a m
         Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef1 }],
         Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
       })
-
-    this.mrn = generateRandomMRN()
-    testLogger.info(this.mrn)
-    testLogger.info('Items count:', builder.items.length)
-    testLogger.info(JSON.stringify(builder.items, null, 2))
-    const soapEnvelope = builder.buildMessage({
-      mrn: this.mrn
-    })
-    testLogger.info(soapEnvelope)
-
-    await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelope)
-    testLogger.info('Sent clearance request')
-
-    testLogger.info('Wait for decision - should be a hold H01')
-    const decisionXml = await waitForSpecificDecision(this.mrn, 'H01')
-    testLogger.info('Received decision with expected code H01')
-    const codes = await extractDecisionCodes(decisionXml)
-    testLogger.info('Received decision codes:', { decisionCodes: codes })
+      .withMRN(generateRandomMRN())
+      .sendClearanceRequest()
+      .then(async (test) => {
+        testLogger.info('Wait for decision - should be a hold H01')
+        await test.waitForCheckDecision('H221', 'H01')
+        testLogger.info('Received decision with expected code H01')
+      })
   })
 })

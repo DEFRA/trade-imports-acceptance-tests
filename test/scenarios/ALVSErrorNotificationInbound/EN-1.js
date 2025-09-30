@@ -1,21 +1,16 @@
 describe('Inbound Errors', function () {
   describe('CDS sends an error notification', function () {
-    testCase(
-      'for a Decision Notification that had an invalid MRN',
-      async function () {
-        testLogger.info('Simulate CDS sending an error message to the gateway')
+    it('for a Decision Notification that had an invalid MRN', async function () {
+      this.timeout(70000)
 
-        const errorSoapMsg = new SoapMessageBuilder('error').buildMessage({
-          EntryReference: (testData.mrn = generateRandomMRN())
+      testLogger.info('Simulate CDS sending an error message to the gateway')
+
+      await newAlvsErrorRequest()
+        .withEntryReference(generateRandomMRN())
+        .sendErrorNotification()
+        .then(async (test) => {
+          await test.expectErrorRecorded('HMRCVAL101')
         })
-
-        await sendSoapRequest(SUBMIT_INBOUND_ALVS_ERROR_ENDPOINT, errorSoapMsg)
-
-        testLogger.info('Wait for error to be recorded')
-        const responseText = await waitForDataInAPI(testData.mrn)
-
-        expect(responseText).to.include('HMRCVAL101')
-      }
-    )
+    })
   })
 })

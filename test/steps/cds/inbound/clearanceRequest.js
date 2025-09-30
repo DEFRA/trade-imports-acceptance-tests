@@ -1,17 +1,15 @@
 import { SoapMessageBuilder } from '#utils/soapMessageBuilder.js'
 import { waitForDataInAPI } from '#utils/tradeimportsdatapiMessageHandler.js'
 
-export async function sendClearanceRequest(clearanceRequest) {
+// Internal helper function for fluent APIs
+async function sendClearanceRequest(clearanceRequest) {
   globalThis.testLogger.info('Sending ClearanceRequest')
   thisStepStartTime = Date.now()
   await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, clearanceRequest)
 }
 
-export function newClearanceRequest() {
-  return new SoapMessageBuilder()
-}
-
-export async function expectErrorResponse(
+// Internal helper function for fluent APIs
+async function expectErrorResponse(
   mrn,
   expectedErrorPattern,
   customErrorMessage = null
@@ -299,7 +297,7 @@ export class FluentClearanceRequestTest {
   }
 
   // Fluent interface for async operations
-  sendFluent() {
+  send() {
     return {
       send: () => this.sendClearanceRequest(),
       expectError: (expectedErrorPattern) =>
@@ -387,12 +385,86 @@ export class FluentClearanceRequestTest {
   }
 }
 
-export function newClearanceRequestTest() {
-  return new ClearanceRequestTestBuilder()
+export function newClearanceRequest() {
+  return new FluentClearanceRequestTest()
 }
 
-export function newFluentClearanceRequestTest() {
-  return new FluentClearanceRequestTest()
+// Fluent API for ALVS error notifications
+export class FluentAlvsErrorTest {
+  constructor() {
+    this.builder = new SoapMessageBuilder('error')
+    this.mrn = null
+    this.sent = false
+    this.overrides = {}
+  }
+
+  withEntryReference(entryReference) {
+    this.mrn = entryReference
+    this.overrides.EntryReference = entryReference
+    return this
+  }
+
+  withErrorCode(errorCode) {
+    this.overrides.ErrorCode = errorCode
+    return this
+  }
+
+  withErrorMessage(errorMessage) {
+    this.overrides.ErrorMessage = errorMessage
+    return this
+  }
+
+  withCorrelationId(correlationId) {
+    this.overrides.CorrelationId = correlationId
+    return this
+  }
+
+  async sendErrorNotification() {
+    if (this.sent) {
+      throw new Error('Error notification already sent')
+    }
+
+    const soapEnvelope = this.builder.buildMessage(this.overrides)
+
+    testLogger.info('Sending ALVS error notification')
+    const response = await sendSoapRequest(
+      SUBMIT_INBOUND_ALVS_ERROR_ENDPOINT,
+      soapEnvelope
+    )
+    this.sent = true
+
+    return {
+      response,
+      expectErrorRecorded: (expectedErrorCode) =>
+        this.expectErrorRecorded(expectedErrorCode),
+      waitForErrorRecorded: (expectedErrorCode) =>
+        this.waitForErrorRecorded(expectedErrorCode)
+    }
+  }
+
+  async expectErrorRecorded(expectedErrorCode) {
+    testLogger.info(
+      `Waiting for error ${expectedErrorCode} to be recorded for MRN: ${this.mrn}`
+    )
+    const responseText = await waitForDataInAPI(this.mrn)
+
+    if (!responseText.includes(expectedErrorCode)) {
+      throw new Error(
+        `Expected error code ${expectedErrorCode} not found in response: ${responseText}`
+      )
+    }
+
+    testLogger.info(`✓ Error ${expectedErrorCode} successfully recorded`)
+    return responseText
+  }
+
+  async waitForErrorRecorded(expectedErrorCode) {
+    return this.expectErrorRecorded(expectedErrorCode)
+  }
+
+  getMrn() {
+    return this.mrn
+  }
 }
 
 // Fluent API for finalisation messages
@@ -485,8 +557,12 @@ export class FluentFinalisationTest {
   }
 }
 
-export function newFluentFinalisationTest() {
+export function newFinalisationRequest() {
   return new FluentFinalisationTest()
+}
+
+export function newAlvsErrorRequest() {
+  return new FluentAlvsErrorTest()
 }
 
 // Standalone function for waiting for decisions

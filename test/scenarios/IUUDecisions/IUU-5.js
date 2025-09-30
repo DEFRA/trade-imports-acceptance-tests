@@ -22,7 +22,7 @@ describe('BTMS receives an IPAFFS decision - IUU No Need to inspect (IUUNA) - IU
     testLogger.info('✓ IPAFFS notification sent successfully')
 
     testLogger.info('Send Clearance Request')
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '1601009104',
         ItemNumber: 1,

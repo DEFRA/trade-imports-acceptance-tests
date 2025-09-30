@@ -3,7 +3,7 @@ describe('BTMS receives an IPAFFS Notification that does not have an associated 
     this.timeout(70000)
     testLogger.info('Send IPAFFS notification')
     this.docRef = await generateDocumentReference()
-    sendIpaffsMessage(
+    await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
         referenceNumber: this.docRef,
         lastUpdated: new Date().toISOString(),

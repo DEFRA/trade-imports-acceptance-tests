@@ -17,7 +17,7 @@ describe('BTMS receives an IPAFFS message to change the status of an existing CH
     )
     testLogger.info('✓ IPAFFS notification sent successfully')
 
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '0103911000',
         Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef }],

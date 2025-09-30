@@ -21,6 +21,8 @@ import {
 } from './utils/waitForDecision.js'
 import { waitForDataInAPI } from './utils/tradeimportsdatapiMessageHandler.js'
 import { sendIpaffsMessage } from './utils/ipaffsMessageHandler.js'
+import { SoapMessageBuilder } from './utils/soapMessageBuilder.js'
+import { sendSoapRequest } from './utils/soapMessageHandler.js'
 
 export default {
   fs,

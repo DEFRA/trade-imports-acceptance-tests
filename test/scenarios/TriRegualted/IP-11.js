@@ -57,7 +57,7 @@ describe('BTMS receives a ClearanceRequest for a MRN that is tri-regulated (CHED
     )
 
     // Send a Clearance request
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '0709601000',
         GoodsDescription: 'Sweet peppers',

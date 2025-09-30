@@ -5,20 +5,20 @@ import { extractDecisionCodes } from './decisionParser.js'
 import { waitForDataInAPI } from './tradeimportsdatapiMessageHandler.js'
 
 export async function getExistingDecisions(mrn) {
-  const url = `${BASE_URL_TRADE_IMPORTS_DECISION_COMPARER}/decisions/${mrn}`
+  const url = `${BASE_URL_TRADE_IMPORTS_CDS_SIMULATOR}/decision-notifications?mrn=${mrn}`
 
   const resp = await request(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: COMPARER_AUTHORIZATION_HEADER
+      Authorization: CDS_SIMULATOR_AUTHORIZATION_HEADER
     }
   })
 
   const body = await resp.body.text()
   const data = JSON.parse(body)
 
-  return data.btmsDecision?.decisions ?? []
+  return data ?? []
 }
 
 export async function waitForDecision(
@@ -30,7 +30,7 @@ export async function waitForDecision(
   if (!Array.isArray(existingDecisions)) {
     existingDecisions = await getExistingDecisions(mrn)
   }
-  const url = `${BASE_URL_TRADE_IMPORTS_DECISION_COMPARER}/decisions/${mrn}`
+  const url = `${BASE_URL_TRADE_IMPORTS_CDS_SIMULATOR}/decision-notifications?mrn=${mrn}`
 
   const knownCreated = new Set(existingDecisions.map((d) => d.created))
 
@@ -48,7 +48,7 @@ export async function waitForDecision(
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-              Authorization: COMPARER_AUTHORIZATION_HEADER
+              Authorization: CDS_SIMULATOR_AUTHORIZATION_HEADER
             }
           })
 
@@ -61,7 +61,7 @@ export async function waitForDecision(
           }
 
           const data = JSON.parse(lastResponseText)
-          const decisions = data.btmsDecision?.decisions ?? []
+          const decisions = data ?? []
 
           const newDecisions = decisions.filter(
             (d) => !knownCreated.has(d.created)
@@ -106,7 +106,7 @@ export async function waitForSpecificDecision(
   timeout = TIMEOUT_MS,
   interval = POLL_INTERVAL_MS
 ) {
-  const url = `${BASE_URL_TRADE_IMPORTS_DECISION_COMPARER}/decisions/${mrn}`
+  const url = `${BASE_URL_TRADE_IMPORTS_CDS_SIMULATOR}/decision-notifications?mrn=${mrn}`
 
   testLogger.info(
     `Starting to wait for decision code ${expectedDecisionCode} for MRN: ${mrn}`
@@ -121,7 +121,7 @@ export async function waitForSpecificDecision(
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: COMPARER_AUTHORIZATION_HEADER
+            Authorization: CDS_SIMULATOR_AUTHORIZATION_HEADER
           }
         })
 
@@ -131,7 +131,7 @@ export async function waitForSpecificDecision(
         }
 
         const data = JSON.parse(await resp.body.text())
-        const decisions = data.btmsDecision?.decisions ?? []
+        const decisions = data ?? []
 
         testLogger.info(
           `Found ${decisions.length} total decisions for MRN: ${mrn}`
@@ -183,7 +183,7 @@ export async function waitForSpecificCheckDecision(
   timeout = TIMEOUT_MS,
   interval = POLL_INTERVAL_MS
 ) {
-  const url = `${BASE_URL_TRADE_IMPORTS_DECISION_COMPARER}/decisions/${mrn}`
+  const url = `${BASE_URL_TRADE_IMPORTS_CDS_SIMULATOR}/decision-notifications?mrn=${mrn}`
 
   testLogger.info(
     `Starting to wait for check code ${expectedCheckCode} with decision code ${expectedDecisionCode} for MRN: ${mrn}`
@@ -198,7 +198,7 @@ export async function waitForSpecificCheckDecision(
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: COMPARER_AUTHORIZATION_HEADER
+            Authorization: CDS_SIMULATOR_AUTHORIZATION_HEADER
           }
         })
 
@@ -208,7 +208,7 @@ export async function waitForSpecificCheckDecision(
         }
 
         const data = JSON.parse(await resp.body.text())
-        const decisions = data.btmsDecision?.decisions ?? []
+        const decisions = data ?? []
 
         testLogger.info(
           `Found ${decisions.length} total decisions for MRN: ${mrn}`

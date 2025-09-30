@@ -1,12 +1,14 @@
 describe('BTMS sends a DecisionNotification for a Data Error decision on a MRN - DN-5', function () {
   it('', async function () {
+    this.timeout(70000)
+
     testLogger.info(
       'Send IPAFFS notification with decision (Data Error, Acceptable for Transit)'
     )
 
     this.docRef = await generateDocumentReference()
 
-    sendIpaffsMessage(
+    await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
         referenceNumber: this.docRef,
         lastUpdated: new Date().toISOString(),
@@ -23,25 +25,18 @@ describe('BTMS sends a DecisionNotification for a Data Error decision on a MRN -
     )
 
     testLogger.info('Send Clearance Request')
-    const builder = new SoapMessageBuilder()
-
-    builder.addItem({
-      TaricCommodityCode: '0103911000',
-      Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef }],
-      Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
-    })
-
-    this.mrn = generateRandomMRN()
-    const soapEnvelope = builder.buildMessage({
-      mrn: this.mrn
-    })
-
-    await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelope)
-    testLogger.info('Wait for decision - should be a hold E03')
-
-    const decisionXml = await waitForSpecificDecision(this.mrn, 'E03')
-    testLogger.info('Received decision with expected code E03')
-    const codes = await extractDecisionCodes(decisionXml)
-    testLogger.info('Received decision codes:', { decisionCodes: codes })
+    await newClearanceRequest()
+      .addItem({
+        TaricCommodityCode: '0103911000',
+        Documents: [{ DocumentCode: 'C640', DocumentReference: this.docRef }],
+        Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
+      })
+      .withMRN(generateRandomMRN())
+      .sendClearanceRequest()
+      .then(async (test) => {
+        testLogger.info('Wait for decision - should be a hold E03')
+        await test.waitForDecision('E03')
+        testLogger.info('Received decision with expected code E03')
+      })
   })
 })

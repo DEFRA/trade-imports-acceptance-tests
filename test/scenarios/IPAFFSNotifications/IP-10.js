@@ -23,7 +23,7 @@ describe('BTMS receives a ClearanceRequest for a MRN with a HMI GMS Check Only -
     testLogger.info('✓ A new IPAFFS notification sent successfully')
 
     // Send a Clearance request
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '0803101000',
         GoodsDescription: 'Musa sp.',

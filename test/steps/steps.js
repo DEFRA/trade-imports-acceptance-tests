@@ -1,10 +1,7 @@
 import {
   newClearanceRequest,
-  sendClearanceRequest,
-  expectErrorResponse,
-  newClearanceRequestTest,
-  newFluentClearanceRequestTest,
-  newFluentFinalisationTest,
+  newFinalisationRequest,
+  newAlvsErrorRequest,
   waitForDecision,
   executeClearanceRequestTest
 } from '#steps/cds/inbound/clearanceRequest.js'
@@ -14,11 +11,8 @@ import {
 } from '#utils/waitForDecision.js'
 
 globalThis.newClearanceRequest = newClearanceRequest
-globalThis.sendClearanceRequest = sendClearanceRequest
-globalThis.expectErrorResponse = expectErrorResponse
-globalThis.newClearanceRequestTest = newClearanceRequestTest
-globalThis.newFluentClearanceRequestTest = newFluentClearanceRequestTest
-globalThis.newFluentFinalisationTest = newFluentFinalisationTest
+globalThis.newFinalisationRequest = newFinalisationRequest
+globalThis.newAlvsErrorRequest = newAlvsErrorRequest
 globalThis.waitForDecision = waitForDecision
 globalThis.waitForSpecificCheckDecision = waitForSpecificCheckDecision
 globalThis.waitForSpecificCheckDecisionWithChedRef =

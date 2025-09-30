@@ -40,7 +40,7 @@ describe('BTMS receives an IPAFFS CHED-PP that requires PHSI inspection only - I
     testLogger.info('✓ A new IPAFFS notification sent successfully')
 
     // Send a Clearance request
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '8432100000',
         GoodsDescription: 'Farm Machinery',

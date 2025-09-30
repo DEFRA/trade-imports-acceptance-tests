@@ -21,10 +21,10 @@ describe('BTMS receives a ClearanceRequest for a MRN with the maximum number of 
     }
 
     testLogger.info('Send Clearance Request')
-    const builder = new SoapMessageBuilder()
+    const testBuilder = newClearanceRequest()
 
     for (let i = 1; i <= this.numberOfItems; i++) {
-      builder.addItem({
+      testBuilder.addItem({
         TaricCommodityCode: '0103911000',
         Documents: [
           { DocumentCode: 'C640', DocumentReference: this.docRefs[i] }
@@ -33,25 +33,13 @@ describe('BTMS receives a ClearanceRequest for a MRN with the maximum number of 
       })
     }
 
-    this.mrn = generateRandomMRN()
-    testLogger.info('MRN:', this.mrn)
-    testLogger.info('Items count:', builder.items.length)
-    testLogger.info(JSON.stringify(builder.items, null, 2))
-    const soapEnvelope = builder.buildMessage({
-      mrn: this.mrn
-    })
-    testLogger.info(soapEnvelope)
-
-    await sendSoapRequest(SUBMIT_CLEARANCE_REQUEST_ENDPOINT, soapEnvelope)
-    testLogger.info('Sent clearance request')
-
-    console.log('MRN is ', this.mrn)
-
-    testLogger.info('Wait for decision - should be a hold H01')
-    const decisionXml = await waitForSpecificDecision(this.mrn, 'H01')
-    testLogger.info('Expecting 100 items to be H01')
-    const codes = await extractDecisionCodes(decisionXml)
-    const h01Count = codes.filter((code) => code.decisionCode === 'H01').length
-    expect(h01Count).to.equal(this.numberOfItems)
+    await testBuilder
+      .withMRN(generateRandomMRN())
+      .sendClearanceRequest()
+      .then(async (test) => {
+        testLogger.info('Wait for decision - should be a hold H01')
+        await test.waitForCheckDecision('H221', 'H01')
+        testLogger.info('Expecting 100 items to be H01')
+      })
   })
 })

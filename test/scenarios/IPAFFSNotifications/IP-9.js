@@ -24,7 +24,7 @@ describe('BTMS receives an IPAFFS CHED-PP that requires both a PHSI & HMI (GMS) 
     testLogger.info('✓ A new IPAFFS notification sent successfully')
 
     // Send a Clearance request
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '0910993100',
         GoodsDescription: 'Wild thyme (Thymus serpyllum)',

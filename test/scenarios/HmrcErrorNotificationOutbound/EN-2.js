@@ -6,7 +6,7 @@ describe('BTMS receives a ClearanceRequest with no EntryVersionNumber - EN-2', f
     this.documentCode = 'C640'
     this.correlationId = Math.floor(Math.random() * 1e12)
 
-    await newFluentClearanceRequestTest()
+    await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '0103911000',
         Documents: [
@@ -19,7 +19,7 @@ describe('BTMS receives a ClearanceRequest with no EntryVersionNumber - EN-2', f
       })
       .withEntryVersionNumber(null)
       .withCorrelationId(this.correlationId)
-      .sendFluent()
+      .send()
       .expectError({
         code: 'ALVSVAL153',
         messageTemplate:

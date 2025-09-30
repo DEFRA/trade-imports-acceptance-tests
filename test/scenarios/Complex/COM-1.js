@@ -41,7 +41,7 @@ describe('Multiple CDS MRNs - in a GVMS EU crossing we will have multiple CDS MR
     const mrns = [generateRandomMRN(), generateRandomMRN(), generateRandomMRN()]
 
     for (const mrn of mrns) {
-      await newFluentClearanceRequestTest()
+      await newClearanceRequest()
         .addItem({
           TaricCommodityCode: '8432100000',
           GoodsDescription: 'Farm Machinery',
