@@ -9,6 +9,7 @@ describe('CHED-PP BTMS receives a message to change the status of an existing CH
     })
     this.mrn = generateRandomMRN()
 
+    // 1. NEW CHEDPP created
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDPP.json', {
         version: 1,
@@ -44,12 +45,31 @@ describe('CHED-PP BTMS receives a message to change the status of an existing CH
       })
     testLogger.info('✓ A clearance request sent successfully')
 
+    // 2. CHED moved to IN_PROGRESS
+    await sendIpaffsMessage(
+      loadIPAFFSJson('CHEDPP.json', {
+        version: 2,
+        referenceNumber: this.docRef,
+        status: 'IN_PROGRESS',
+        lastUpdated: new Date().toISOString(),
+        partTwo: {
+          decision: {},
+          inspectionRequired: 'Required'
+        }
+      })
+    )
+
+    await waitForDataInAPI(this.docRef, 'IPAFFS', {
+      importPreNotification: { version: 2, status: 'IN_PROGRESS' }
+    })
+    await waitForSpecificCheckDecision(this.mrn, 'H219', 'H02')
+
     // Reject one commodity and accept other
     testLogger.info('✓ IPAFFS notification sending partially reject')
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDPP.json', {
         referenceNumber: this.docRef,
-        version: 2,
+        version: 3,
         status: 'PARTIALLY_REJECTED',
         lastUpdated: new Date().toISOString(),
         splitConsignment: {
