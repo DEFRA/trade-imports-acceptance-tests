@@ -19,5 +19,9 @@ describe('BTMS receives a ClearanceRequest where the DocumentCode does not map t
       })
       .send()
       .expectError(this.expectedError, 'Expected wrong Department Code error')
+      .waitForErrorInCDS([
+        { errorCode: 'ALVSVAL320', errorMessage: this.expectedError },
+        { errorCode: 'ALVSVAL321', errorMessage: '' }
+      ])
   })
 })

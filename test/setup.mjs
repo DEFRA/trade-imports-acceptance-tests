@@ -20,6 +20,7 @@ import * as rawTestDataFunctions from './utils/testDataFunctions.js'
 import * as rawDecisionParser from './utils/decisionParser.js'
 import * as rawSendSoapRequest from './utils/soapMessageHandler.js'
 import * as rawWaitForDecision from './utils/waitForDecision.js'
+import * as rawWaitForError from './utils/waitForError.js'
 import * as rawTradeimportsdatapiMessageHandler from './utils/tradeimportsdatapiMessageHandler.js'
 import * as rawIpaffsMessageHandler from './utils/ipaffsMessageHandler.js'
 import * as rawReportingClient from './utils/reportingClient.js'
@@ -41,6 +42,7 @@ function initGlobals() {
     SoapMessageBuilder: rawSoapMessageBuilder,
     sendSoapRequest: rawSendSoapRequest,
     waitForDecision: rawWaitForDecision,
+    waitForError: rawWaitForError,
     tradeimportsdatapiMessageHandler: rawTradeimportsdatapiMessageHandler,
     reportingClient: rawReportingClient
   })

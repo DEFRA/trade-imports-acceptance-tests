@@ -4,6 +4,8 @@ describe('BTMS receives a FinalisationNotification for an MRN which is already c
 
     this.docRef = await generateDocumentReference()
     this.mrn = generateRandomMRN()
+    this.expectedError =
+      'No finalisation has been initiated for this EntryVersionNumber'
 
     testLogger.info('Send initial IPAFFS notification')
     await sendIpaffsMessage(
@@ -87,5 +89,13 @@ describe('BTMS receives a FinalisationNotification for an MRN which is already c
       .then((test) => test.expectFinalisationState('1', 15000))
 
     testLogger.info('Finalisation response:', { responseText })
+
+    // Wait for error in CDS simulator using standalone function
+    await waitForErrorInCDS(this.mrn, [
+      {
+        errorCode: 'ALVSVAL403',
+        errorMessage: `The final state was received for EntryReference ${this.mrn} EntryVersionNumber 1 but the import declaration was cancelled.`
+      }
+    ])
   })
 })

@@ -1,5 +1,6 @@
 import { SoapMessageBuilder } from '#utils/soapMessageBuilder.js'
 import { waitForDataInAPI } from '#utils/tradeimportsdatapiMessageHandler.js'
+import { assert } from 'chai'
 
 // Internal helper function for fluent APIs
 async function sendClearanceRequest(clearanceRequest) {
@@ -135,6 +136,16 @@ export class ClearanceRequestTestBuilder {
       expectedDecisionCode,
       expectedChedReference
     )
+  }
+
+  async waitForSpecificError(expectedErrorCode) {
+    if (!this.sent) {
+      throw new Error(
+        'Must call sendClearanceRequest() before waitForSpecificError()'
+      )
+    }
+
+    return globalThis.waitForSpecificError(this.mrn, expectedErrorCode)
   }
 
   async expectErrorResponse(expectedErrorPattern, customErrorMessage = null) {
@@ -300,10 +311,163 @@ export class FluentClearanceRequestTest {
   send() {
     return {
       send: () => this.sendClearanceRequest(),
-      expectError: (expectedErrorPattern) =>
-        this.sendClearanceRequest().then(() =>
-          this.expectErrorResponse(expectedErrorPattern)
-        ),
+      expectError: (expectedErrorPattern) => {
+        const expectErrorPromise = this.sendClearanceRequest().then(
+          async () => {
+            await this.expectErrorResponse(expectedErrorPattern)
+          }
+        )
+
+        // Create a thenable object that supports method chaining
+        return Object.assign(expectErrorPromise, {
+          waitForErrorInCDS: (expectedErrors, expectedErrorContent) =>
+            expectErrorPromise.then(async () => {
+              // Handle both object format ({errorCode, errorMessage}) and legacy format (codes, content)
+              let errorCodesArray = []
+              let errorContentArray = []
+
+              if (
+                Array.isArray(expectedErrors) &&
+                expectedErrors.length > 0 &&
+                typeof expectedErrors[0] === 'object' &&
+                'errorCode' in expectedErrors[0]
+              ) {
+                // New object format: [{errorCode: 'ALVSVAL320', errorMessage: 'msg'}, ...]
+                errorCodesArray = expectedErrors
+                  .map((err) => err.errorCode)
+                  .filter((code) => code && code !== '')
+                errorContentArray = expectedErrors
+                  .map((err) => err.errorMessage)
+                  .filter((msg) => msg && msg !== '')
+              } else {
+                // Legacy format: ('ALVSVAL320', 'message')
+                errorCodesArray = Array.isArray(expectedErrors)
+                  ? expectedErrors
+                  : [expectedErrors]
+                errorContentArray = expectedErrorContent
+                  ? Array.isArray(expectedErrorContent)
+                    ? expectedErrorContent
+                    : [expectedErrorContent]
+                  : []
+              }
+
+              if (errorCodesArray.length === 0) {
+                throw new Error('At least one error code must be provided')
+              }
+
+              let errorXml = null
+              // Wait for any of the specified error codes
+              for (const errorCode of errorCodesArray) {
+                try {
+                  errorXml = await this.builder.waitForSpecificError(errorCode)
+                  break // Found one, stop looking
+                } catch (err) {
+                  // Continue to next error code if this one times out
+                  continue
+                }
+              }
+
+              // Validate that we found any error code
+              if (!errorXml) {
+                throw new Error(
+                  `None of the expected error codes [${errorCodesArray.join(', ')}] were found in CDS notifications`
+                )
+              }
+
+              // Validate error codes and messages if provided
+              if (expectedErrors || expectedErrorContent) {
+                const hasAnyErrorCode = errorCodesArray.some((code) =>
+                  errorXml.includes(code)
+                )
+                assert(
+                  hasAnyErrorCode,
+                  `Expected error XML to contain one of error codes [${errorCodesArray.join(', ')}]`
+                )
+
+                // Enhanced validation for object format: check specific code-message pairs
+                if (
+                  Array.isArray(expectedErrors) &&
+                  expectedErrors.length > 0 &&
+                  typeof expectedErrors[0] === 'object' &&
+                  'errorCode' in expectedErrors[0]
+                ) {
+                  // Object format validation: check if XML contains any valid code-message pair
+                  const hasValidPair = expectedErrors.some((errorObj) => {
+                    const hasCode = errorXml.includes(errorObj.errorCode)
+                    const hasMessage =
+                      !errorObj.errorMessage ||
+                      errorObj.errorMessage === '' ||
+                      errorXml.includes(errorObj.errorMessage)
+                    return hasCode && hasMessage
+                  })
+
+                  if (!hasValidPair) {
+                    const foundCodes = errorCodesArray.filter((code) =>
+                      errorXml.includes(code)
+                    )
+                    const foundMessages = errorContentArray.filter(
+                      (msg) => msg && msg !== '' && errorXml.includes(msg)
+                    )
+
+                    let errorMsg = `Expected error XML to contain a valid error code-message pair.\n`
+                    errorMsg += `- Expected pairs: ${expectedErrors.map((e) => `{code: '${e.errorCode}', message: '${e.errorMessage}'}`).join(', ')}\n`
+                    errorMsg += `- Found codes: [${foundCodes.join(', ')}]\n`
+                    errorMsg += `- Found messages: [${foundMessages.join(', ')}]\n`
+                    errorMsg += `- Partial XML: ${errorXml.substring(0, 500)}...`
+
+                    assert(false, errorMsg)
+                  }
+                } else {
+                  // Legacy format validation: check both codes and any of the messages together
+                  const hasExpectedError = errorCodesArray.some((code) => {
+                    return (
+                      errorXml.includes(code) &&
+                      errorContentArray.some(
+                        (errorMsg) =>
+                          errorMsg === '' || errorXml.includes(errorMsg)
+                      )
+                    )
+                  })
+
+                  if (!hasExpectedError) {
+                    const foundCodes = errorCodesArray.filter((code) =>
+                      errorXml.includes(code)
+                    )
+                    const foundMessages = errorContentArray.filter(
+                      (message) =>
+                        message && message !== '' && errorXml.includes(message)
+                    )
+
+                    let errorMsg = `Expected error XML to contain at least one error code AND one error message.\n`
+                    errorMsg += `- Expected codes: [${errorCodesArray.join(', ')}]\n`
+                    errorMsg += `- Found codes: [${foundCodes.join(', ')}]\n`
+                    errorMsg += `- Expected messages: [${errorContentArray.map((msg) => `'${msg}'`).join(', ')}]\n`
+                    errorMsg += `- Found messages: [${foundMessages.map((msg) => `'${msg}'`).join(', ')}]\n`
+                    errorMsg += `- Partial XML: ${errorXml.substring(0, 500)}...`
+
+                    assert(false, errorMsg)
+                  }
+                }
+
+                // Additional validation for complete error message structure
+                globalThis.testLogger.info('Validating error message in XML:', {
+                  errorCodes: errorCodesArray,
+                  errorMessages: errorContentArray,
+                  xmlLength: errorXml.length,
+                  foundCodes: errorCodesArray.filter((code) =>
+                    errorXml.includes(code)
+                  ),
+                  foundMessages: errorContentArray.filter(
+                    (message) =>
+                      message && message !== '' && errorXml.includes(message)
+                  )
+                })
+              }
+
+              return errorXml
+            })
+        })
+      },
       expectDecision: (expectedDecisionCode) =>
         this.sendClearanceRequest().then(() =>
           this.expectDecision(expectedDecisionCode)
@@ -331,7 +495,182 @@ export class FluentClearanceRequestTest {
             expectedDecisionCode,
             expectedChedReference
           )
-        )
+        ),
+      waitForSpecificError: (expectedErrorCode) =>
+        this.sendClearanceRequest().then(() =>
+          this.builder.waitForSpecificError(expectedErrorCode)
+        ),
+      expectErrorAndWait: (expectedErrorPattern, expectedErrorCode) =>
+        this.sendClearanceRequest().then(async () => {
+          await this.expectErrorResponse(expectedErrorPattern)
+          const errorXml =
+            await this.builder.waitForSpecificError(expectedErrorCode)
+          return { errorXml, expectedErrorPattern }
+        }),
+      waitForErrorInCDS: (expectedErrors, expectedErrorContent) =>
+        this.sendClearanceRequest().then(async () => {
+          // Handle both object format ({errorCode, errorMessage}) and legacy format (codes, content)
+          let errorCodesArray = []
+          let errorContentArray = []
+          let errorObjects = null
+
+          // Detect if this is the object format when called with only one parameter
+          if (
+            arguments.length === 1 &&
+            Array.isArray(expectedErrors) &&
+            expectedErrors.length > 0 &&
+            typeof expectedErrors[0] === 'object' &&
+            'errorCode' in expectedErrors[0]
+          ) {
+            // Direct object format: waitForErrorInCDS([{errorCode: 'ALVSVAL303', errorMessage: 'msg'}])
+            errorObjects = expectedErrors
+            errorCodesArray = expectedErrors
+              .map((err) => err.errorCode)
+              .filter((code) => code && code !== '')
+            errorContentArray = expectedErrors
+              .map((err) => err.errorMessage)
+              .filter((msg) => msg && msg !== '')
+          } else if (
+            typeof expectedErrors === 'string' &&
+            typeof expectedErrorContent === 'undefined'
+          ) {
+            // Legacy format: waitForErrorInCDS('ALVSVAL303')
+            errorCodesArray = [expectedErrors]
+            errorContentArray = []
+          } else if (
+            Array.isArray(expectedErrors) &&
+            expectedErrors.length > 0 &&
+            typeof expectedErrors[0] === 'object' &&
+            'errorCode' in expectedErrors[0]
+          ) {
+            // Object format with legacy signature: waitForErrorInCDS([{errorCode: 'ALVSVAL320', errorMessage: 'msg'}], content)
+            errorObjects = expectedErrors
+            errorCodesArray = expectedErrors
+              .map((err) => err.errorCode)
+              .filter((code) => code && code !== '')
+            errorContentArray = expectedErrors
+              .map((err) => err.errorMessage)
+              .filter((msg) => msg && msg !== '')
+          } else {
+            // Legacy format: waitForErrorInCDS('ALVSVAL320', 'message')
+            errorCodesArray = Array.isArray(expectedErrors)
+              ? expectedErrors
+              : [expectedErrors]
+            errorContentArray = expectedErrorContent
+              ? Array.isArray(expectedErrorContent)
+                ? expectedErrorContent
+                : [expectedErrorContent]
+              : []
+          }
+
+          if (errorCodesArray.length === 0) {
+            throw new Error('At least one error code must be provided')
+          }
+
+          let errorXml = null
+          // Wait for any of the specified error codes
+          for (const errorCode of errorCodesArray) {
+            try {
+              errorXml = await this.builder.waitForSpecificError(errorCode)
+              break // Found one, stop looking
+            } catch (err) {
+              // Continue to next error code if this one times out
+              continue
+            }
+          }
+
+          // Validate that we found any error code
+          if (!errorXml) {
+            throw new Error(
+              `None of the expected error codes [${errorCodesArray.join(', ')}] were found in CDS notifications`
+            )
+          }
+
+          // Validate error codes and messages if provided
+          if (expectedErrors || expectedErrorContent) {
+            const hasAnyErrorCode = errorCodesArray.some((code) =>
+              errorXml.includes(code)
+            )
+            assert(
+              hasAnyErrorCode,
+              `Expected error XML to contain one of error codes [${errorCodesArray.join(', ')}]`
+            )
+
+            // Enhanced validation for object format: check specific code-message pairs
+            if (errorObjects) {
+              // Object format validation: check if XML contains any valid code-message pair
+              const hasValidPair = errorObjects.some((errorObj) => {
+                const hasCode = errorXml.includes(errorObj.errorCode)
+                const hasMessage =
+                  !errorObj.errorMessage ||
+                  errorObj.errorMessage === '' ||
+                  errorXml.includes(errorObj.errorMessage)
+                return hasCode && hasMessage
+              })
+
+              if (!hasValidPair) {
+                const foundCodes = errorCodesArray.filter((code) =>
+                  errorXml.includes(code)
+                )
+                const foundMessages = errorContentArray.filter(
+                  (msg) => msg && msg !== '' && errorXml.includes(msg)
+                )
+
+                let errorMsg = `Expected error XML to contain a valid error code-message pair.\n`
+                errorMsg += `- Expected pairs: ${errorObjects.map((e) => `{code: '${e.errorCode}', message: '${e.errorMessage}'}`).join(', ')}\n`
+                errorMsg += `- Found codes: [${foundCodes.join(', ')}]\n`
+                errorMsg += `- Found messages: [${foundMessages.join(', ')}]\n`
+                errorMsg += `- Partial XML: ${errorXml.substring(0, 500)}...`
+
+                assert(false, errorMsg)
+              }
+            } else {
+              // Legacy format validation: check both codes and any of the messages together
+              const hasExpectedError = errorCodesArray.some((code) => {
+                return (
+                  errorXml.includes(code) &&
+                  errorContentArray.some(
+                    (errorMsg) => errorMsg === '' || errorXml.includes(errorMsg)
+                  )
+                )
+              })
+
+              if (!hasExpectedError) {
+                const foundCodes = errorCodesArray.filter((code) =>
+                  errorXml.includes(code)
+                )
+                const foundMessages = errorContentArray.filter(
+                  (message) =>
+                    message && message !== '' && errorXml.includes(message)
+                )
+
+                let errorMsg = `Expected error XML to contain at least one error code AND one error message.\n`
+                errorMsg += `- Expected codes: [${errorCodesArray.join(', ')}]\n`
+                errorMsg += `- Found codes: [${foundCodes.join(', ')}]\n`
+                errorMsg += `- Expected messages: [${errorContentArray.map((msg) => `'${msg}'`).join(', ')}]\n`
+                errorMsg += `- Found messages: [${foundMessages.map((msg) => `'${msg}'`).join(', ')}]\n`
+                errorMsg += `- Partial XML: ${errorXml.substring(0, 500)}...`
+
+                assert(false, errorMsg)
+              }
+            }
+
+            // Additional validation for complete error message structure
+            globalThis.testLogger.info('Validating error message in XML:', {
+              errorCodes: errorCodesArray,
+              errorMessages: errorContentArray,
+              xmlLength: errorXml.length,
+              foundCodes: errorCodesArray.filter((code) =>
+                errorXml.includes(code)
+              ),
+              foundMessages: errorContentArray.filter((message) =>
+                errorXml.includes(message)
+              )
+            })
+          }
+
+          return errorXml
+        })
     }
   }
 
@@ -567,11 +906,7 @@ export function newAlvsErrorRequest() {
 
 // Standalone function for waiting for decisions
 export async function waitForDecision(mrn, expectedDecisionCode) {
-  const decisionXml = await globalThis.waitForSpecificDecision(
-    mrn,
-    expectedDecisionCode
-  )
-  return decisionXml
+  return await globalThis.waitForSpecificDecision(mrn, expectedDecisionCode)
 }
 
 // Helper function for true fluent chaining with async methods

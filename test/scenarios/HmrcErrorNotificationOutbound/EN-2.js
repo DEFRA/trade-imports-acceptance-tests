@@ -26,5 +26,12 @@ describe('BTMS receives a ClearanceRequest with no EntryVersionNumber - EN-2', f
           'EntryVersionNumber has not been provided for the import document. Provide an EntryVersionNumber. Your request with correlation ID {correlationId} has been terminated.',
         params: { correlationId: this.correlationId }
       })
+      .waitForErrorInCDS([
+        {
+          errorCode: 'ALVSVAL153',
+          errorMessage:
+            'EntryVersionNumber has not been provided for the import document'
+        }
+      ])
   })
 })

@@ -29,5 +29,8 @@ describe('BTMS receives a duplicate ClearanceRequest (same MRN, EntryVersionNumb
         this.expectedError,
         'Expected duplicate mrn/EntryRefernce error'
       )
+      .waitForErrorInCDS([
+        { errorCode: 'ALVSVAL303', errorMessage: this.expectedError }
+      ])
   })
 })

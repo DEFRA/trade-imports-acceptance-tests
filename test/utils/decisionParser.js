@@ -1,25 +1,11 @@
-import { XMLParser } from 'fast-xml-parser'
-
-function stripPrefixes(obj, prefix = 'NS2:') {
-  if (typeof obj !== 'object' || obj === null) return obj
-  if (Array.isArray(obj)) {
-    return obj.map((item) => stripPrefixes(item, prefix))
-  }
-  const newObj = {}
-  for (const [key, val] of Object.entries(obj)) {
-    const newKey = key.startsWith(prefix) ? key.slice(prefix.length) : key
-    newObj[newKey] = stripPrefixes(val, prefix)
-  }
-  return newObj
-}
+import {
+  createXmlParser,
+  stripPrefixes,
+  decodeHtmlEntities
+} from './xmlUtils.js'
 
 export function extractDecisionCodes(xmlString) {
-  const parser = new XMLParser({
-    ignoreAttributes: false,
-    ignoreDeclaration: true,
-    parseTagValue: false
-  })
-
+  const parser = createXmlParser()
   const parsed = parser.parse(xmlString)
 
   // Try the new structure first: NS1:Envelope > NS1:Body > NS3:DecisionNotification > NS2:DecisionNotification
@@ -36,29 +22,15 @@ export function extractDecisionCodes(xmlString) {
       ]
     if (!innerEncodedXml) return []
 
-    const decodeHtmlEntities = (str) =>
-      str
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&quot;/g, '"')
-        .replace(/&apos;/g, "'")
-        .replace(/&amp;/g, '&')
-
     const decodedXmlString = decodeHtmlEntities(innerEncodedXml)
 
-    const innerParser = new XMLParser({
-      ignoreAttributes: false,
-      ignoreDeclaration: true,
-      parseTagValue: false,
-      ignoreNameSpace: false
-    })
-
+    const innerParser = createXmlParser(false)
     const innerParsedRaw = innerParser.parse(decodedXmlString)
-    decisionNotification = stripPrefixes(innerParsedRaw, 'NS2:')
-  } else {
-    // Strip prefixes for the new structure
-    decisionNotification = stripPrefixes(decisionNotification, 'NS2:')
+    decisionNotification = innerParsedRaw
   }
+
+  // Strip prefixes from decisionNotification regardless of which path was taken
+  decisionNotification = stripPrefixes(decisionNotification, 'NS2:')
 
   const items =
     decisionNotification?.DecisionNotification?.Item ||
