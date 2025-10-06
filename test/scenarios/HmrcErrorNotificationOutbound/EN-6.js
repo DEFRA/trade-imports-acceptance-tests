@@ -70,5 +70,32 @@ describe('BTMS receives a ClearanceRequest with many items. One item does not ha
           params: { itemNumber: 3, checkCode: '' }
         }
       ])
+    await waitForErrorInCDS(this.mrn, [
+      {
+        errorCode: 'ALVSVAL308',
+        errorMessage: `DocumentCode on item number 2 is invalid`
+      },
+      {
+        errorCode: 'ALVSVAL320',
+        errorMessage: `Document code is not appropriate for the check code requested on ItemNumber 2`
+      },
+      {
+        errorCode: 'ALVSVAL321',
+        errorMessage: `Check code H221 on ItemNumber 2 must have a document code`
+      },
+      {
+        errorCode: 'ALVSVAL311',
+        errorMessage: 'The CheckCode field on item number 3 must have a value'
+      },
+      {
+        errorCode: 'ALVSVAL320',
+        errorMessage:
+          'Document code C640 is not appropriate for the check code requested on ItemNumber 3'
+      },
+      {
+        errorCode: 'ALVSVAL321',
+        errorMessage: 'Check code on ItemNumber 3 must have a document code'
+      }
+    ])
   })
 })
