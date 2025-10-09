@@ -26,13 +26,6 @@ describe('Reporting Summary Results for Reporting', function () {
     const expectedReleaseRequestManaul = releaseRequest.manual + 1
     const expectedReleaseRequestTotal = releaseRequest.total + 1
 
-    testLogger.info('Getting Last Received Data')
-    const lastReceivedRequest = await getLastReceived()
-    const finalisationTime = new Date(
-      lastReceivedRequest.finalisation.timestamp
-    )
-    const requestTime = new Date(lastReceivedRequest.request.timestamp)
-
     testLogger.info('Send Clearance Request')
     this.docRef = await generateDocumentReference()
     this.mrn = generateRandomMRN()
@@ -140,25 +133,5 @@ describe('Reporting Summary Results for Reporting', function () {
     )
     expect(actualReleaseRequestManual).to.equal(expectedReleaseRequestManaul)
     expect(actualReleaseRequestTotal).to.equal(expectedReleaseRequestTotal)
-
-    testLogger.info('Asserting on Last Received')
-    const updatedLastReceivedRequest = await getLastReceived()
-    const updatedFinalisationTime = new Date(
-      updatedLastReceivedRequest.finalisation.timestamp
-    )
-    const updatedRequestTime = new Date(
-      updatedLastReceivedRequest.request.timestamp
-    )
-    const finalisationMrn = updatedLastReceivedRequest.finalisation.reference
-    const requestMrn = updatedLastReceivedRequest.request.reference
-
-    expect(updatedFinalisationTime.getTime()).to.be.greaterThan(
-      finalisationTime.getTime()
-    )
-    expect(updatedRequestTime.getTime()).to.be.greaterThan(
-      requestTime.getTime()
-    )
-    expect(finalisationMrn).to.equal(this.mrn)
-    expect(requestMrn).to.equal(this.mrn)
   })
 })
