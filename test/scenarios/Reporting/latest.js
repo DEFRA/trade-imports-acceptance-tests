@@ -15,14 +15,15 @@ describe('Reporting Latest Results for Reporting', function () {
         : 0
 
     const requestTime =
-      lastReceivedRequest.request && lastReceivedRequest.request.timestamp
-        ? new Date(lastReceivedRequest.request.timestamp).getTime()
+      lastReceivedRequest.clearanceRequest &&
+      lastReceivedRequest.clearanceRequest.timestamp
+        ? new Date(lastReceivedRequest.clearanceRequest.timestamp).getTime()
         : 0
 
     const notificationTime =
-      lastReceivedRequest.notification &&
-      lastReceivedRequest.notification.timestamp
-        ? new Date(lastReceivedRequest.notification.timestamp).getTime()
+      lastReceivedRequest.preNotification &&
+      lastReceivedRequest.preNotification.timestamp
+        ? new Date(lastReceivedRequest.preNotification.timestamp).getTime()
         : 0
 
     testLogger.info('Send Clearance Request')
@@ -83,17 +84,18 @@ describe('Reporting Latest Results for Reporting', function () {
     expect(updatedFinalisationReference).to.equal(this.mrn)
 
     const updatedRequestTime = new Date(
-      updatedLastReceivedRequest.request.timestamp
+      updatedLastReceivedRequest.clearanceRequest.timestamp
     )
-    const updatedRequestReference = updatedLastReceivedRequest.request.reference
+    const updatedRequestReference =
+      updatedLastReceivedRequest.clearanceRequest.reference
     expect(updatedRequestTime.getTime()).to.be.greaterThan(requestTime)
     expect(updatedRequestReference).to.equal(this.mrn)
 
     const updatedNotificationTime = new Date(
-      updatedLastReceivedRequest.notification.timestamp
+      updatedLastReceivedRequest.preNotification.timestamp
     )
     const updatedNotificationReference =
-      updatedLastReceivedRequest.notification.reference
+      updatedLastReceivedRequest.preNotification.reference
     expect(updatedNotificationTime.getTime()).to.be.greaterThan(
       notificationTime
     )
