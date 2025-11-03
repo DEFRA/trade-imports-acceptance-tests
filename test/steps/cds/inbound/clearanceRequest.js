@@ -178,6 +178,10 @@ export class ClearanceRequestTestBuilder {
     return decisionXml
   }
 
+  async waitForGmrCustomDeclaration(expectedGmr, expectedMrn) {
+    return globalThis.waitForGmrDeclaration(expectedGmr, expectedMrn)
+  }
+
   getMrn() {
     return this.mrn
   }
@@ -300,6 +304,11 @@ export class FluentClearanceRequestTest {
       expectedDecisionCode,
       expectedChedReference
     )
+    return this
+  }
+
+  async waitForGmrCustomDeclaration(expectedGmr, expectedMrn) {
+    await this.builder.waitForGmrCustomDeclaration(expectedGmr, expectedMrn)
     return this
   }
 
@@ -495,6 +504,10 @@ export class FluentClearanceRequestTest {
             expectedDecisionCode,
             expectedChedReference
           )
+        ),
+      waitForGmrCustomDeclaration: (expectedGmr, expectedMrn) =>
+        this.sendClearanceRequest().then(() =>
+          this.waitForGmrCustomDeclaration(expectedGmr, expectedMrn)
         ),
       waitForSpecificError: (expectedErrorCode) =>
         this.sendClearanceRequest().then(() =>

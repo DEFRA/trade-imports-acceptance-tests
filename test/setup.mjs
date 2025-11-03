@@ -143,8 +143,6 @@ function initGlobals() {
   globalThis.IPAFFS_PATH = `${getAsbResourceUri(cs)}/messages`
   globalThis.IPAFFS_SAS_TOKEN = createAsbSasToken(cs)
 
-  // Do I need one for GMR here
-
   globalThis.proxy = process.env.CDP_HTTPS_PROXY
 }
 initGlobals()

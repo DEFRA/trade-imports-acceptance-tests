@@ -340,7 +340,7 @@ export async function waitForSpecificCheckDecisionWithChedRef(
   }
 }
 
-export async function waitForCustomDeclarationFromGmr(
+export async function waitForGmrDeclaration(
   gmrId,
   mrn,
   timeout = TIMEOUT_MS,
@@ -374,7 +374,7 @@ export async function waitForCustomDeclarationFromGmr(
         const goodsVehicleMovements = data.goodsVehicleMovements ?? []
 
         testLogger.info(
-          `Found ${customsDeclarations.length} customs declarations and ${goodsVehicleMovements.length} GVMs for GMR ${gmrId}`
+          `Found ${customsDeclarations.length} customs declarations and ${goodsVehicleMovements.length} for GMR ${gmrId}`
         )
 
         // Look for matching MRN
@@ -383,12 +383,12 @@ export async function waitForCustomDeclarationFromGmr(
         )
 
         if (match) {
-          testLogger.info(`✅ Found matching MRN ${mrn} under GMR ${gmrId}`)
+          testLogger.info(`Found matching MRN ${mrn} under GMR ${gmrId}`)
           foundPayload = match
           return true
         }
 
-        testLogger.info(`❌ MRN ${mrn} not found yet for GMR ${gmrId}`)
+        testLogger.info(`MRN ${mrn} not found yet for GMR ${gmrId}`)
         return false
       },
       { interval, timeout }

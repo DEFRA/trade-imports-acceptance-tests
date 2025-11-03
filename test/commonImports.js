@@ -19,7 +19,8 @@ import {
 import { extractDecisionCodes } from './utils/decisionParser.js'
 import {
   waitForDecision,
-  waitForSpecificDecision
+  waitForSpecificDecision,
+  waitForGmrDeclaration
 } from './utils/waitForDecision.js'
 import { waitForDataInAPI } from './utils/tradeimportsdatapiMessageHandler.js'
 import { sendIpaffsMessage } from './utils/ipaffsMessageHandler.js'
@@ -47,6 +48,7 @@ export default {
   extractDecisionCodes,
   waitForDecision,
   waitForSpecificDecision,
+  waitForGmrDeclaration,
   waitForDataInAPI,
   sendIpaffsMessage,
   sendGmrMessage
