@@ -10,8 +10,10 @@ import { step as mochaStep } from 'mocha-steps'
 import {
   generateDocumentReference,
   generateRandomMRN,
+  generateRandomGMR,
   sleep,
-  loadIPAFFSJson
+  loadIPAFFSJson,
+  loadGmrJson
 } from './utils/testDataFunctions.js'
 
 import { extractDecisionCodes } from './utils/decisionParser.js'
@@ -21,6 +23,7 @@ import {
 } from './utils/waitForDecision.js'
 import { waitForDataInAPI } from './utils/tradeimportsdatapiMessageHandler.js'
 import { sendIpaffsMessage } from './utils/ipaffsMessageHandler.js'
+import { sendGmrMessage } from './utils/gmrMessageHandler.js'
 import { SoapMessageBuilder } from './utils/soapMessageBuilder.js'
 import { sendSoapRequest } from './utils/soapMessageHandler.js'
 
@@ -36,12 +39,15 @@ export default {
   SoapMessageBuilder,
   generateDocumentReference,
   generateRandomMRN,
+  generateRandomGMR,
   sleep,
   loadIPAFFSJson,
+  loadGmrJson,
   sendSoapRequest,
   extractDecisionCodes,
   waitForDecision,
   waitForSpecificDecision,
   waitForDataInAPI,
-  sendIpaffsMessage
+  sendIpaffsMessage,
+  sendGmrMessage
 }

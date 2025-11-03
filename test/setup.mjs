@@ -23,6 +23,7 @@ import * as rawWaitForDecision from './utils/waitForDecision.js'
 import * as rawWaitForError from './utils/waitForError.js'
 import * as rawTradeimportsdatapiMessageHandler from './utils/tradeimportsdatapiMessageHandler.js'
 import * as rawIpaffsMessageHandler from './utils/ipaffsMessageHandler.js'
+import * as rawGmrMessageHandler from './utils/gmrMessageHandler.js'
 import * as rawReportingClient from './utils/reportingClient.js'
 import * as rawTestContext from '../utils/testContext.js'
 
@@ -38,6 +39,7 @@ function initGlobals() {
     testContext: rawTestContext,
     testDataFunctions: rawTestDataFunctions,
     ipaffsMessageHandler: rawIpaffsMessageHandler,
+    rawGmrMessageHandler: rawGmrMessageHandler,
     decisionParser: rawDecisionParser,
     SoapMessageBuilder: rawSoapMessageBuilder,
     sendSoapRequest: rawSendSoapRequest,
@@ -60,6 +62,7 @@ function initGlobals() {
     TRADE_IMPORTS_DATA_API_USER: {},
     TRADE_IMPORTS_DATA_API_KEY: {},
     ServiceBus__Notifications__ConnectionString: {},
+    ServiceBus__Gmrs__ConnectionString: {},
     POLL_INTERVAL_MS: { parseAs: 'int', default: 500 },
     TIMEOUT_MS: { parseAs: 'int', default: 30000 }
   }
@@ -139,6 +142,8 @@ function initGlobals() {
   const cs = process.env.ServiceBus__Notifications__ConnectionString
   globalThis.IPAFFS_PATH = `${getAsbResourceUri(cs)}/messages`
   globalThis.IPAFFS_SAS_TOKEN = createAsbSasToken(cs)
+
+  // Do I need one for GMR here
 
   globalThis.proxy = process.env.CDP_HTTPS_PROXY
 }

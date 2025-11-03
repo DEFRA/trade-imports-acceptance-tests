@@ -8,6 +8,16 @@ export function generateRandomMRN(prefix = '25GB') {
   return result
 }
 
+export function generateRandomGMR(prefix = 'GMR') {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+  let result = prefix
+  for (let i = 0; i < 9; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length))
+  }
+  globalThis.testLogger.info(`Generate new GMR`, { gmr: result })
+  return result
+}
+
 export async function generateDocumentReference({
   letter = 'A',
   prefixLength = 4,
@@ -71,6 +81,17 @@ export function loadIPAFFSJson(filename, overrides = {}) {
     if (!json.partTwo) json.partTwo = {}
     merge(json.partTwo, partTwo)
   }
+
+  return json
+}
+
+export function loadGmrJson(filename, overrides = {}) {
+  const filePath = path.join(globalThis.__dirname, 'test-data', filename)
+  const content = fs.readFileSync(filePath, 'utf-8')
+  const json = JSON.parse(content)
+
+  const { ...rest } = overrides
+  Object.assign(json, rest)
 
   return json
 }
