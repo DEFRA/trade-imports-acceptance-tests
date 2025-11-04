@@ -8,10 +8,10 @@ export function generateRandomMRN(prefix = '25GB') {
   return result
 }
 
-export function generateRandomGMR(prefix = 'GMR') {
+export function generateRandomGMR(prefix = 'GMRA') {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
   let result = prefix
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < 8; i++) {
     result += chars.charAt(Math.floor(Math.random() * chars.length))
   }
   globalThis.testLogger.info(`Generate new GMR`, { gmr: result })
