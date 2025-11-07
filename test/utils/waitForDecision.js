@@ -339,3 +339,66 @@ export async function waitForSpecificCheckDecisionWithChedRef(
     throw err
   }
 }
+
+export async function waitForGmrDeclaration(
+  gmrId,
+  mrn,
+  timeout = TIMEOUT_MS,
+  interval = POLL_INTERVAL_MS
+) {
+  const url = `${BASE_URL_TRADE_IMPORTS_DATA_API}/related-import-declarations?gmrid=${gmrId}`
+
+  testLogger.info(`Waiting for MRN ${mrn} under GMR ${gmrId}...`)
+
+  try {
+    let foundPayload = null
+
+    await pWaitFor(
+      async () => {
+        const resp = await request(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: TRADE_IMPORTS_DATA_API_AUTHORIZATION_HEADER
+          }
+        })
+
+        if (resp.statusCode !== 200) {
+          testLogger.info(`API returned ${resp.statusCode}`)
+          return false
+        }
+
+        const data = JSON.parse(await resp.body.text())
+
+        const customsDeclarations = data.customsDeclarations ?? []
+        const goodsVehicleMovements = data.goodsVehicleMovements ?? []
+
+        testLogger.info(
+          `Found ${customsDeclarations.length} customs declarations and ${goodsVehicleMovements.length} for GMR ${gmrId}`
+        )
+
+        // Look for matching MRN
+        const match = customsDeclarations.find(
+          (decl) => decl.movementReferenceNumber === mrn
+        )
+
+        if (match) {
+          testLogger.info(`Found matching MRN ${mrn} under GMR ${gmrId}`)
+          foundPayload = match
+          return true
+        }
+
+        testLogger.info(`MRN ${mrn} not found yet for GMR ${gmrId}`)
+        return false
+      },
+      { interval, timeout }
+    )
+
+    return foundPayload
+  } catch (err) {
+    if (err instanceof TimeoutError) {
+      testLogger.error(`Timed out waiting for MRN ${mrn} under GMR ${gmrId}`)
+    }
+    throw err
+  }
+}

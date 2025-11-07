@@ -7,7 +7,8 @@ import {
 } from '#steps/cds/inbound/clearanceRequest.js'
 import {
   waitForSpecificCheckDecision,
-  waitForSpecificCheckDecisionWithChedRef
+  waitForSpecificCheckDecisionWithChedRef,
+  waitForGmrDeclaration
 } from '#utils/waitForDecision.js'
 
 globalThis.newClearanceRequest = newClearanceRequest
@@ -18,3 +19,4 @@ globalThis.waitForSpecificCheckDecision = waitForSpecificCheckDecision
 globalThis.waitForSpecificCheckDecisionWithChedRef =
   waitForSpecificCheckDecisionWithChedRef
 globalThis.executeClearanceRequestTest = executeClearanceRequestTest
+globalThis.waitForGmrDeclaration = waitForGmrDeclaration
