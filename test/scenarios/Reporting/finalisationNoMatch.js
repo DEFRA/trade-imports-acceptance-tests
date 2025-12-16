@@ -25,7 +25,7 @@ const noMatchCases = [
   }
 ]
 
-describe('Reporting Bucket Results for Reporting Finalisation on No Match', function () {
+describe('Reporting Intervals Results for Reporting Finalisation on No Match', function () {
   noMatchCases.forEach(
     ({
       finalStateName,
@@ -42,29 +42,33 @@ describe('Reporting Bucket Results for Reporting Finalisation on No Match', func
         const to = new Date(now + 10 * 1000).toISOString()
         testLogger.info('From and To dates: ', { fromDate: from, toDate: to })
 
-        testLogger.info('Getting Clearance Request Bucket Data')
-        const clearanceRequestBucket = await getClearanceRequestBucket(
+        testLogger.info('Getting Clearance Request Interval Data')
+        const clearanceRequest = await getClearanceRequestInterval(
           from,
           to,
-          'day'
+          from
         )
-        const clearanceRequestBucketUnique =
-          clearanceRequestBucket.intervals[0].summary.unique + 1
+        const expectedClearanceRequestInterval =
+          clearanceRequest.intervals[0].summary.total + 1
 
-        testLogger.info('Getting Notification Bucket Data')
-        const notificationBucket = await getNotificationBucket(from, to, 'day')
-        const noticationBucketTotal =
-          notificationBucket.intervals[0].summary.total
+        testLogger.info('Getting Notification Interval Data')
+        const notificationRequest = await getNotificationInterval(
+          from,
+          to,
+          from
+        )
+        const expectedNotificationRequestChedAInterval =
+          notificationRequest.intervals[0].summary.total
 
-        testLogger.info('Getting Matches Bucket Data')
-        const matchesBucket = await getMatchesBucket(from, to, 'day')
-        const matchesBucketTotal =
-          matchesBucket.intervals[0].summary.total + increaseMatchesBy
+        testLogger.info('Getting Matches Interval Data')
+        const matchesRequest = await getMatchesInterval(from, to, from)
+        const expectedMatchesRequestMatchInterval =
+          matchesRequest.intervals[0].summary.total + increaseMatchesBy
 
-        testLogger.info('Getting Release Bucket Data')
-        const releasesBucket = await getReleaseBucket(from, to, 'day')
-        const releasedBucketTotal =
-          releasesBucket.intervals[0].summary.total + increaseReleasesBy
+        testLogger.info('Getting Release Interval Data')
+        const releaseRequest = await getReleasesInterval(from, to, from)
+        const expectedReleaseRequestTotal =
+          releaseRequest.intervals[0].summary.manual + increaseReleasesBy
 
         testLogger.info('Send Clearance Request')
         this.docRef = await generateDocumentReference()
@@ -104,38 +108,43 @@ describe('Reporting Bucket Results for Reporting Finalisation on No Match', func
           })
 
         testLogger.info('Asserting on Clearance Requests')
-        const actualClearanceRequestBucketUnique = await pollForExpectedValue(
-          () => getClearanceRequestBucket(from, to, 'day'),
+        const actualClearanceRequestIntervalUnique = await pollForExpectedValue(
+          () => getClearanceRequestInterval(from, to, from),
           (data) => data.intervals[0].summary.unique,
-          clearanceRequestBucketUnique
+          expectedClearanceRequestInterval
         )
-        expect(actualClearanceRequestBucketUnique).to.equal(
-          clearanceRequestBucketUnique
+        expect(actualClearanceRequestIntervalUnique).to.equal(
+          expectedClearanceRequestInterval
         )
 
         testLogger.info('Asserting on Notifications')
-        const actualNoticationBucketTotal = await pollForExpectedValue(
-          () => getNotificationBucket(from, to, 'day'),
-          (data) => data.intervals[0].summary.total,
-          noticationBucketTotal
+        const actualNotificationRequestChedAInterval =
+          await pollForExpectedValue(
+            () => getNotificationInterval(from, to, from),
+            (data) => data.intervals[0].summary.total,
+            expectedNotificationRequestChedAInterval
+          )
+        expect(actualNotificationRequestChedAInterval).to.equal(
+          expectedNotificationRequestChedAInterval
         )
-        expect(actualNoticationBucketTotal).to.equal(noticationBucketTotal)
 
         testLogger.info('Asserting on Matches')
-        const actualMatchesBucketTotal = await pollForExpectedValue(
-          () => getMatchesBucket(from, to, 'day'),
+        const actualMatchesRequestMatchInterval = await pollForExpectedValue(
+          () => getMatchesInterval(from, to, from),
           (data) => data.intervals[0].summary.total,
-          matchesBucketTotal
+          expectedMatchesRequestMatchInterval
         )
-        expect(actualMatchesBucketTotal).to.equal(matchesBucketTotal)
+        expect(actualMatchesRequestMatchInterval).to.equal(
+          expectedMatchesRequestMatchInterval
+        )
 
         testLogger.info('Asserting on Releases')
-        const actualReleasedBucketTotal = await pollForExpectedValue(
-          () => getReleaseBucket(from, to, 'day'),
-          (data) => data.intervals[0].summary.total,
-          releasedBucketTotal
+        const actualReleaseRequestTotal = await pollForExpectedValue(
+          () => getReleasesInterval(from, to, from),
+          (data) => data.intervals[0].summary.manual,
+          expectedReleaseRequestTotal
         )
-        expect(actualReleasedBucketTotal).to.equal(releasedBucketTotal)
+        expect(actualReleaseRequestTotal).to.equal(expectedReleaseRequestTotal)
       })
     }
   )
