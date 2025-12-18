@@ -9,11 +9,6 @@ export async function getClearanceRequestSummary(from, to) {
   return await makeGetRequest(url)
 }
 
-export async function getClearanceRequestBucket(from, to, unit) {
-  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/clearance-requests/buckets?from=${from}&to=${to}&unit=${unit}`
-  return await makeGetRequest(url)
-}
-
 export async function getClearanceRequestInterval(from, to, interval) {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/clearance-requests/intervals?from=${from}&to=${to}&intervals=${interval}`
   return await makeGetRequest(url)
@@ -21,11 +16,6 @@ export async function getClearanceRequestInterval(from, to, interval) {
 
 export async function getNotificationSummary(from, to) {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/notifications/summary?from=${from}&to=${to}`
-  return await makeGetRequest(url)
-}
-
-export async function getNotificationBucket(from, to, unit) {
-  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/notifications/buckets?from=${from}&to=${to}&unit=${unit}`
   return await makeGetRequest(url)
 }
 
@@ -39,11 +29,6 @@ export async function getMatchesSummary(from, to) {
   return await makeGetRequest(url)
 }
 
-export async function getMatchesBucket(from, to, unit) {
-  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/matches/buckets?from=${from}&to=${to}&unit=${unit}`
-  return await makeGetRequest(url)
-}
-
 export async function getMatchesInterval(from, to, interval) {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/matches/intervals?from=${from}&to=${to}&intervals=${interval}`
   return await makeGetRequest(url)
@@ -51,11 +36,6 @@ export async function getMatchesInterval(from, to, interval) {
 
 export async function getReleasesSummary(from, to) {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/releases/summary?from=${from}&to=${to}`
-  return await makeGetRequest(url)
-}
-
-export async function getReleaseBucket(from, to, unit) {
-  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/releases/buckets?from=${from}&to=${to}&unit=${unit}`
   return await makeGetRequest(url)
 }
 
