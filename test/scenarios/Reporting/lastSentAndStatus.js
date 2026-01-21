@@ -1,13 +1,23 @@
 describe('Reporting Last Sent and Status Endpoints', function () {
-  it('should send test data and validate /last-sent endpoint timestamps are updated', async function () {
-    testLogger.info('Getting initial /last-sent value')
-    const beforeLastSent = await getLastSent()
-    const beforeDecisionTimestamp =
-      beforeLastSent.decision && beforeLastSent.decision.timestamp
-        ? new Date(beforeLastSent.decision.timestamp).getTime()
+  it('should send test data and validate /last-created endpoint timestamps are updated', async function () {
+    testLogger.info('Getting initial /last-created value')
+    const beforeLastCreated = await getLastCreated()
+    const beforeLastDecisionTimestamp =
+      beforeLastCreated.decision && beforeLastCreated.decision.timestamp
+        ? new Date(beforeLastCreated.decision.timestamp).getTime()
         : 0
 
-    testLogger.info('Sending test data for /last-sent endpoint')
+    const beforeLastSent = await getLastSent()
+    const beforeSentDecisionTimestamp =
+      beforeLastSent.sent &&
+      beforeLastSent.sent.decision &&
+      beforeLastSent.sent.decision.timestamp
+        ? new Date(beforeLastSent.sent.decision.timestamp).getTime()
+        : 0
+
+    testLogger.info(
+      'Sending test data for /last-created and /last-sent endpoint'
+    )
     const docRef = await generateDocumentReference()
     const mrn = generateRandomMRN()
 
@@ -48,16 +58,31 @@ describe('Reporting Last Sent and Status Endpoints', function () {
         testLogger.info('Finalisation response received')
       })
 
+    testLogger.info('Getting updated /last-created value')
+    const afterLastCreated = await getLastCreated()
+    const afterLastCreatedDecisionTimestamp =
+      afterLastCreated.decision && afterLastCreated.decision.timestamp
+        ? new Date(afterLastCreated.decision.timestamp).getTime()
+        : 0
+    expect(afterLastCreatedDecisionTimestamp).to.be.greaterThan(
+      beforeLastDecisionTimestamp
+    )
+    const afterLastCreatedDecisionReference =
+      afterLastCreated.decision?.reference || null
+    expect(afterLastCreatedDecisionReference).to.equal(mrn)
+
     testLogger.info('Getting updated /last-sent value')
     const afterLastSent = await getLastSent()
-    const afterDecisionTimestamp =
+    const afterLastSentDecisionTimestamp =
       afterLastSent.decision && afterLastSent.decision.timestamp
         ? new Date(afterLastSent.decision.timestamp).getTime()
         : 0
-    const afterDecisionReference = afterLastSent.decision?.reference || null
-
-    expect(afterDecisionTimestamp).to.be.greaterThan(beforeDecisionTimestamp)
-    expect(afterDecisionReference).to.equal(mrn)
+    expect(afterLastSentDecisionTimestamp).to.be.greaterThan(
+      beforeSentDecisionTimestamp
+    )
+    const afterLastSentDecisionReference =
+      afterLastSent.decision?.reference || null
+    expect(afterLastSentDecisionReference).to.equal(mrn)
   })
 
   it('should send test data and validate /status endpoint timestamps are updated', async function () {
@@ -77,6 +102,10 @@ describe('Reporting Last Sent and Status Endpoints', function () {
       : 0
     const beforeSentDecisionTimestamp = beforeStatus.sent?.decision?.timestamp
       ? new Date(beforeStatus.sent.decision.timestamp).getTime()
+      : 0
+    const beforeCreatedDecisionTimestamp = beforeStatus.created?.decision
+      ?.timestamp
+      ? new Date(beforeStatus.created.decision.timestamp).getTime()
       : 0
 
     testLogger.info('Sending test data for /status endpoint')
@@ -137,6 +166,10 @@ describe('Reporting Last Sent and Status Endpoints', function () {
     const afterSentDecisionTimestamp = afterStatus.sent?.decision?.timestamp
       ? new Date(afterStatus.sent.decision.timestamp).getTime()
       : 0
+    const afterCreatedDecisionTimestamp = afterStatus.created?.decision
+      ?.timestamp
+      ? new Date(afterStatus.created.decision.timestamp).getTime()
+      : 0
 
     const afterReceivedFinalisationReference =
       afterStatus.received?.finalisation?.reference || null
@@ -146,6 +179,8 @@ describe('Reporting Last Sent and Status Endpoints', function () {
       afterStatus.received?.preNotification?.reference || null
     const afterSentDecisionReference =
       afterStatus.sent?.decision?.reference || null
+    const afterCreatedDecisionReference =
+      afterStatus.created?.decision?.reference || null
 
     expect(afterReceivedFinalisationTimestamp).to.be.greaterThan(
       beforeReceivedFinalisationTimestamp
@@ -159,9 +194,13 @@ describe('Reporting Last Sent and Status Endpoints', function () {
     expect(afterSentDecisionTimestamp).to.be.greaterThan(
       beforeSentDecisionTimestamp
     )
+    expect(afterCreatedDecisionTimestamp).to.be.greaterThan(
+      beforeCreatedDecisionTimestamp
+    )
     expect(afterReceivedFinalisationReference).to.equal(mrn)
     expect(afterReceivedClearanceRequestReference).to.equal(mrn)
     expect(afterReceivedPreNotificationReference).to.equal(docRef)
     expect(afterSentDecisionReference).to.equal(mrn)
+    expect(afterCreatedDecisionReference).to.equal(mrn)
   })
 })

@@ -49,6 +49,11 @@ export async function getLastReceived(from, to) {
   return await makeGetRequest(url)
 }
 
+export async function getLastCreated() {
+  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/last-created`
+  return await makeGetRequest(url)
+}
+
 export async function getLastSent() {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/last-sent`
   return await makeGetRequest(url)
