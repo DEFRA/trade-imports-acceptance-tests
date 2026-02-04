@@ -9,6 +9,7 @@ describe('BTMS receives an IPAFFS message to change the status of an existing CH
       loadIPAFFSJson('CHEDA.json', {
         referenceNumber: this.docRef,
         lastUpdated: new Date().toISOString(),
+        status: 'IN_PROGRESS',
         partTwo: {
           decision: {},
           inspectionRequired: 'Not required'
