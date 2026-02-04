@@ -9,6 +9,7 @@ describe('BTMS sends a DecisionNotification for a Refusal decision on a MRN', fu
       loadIPAFFSJson('CHEDA.json', {
         referenceNumber: this.docRef,
         lastUpdated: new Date().toISOString(),
+        status: 'IN_PROGRESS',
         partTwo: {
           decision: {},
           inspectionRequired: 'Not required'
