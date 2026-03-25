@@ -57,8 +57,6 @@ function initGlobals() {
 
   const required = {
     ENVIRONMENT: {},
-    TRADE_IMPORTS_DECISION_COMPARER_USER: {},
-    TRADE_IMPORTS_DECISION_COMPARER_KEY: {},
     TRADE_IMPORTS_DATA_API_USER: {},
     TRADE_IMPORTS_DATA_API_KEY: {},
     ServiceBus__Notifications__ConnectionString: {},
