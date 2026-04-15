@@ -27,6 +27,23 @@ jobs:
       - run: npm ci
       - run: npm run format:check
       - run: npm run lint
+      - name: Check Dockerfile Builds
+        uses: docker/build-push-action@v7.1.0
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: trade-imports-acceptance-tests:latest
+      - name: Check with Trivy
+        run: |
+          docker run -v /var/run/docker.sock:/var/run/docker.sock \
+            -v $PWD:/work \
+            aquasec/trivy:0.69.3 image \
+            --ignorefile /work/.trivyignore \
+            --ignore-unfixed \
+            --exit-code 1 \
+            trade-imports-acceptance-tests:latest
+
 # Uncomment this to run the tests in your test suite
 #  tests:
 #    name: Run Journey Tests
