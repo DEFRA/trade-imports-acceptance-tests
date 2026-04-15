@@ -1,7 +1,7 @@
 import { ServiceBusClient } from '@azure/service-bus'
 import { v4 as uuidv4 } from 'uuid'
 import { WebSocket } from 'ws'
-import proxyAgent from 'proxy-agent'
+import { ProxyAgent } from 'proxy-agent'
 
 export async function sendIpaffsMessage(json) {
   const connectionString =
@@ -37,7 +37,7 @@ export async function sendIpaffsMessage(json) {
 
   let sbClient
   if (globalThis.proxy) {
-    const agent = proxyAgent(globalThis.proxy)
+    const agent = new ProxyAgent(globalThis.proxy)
 
     sbClient = new ServiceBusClient(connectionString, {
       webSocketOptions: {
