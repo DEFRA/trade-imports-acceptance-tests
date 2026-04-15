@@ -1,7 +1,7 @@
 import { ServiceBusClient } from '@azure/service-bus'
 import { v4 as uuidv4 } from 'uuid'
 import { WebSocket } from 'ws'
-import ProxyAgent from 'proxy-agent'
+import { ProxyAgent } from 'proxy-agent'
 
 export async function sendGmrMessage(json) {
   const connectionString = process.env.ServiceBus__Gmrs__ConnectionString
