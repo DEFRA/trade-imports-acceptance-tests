@@ -88,6 +88,21 @@ export async function sendIpaffsMessage(json) {
       timestamp: new Date().toISOString()
     }
   } catch (err) {
+    const aggregateDetails = Array.isArray(err?.errors)
+      ? err.errors
+          .map((e, i) =>
+            [
+              `inner[${i}].name=${e?.name ?? 'null'}`,
+              `inner[${i}].message=${e?.message ?? 'null'}`,
+              `inner[${i}].code=${e?.code ?? 'null'}`,
+              `inner[${i}].errno=${e?.errno ?? 'null'}`,
+              `inner[${i}].syscall=${e?.syscall ?? 'null'}`,
+              `inner[${i}].stack=${(e?.stack ?? 'null').replace(/\s+/g, ' ').slice(0, 1000)}`
+            ].join(', ')
+          )
+          .join(' | ')
+      : 'no-inner-errors'
+
     globalThis.testLogger.error({
       message:
         'Failed to send message to ServiceBus' +
@@ -109,6 +124,8 @@ export async function sendIpaffsMessage(json) {
         (err?.cause?.message ?? 'null') +
         ' | cause.code=' +
         (err?.cause?.code ?? 'null') +
+        ' | aggregate=' +
+        aggregateDetails +
         ' | stack=' +
         (err?.stack ?? 'null').replace(/\s+/g, ' ').slice(0, 3000),
       requestId,
