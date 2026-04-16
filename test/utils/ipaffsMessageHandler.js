@@ -1,7 +1,7 @@
-import { ServiceBusClient } from '@azure/service-bus'
 import { v4 as uuidv4 } from 'uuid'
 import { WebSocket } from 'ws'
 import { ProxyAgent } from 'proxy-agent'
+import { ServiceBusClient } from '@azure/service-bus'
 
 export async function sendIpaffsMessage(json) {
   const connectionString =
@@ -40,11 +40,15 @@ export async function sendIpaffsMessage(json) {
     const agent = new ProxyAgent(globalThis.proxy)
 
     sbClient = new ServiceBusClient(connectionString, {
+      transportType: 'amqpWebSockets',
       webSocketOptions: {
         webSocket: WebSocket,
         webSocketConstructorOptions: {
           agent
         }
+      },
+      retryOptions: {
+        maxRetries: 0
       }
     })
   } else {
@@ -52,7 +56,12 @@ export async function sendIpaffsMessage(json) {
       message: 'Creating ServiceBus client without proxy'
     })
 
-    sbClient = new ServiceBusClient(connectionString)
+    sbClient = new ServiceBusClient(connectionString, {
+      transportType: 'amqpWebSockets',
+      retryOptions: {
+        maxRetries: 0
+      }
+    })
   }
 
   const sender = sbClient.createSender(queueOrTopicName)
