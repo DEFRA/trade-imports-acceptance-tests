@@ -1,7 +1,7 @@
-import { ServiceBusClient } from '@azure/service-bus'
 import { v4 as uuidv4 } from 'uuid'
 import { WebSocket } from 'ws'
-import { ProxyAgent } from 'proxy-agent'
+import { HttpsProxyAgent } from 'https-proxy-agent'
+import { ServiceBusClient } from '@azure/service-bus'
 
 export async function sendGmrMessage(json) {
   const connectionString = process.env.ServiceBus__Gmrs__ConnectionString
@@ -36,14 +36,18 @@ export async function sendGmrMessage(json) {
 
   let sbClient
   if (globalThis.proxy) {
-    const agent = new ProxyAgent(globalThis.proxy)
+    const agent = new HttpsProxyAgent(globalThis.proxy)
 
     sbClient = new ServiceBusClient(connectionString, {
+      transportType: 'amqpWebSockets',
       webSocketOptions: {
         webSocket: WebSocket,
         webSocketConstructorOptions: {
           agent
         }
+      },
+      retryOptions: {
+        maxRetries: 2
       }
     })
   } else {
@@ -51,7 +55,12 @@ export async function sendGmrMessage(json) {
       message: 'Creating ServiceBus client without proxy'
     })
 
-    sbClient = new ServiceBusClient(connectionString)
+    sbClient = new ServiceBusClient(connectionString, {
+      transportType: 'amqpWebSockets',
+      retryOptions: {
+        maxRetries: 2
+      }
+    })
   }
 
   const sender = sbClient.createSender(queueOrTopicName)
@@ -87,8 +96,46 @@ export async function sendGmrMessage(json) {
       timestamp: new Date().toISOString()
     }
   } catch (err) {
+    const aggregateDetails = Array.isArray(err?.errors)
+      ? err.errors
+          .map((e, i) =>
+            [
+              `inner[${i}].name=${e?.name ?? 'null'}`,
+              `inner[${i}].message=${e?.message ?? 'null'}`,
+              `inner[${i}].code=${e?.code ?? 'null'}`,
+              `inner[${i}].errno=${e?.errno ?? 'null'}`,
+              `inner[${i}].syscall=${e?.syscall ?? 'null'}`,
+              `inner[${i}].stack=${(e?.stack ?? 'null').replace(/\s+/g, ' ').slice(0, 1000)}`
+            ].join(', ')
+          )
+          .join(' | ')
+      : 'no-inner-errors'
+
     globalThis.testLogger.error({
-      message: 'Failed to send message to ServiceBus',
+      message:
+        'Failed to send message to ServiceBus' +
+        ' | requestId=' +
+        requestId +
+        ' | err.name=' +
+        (err?.name ?? 'null') +
+        ' | err.message=' +
+        (err?.message ?? 'null') +
+        ' | err.code=' +
+        (err?.code ?? 'null') +
+        ' | err.errno=' +
+        (err?.errno ?? 'null') +
+        ' | err.syscall=' +
+        (err?.syscall ?? 'null') +
+        ' | cause.name=' +
+        (err?.cause?.name ?? 'null') +
+        ' | cause.message=' +
+        (err?.cause?.message ?? 'null') +
+        ' | cause.code=' +
+        (err?.cause?.code ?? 'null') +
+        ' | aggregate=' +
+        aggregateDetails +
+        ' | stack=' +
+        (err?.stack ?? 'null').replace(/\s+/g, ' ').slice(0, 3000),
       requestId,
       requestBody: body,
       err: err.message || err,
