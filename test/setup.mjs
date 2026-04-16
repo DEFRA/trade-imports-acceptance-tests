@@ -141,6 +141,6 @@ function initGlobals() {
   globalThis.IPAFFS_PATH = `${getAsbResourceUri(cs)}/messages`
   globalThis.IPAFFS_SAS_TOKEN = createAsbSasToken(cs)
 
-  globalThis.proxy = process.env.CDP_HTTP_PROXY
+  globalThis.proxy = process.env.CDP_HTTPS_PROXY
 }
 initGlobals()
