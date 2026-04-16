@@ -1,9 +1,21 @@
+import { createRequire } from 'node:module'
 import { v4 as uuidv4 } from 'uuid'
 import { WebSocket } from 'ws'
 import { HttpsProxyAgent } from 'https-proxy-agent'
 import { ServiceBusClient } from '@azure/service-bus'
+const require = createRequire(import.meta.url)
 
 export async function sendIpaffsMessage(json) {
+  const versionsMessage =
+    'Dependency versions' +
+    ' | @azure/service-bus=' +
+    (require('@azure/service-bus/package.json').version ?? 'unknown') +
+    ' | ws=' +
+    (require('ws/package.json').version ?? 'unknown')
+
+  globalThis.testLogger.info({
+    message: versionsMessage
+  })
   const connectionString =
     process.env.ServiceBus__Notifications__ConnectionString
 
