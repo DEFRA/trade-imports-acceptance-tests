@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { WebSocket } from 'ws'
-import { ProxyAgent } from 'proxy-agent'
+import { HttpsProxyAgent } from 'https-proxy-agent'
 import { ServiceBusClient } from '@azure/service-bus'
 
 export async function sendIpaffsMessage(json) {
@@ -37,7 +37,7 @@ export async function sendIpaffsMessage(json) {
 
   let sbClient
   if (globalThis.proxy) {
-    const agent = new ProxyAgent(globalThis.proxy)
+    const agent = new HttpsProxyAgent(globalThis.proxy)
 
     sbClient = new ServiceBusClient(connectionString, {
       transportType: 'amqpWebSockets',
