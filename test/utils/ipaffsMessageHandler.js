@@ -49,6 +49,9 @@ export async function sendIpaffsMessage(json) {
 
   let sbClient
   if (globalThis.proxy) {
+    globalThis.testLogger.info({
+      message: 'Proxy in use | globalThis.proxy=' + (globalThis.proxy ?? 'null')
+    })
     const agent = new HttpsProxyAgent(globalThis.proxy)
 
     sbClient = new ServiceBusClient(connectionString, {
