@@ -35,6 +35,18 @@ export async function sendIpaffsMessage(json) {
     bodyPreview: body
   })
 
+  globalThis.testLogger.info({
+    message:
+      'Proxy envs at send time: CDP_HTTPS_PROXY=' +
+      (process.env.CDP_HTTPS_PROXY ?? null) +
+      ', HTTPS_PROXY=' +
+      (process.env.HTTPS_PROXY ?? null) +
+      ', HTTP_PROXY=' +
+      (process.env.HTTP_PROXY ?? null) +
+      ', globalThis.proxy=' +
+      (globalThis.proxy ?? null)
+  })
+
   let sbClient
   if (globalThis.proxy) {
     const agent = new ProxyAgent(globalThis.proxy)
@@ -68,7 +80,7 @@ export async function sendIpaffsMessage(json) {
 
   try {
     globalThis.testLogger.info({
-      message: 'Attempting to send message to ServiceBus',
+      message: 'Attempting to send message to ServiceBus: ' + requestId,
       requestId
     })
 
@@ -89,7 +101,7 @@ export async function sendIpaffsMessage(json) {
     }
   } catch (err) {
     globalThis.testLogger.error({
-      message: 'Failed to send message to ServiceBus',
+      message: 'Failed to send message to ServiceBus: ' + err.message,
       requestId,
       requestBody: body,
       err: err.message || err,
