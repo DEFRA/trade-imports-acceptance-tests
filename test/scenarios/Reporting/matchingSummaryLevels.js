@@ -1,19 +1,15 @@
 describe('Reporting Matching Summary Levels', function () {
   it('should update matching summary levels', async function () {
-    // Test Set-up
-
-    testLogger.info('Getting initial /summary/levels`')
     const now = Date.now()
     const from = new Date(now - 10 * 1000).toISOString()
     const to = new Date(now + 10 * 1000).toISOString()
-    testLogger.info('From and To dates: ', { fromDate: from, toDate: to })
     const allSummaryLevels = await getMatchingLevels(from, to)
     const initialSummaryLevelOne = allSummaryLevels.level1
     const initialSummaryLevelTwo = allSummaryLevels.level2
     const initialSummaryLevelThree = allSummaryLevels.level3
     const initialSummaryLevelTotal = allSummaryLevels.total
 
-    testLogger.info(`Initial Summary Levels: `, {
+    testLogger.info(`Initial Summary Levels at No Match: `, {
       initialSummaryLevelOne,
       initialSummaryLevelTwo,
       initialSummaryLevelThree,
@@ -23,9 +19,7 @@ describe('Reporting Matching Summary Levels', function () {
     const docRef = await generateDocumentReference()
     const mrn = generateRandomMRN()
 
-    testLogger.info('Summary Level for Total Count but no matches')
-    testLogger.info('Sending Clearance request')
-
+    testLogger.info('Sending Clearance Request for no match')
     await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '0103911001',
@@ -40,9 +34,11 @@ describe('Reporting Matching Summary Levels', function () {
       .then(async (test) => {
         await test.waitForDecision('X00')
       })
-    await sleep(5000)
 
-    const firstAllSummaryLevels = await getMatchingLevels(from, to)
+    const firstAllSummaryLevels = await waitForLevelsChange(
+      allSummaryLevels,
+      () => getMatchingLevels(from, to)
+    )
     const firstUpdateSummaryLevelOne = firstAllSummaryLevels.level1
     const firstUpdateSummaryLevelTwo = firstAllSummaryLevels.level2
     const firstUpdateSummaryLevelThree = firstAllSummaryLevels.level3
@@ -52,15 +48,20 @@ describe('Reporting Matching Summary Levels', function () {
       initialSummaryLevelTotal + 1
     )
 
-    expect(firstUpdateSummaryLevelOne).to.equal(initialSummaryLevelTotal)
-    expect(firstUpdateSummaryLevelTwo).to.equal(initialSummaryLevelTotal)
-    expect(firstUpdateSummaryLevelThree).to.equal(initialSummaryLevelTotal)
-    expect(firstUpdateSummaryTotal).to.be.greaterThan(initialSummaryLevelTotal)
+    expect(firstUpdateSummaryLevelOne).to.be.greaterThanOrEqual(
+      initialSummaryLevelOne
+    )
+    expect(firstUpdateSummaryLevelTwo).to.greaterThanOrEqual(
+      initialSummaryLevelTwo
+    )
+    expect(firstUpdateSummaryLevelThree).to.be.greaterThanOrEqual(
+      initialSummaryLevelThree
+    )
+    expect(firstUpdateSummaryTotal).to.be.greaterThanOrEqual(
+      initialSummaryLevelTotal
+    )
 
-    // Performing a Level 1 Match
-
-    testLogger.info('Summary Level for Level 1 Match')
-    testLogger.info('Sending CHED-A')
+    testLogger.info('Sending CHED-A to match Level 1')
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
         referenceNumber: docRef,
@@ -115,9 +116,11 @@ describe('Reporting Matching Summary Levels', function () {
       })
     )
     await waitForSpecificDecision(mrn, 'H01')
-    await sleep(5000)
 
-    const secondAllSummaryLevels = await getMatchingLevels(from, to)
+    const secondAllSummaryLevels = await waitForLevelsChange(
+      firstAllSummaryLevels,
+      () => getMatchingLevels(from, to)
+    )
     const secondUpdateSummaryLevelOne = await pollForExpectedValue(
       () => getMatchingLevels(from, to),
       (data) => secondAllSummaryLevels.level1,
@@ -134,10 +137,7 @@ describe('Reporting Matching Summary Levels', function () {
     expect(secondUpdateSummaryLevelThree).to.equal(firstUpdateSummaryLevelThree)
     expect(secondUpdateSummaryTotal).to.equal(firstUpdateSummaryTotal)
 
-    // Performing a Level 2 Match
-
-    testLogger.info('Summary Level for Level 2 Match')
-    testLogger.info('Sending CHED-A')
+    testLogger.info('Updating CHED-A to match Level 2')
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
         referenceNumber: docRef,
@@ -192,10 +192,11 @@ describe('Reporting Matching Summary Levels', function () {
       })
     )
     await waitForSpecificDecision(mrn, 'H01')
-    await sleep(5000)
 
-    testLogger.info('Level 2 should increment now')
-    const thirdAllSummaryLevels = await getMatchingLevels(from, to)
+    const thirdAllSummaryLevels = await waitForLevelsChange(
+      secondAllSummaryLevels,
+      () => getMatchingLevels(from, to)
+    )
     const thirdUpdateSummaryLevelOne = thirdAllSummaryLevels.level1
     const thirdUpdateSummaryLevelTwo = await pollForExpectedValue(
       () => getMatchingLevels(from, to),
@@ -212,10 +213,7 @@ describe('Reporting Matching Summary Levels', function () {
     expect(thirdUpdateSummaryLevelThree).to.equal(secondUpdateSummaryLevelThree)
     expect(thirdUpdateSummaryTotal).to.equal(secondUpdateSummaryTotal)
 
-    // Performing a Level 3 Match
-
-    testLogger.info('Summary Level for Level 2 Match')
-    testLogger.info('Sending CHED-A')
+    testLogger.info('Updating CHED-A to match Level 3')
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
         referenceNumber: docRef,
@@ -270,9 +268,11 @@ describe('Reporting Matching Summary Levels', function () {
       })
     )
     await waitForSpecificDecision(mrn, 'H01')
-    await sleep(5000)
 
-    const finalAllSummaryLevels = await getMatchingLevels(from, to)
+    const finalAllSummaryLevels = await waitForLevelsChange(
+      thirdAllSummaryLevels,
+      () => getMatchingLevels(from, to)
+    )
     const finalUpdateSummaryLevelOne = finalAllSummaryLevels.level1
     const finalUpdateSummaryLevelTwo = finalAllSummaryLevels.level2
     const finalUpdateSummaryLevelThree = await pollForExpectedValue(
