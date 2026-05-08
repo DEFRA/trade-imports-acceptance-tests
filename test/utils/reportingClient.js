@@ -64,6 +64,16 @@ export async function getStatus() {
   return await makeGetRequest(url)
 }
 
+export async function getMatchingLevels(from, to) {
+  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/matches/summary/levels?from=${from}&to=${to}`
+  return await makeGetRequest(url)
+}
+
+export async function getDataMatches(from, to, match) {
+  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/matches/data?from=${from}&to=${to}&match=${match}`
+  return await makeGetRequest(url)
+}
+
 async function makeGetRequest(url) {
   const { statusCode, body } = await request(url, {
     method: 'GET',
