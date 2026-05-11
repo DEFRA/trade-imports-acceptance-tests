@@ -19,7 +19,7 @@ describe('Reporting Matching Summary Levels', function () {
     const docRef = await generateDocumentReference()
     const mrn = generateRandomMRN()
 
-    testLogger.info('Sending Clearance Request for no match')
+    testLogger.info('Sending Clearance Request for Mo Match')
     await newClearanceRequest()
       .addItem({
         TaricCommodityCode: '0103911001',
