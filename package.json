@@ -82,6 +82,9 @@
     "protobufjs": "7.5.5",
     "ip-address": "10.1.1"
   },
+  "resolutions": {
+    "ip-address": "10.1.1"
+  },
   "imports": {
     "#utils/*": "./test/utils/*",
     "#steps/*": "./test/steps/*"
