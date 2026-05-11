@@ -64,6 +64,39 @@ export async function getStatus() {
   return await makeGetRequest(url)
 }
 
+export async function getMatchingLevels(from, to) {
+  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/matches/summary/levels?from=${from}&to=${to}`
+  return await makeGetRequest(url)
+}
+
+export async function getDataMatches(from, to, match) {
+  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/matches/data?from=${from}&to=${to}&match=${match}`
+  return await makeGetRequest(url)
+}
+
+export async function waitForLevelsChange(
+  initialLevels,
+  getLevelsFn,
+  timeoutMs = 10000,
+  intervalMs = 250
+) {
+  const start = Date.now()
+  while (Date.now() - start < timeoutMs) {
+    const current = await getLevelsFn()
+    if (
+      current.level1 !== initialLevels.level1 ||
+      current.level2 !== initialLevels.level2 ||
+      current.level3 !== initialLevels.level3 ||
+      current.total !== initialLevels.total
+    ) {
+      return current
+    }
+    // eslint-disable-next-line promise/param-names
+    await new Promise((res) => setTimeout(res, intervalMs))
+  }
+  throw new Error('Timeout: No level changed within the timeout period')
+}
+
 async function makeGetRequest(url) {
   const { statusCode, body } = await request(url, {
     method: 'GET',
