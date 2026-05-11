@@ -39,6 +39,8 @@ describe('Reporting Matching Summary Levels', function () {
       allSummaryLevels,
       () => getMatchingLevels(from, to)
     )
+
+    testLogger.info('Asserting Summary Levels after No Match')
     const firstUpdateSummaryLevelOne = firstAllSummaryLevels.level1
     const firstUpdateSummaryLevelTwo = firstAllSummaryLevels.level2
     const firstUpdateSummaryLevelThree = firstAllSummaryLevels.level3
@@ -61,7 +63,7 @@ describe('Reporting Matching Summary Levels', function () {
       initialSummaryLevelTotal
     )
 
-    testLogger.info('Sending CHED-A to match Level 1')
+    testLogger.info('Sending CHED-A to match at Level 1')
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
         referenceNumber: docRef,
@@ -117,6 +119,7 @@ describe('Reporting Matching Summary Levels', function () {
     )
     await waitForSpecificDecision(mrn, 'H01')
 
+    testLogger.info('Asserting Summary Levels after Level 1 Match')
     const secondAllSummaryLevels = await waitForLevelsChange(
       firstAllSummaryLevels,
       () => getMatchingLevels(from, to)
@@ -137,7 +140,7 @@ describe('Reporting Matching Summary Levels', function () {
     expect(secondUpdateSummaryLevelThree).to.equal(firstUpdateSummaryLevelThree)
     expect(secondUpdateSummaryTotal).to.equal(firstUpdateSummaryTotal)
 
-    testLogger.info('Updating CHED-A to match Level 2')
+    testLogger.info('Updating CHED-A to match at Level 2')
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
         referenceNumber: docRef,
@@ -193,6 +196,7 @@ describe('Reporting Matching Summary Levels', function () {
     )
     await waitForSpecificDecision(mrn, 'H01')
 
+    testLogger.info('Asserting Summary Levels after Level 2 Match')
     const thirdAllSummaryLevels = await waitForLevelsChange(
       secondAllSummaryLevels,
       () => getMatchingLevels(from, to)
@@ -269,6 +273,7 @@ describe('Reporting Matching Summary Levels', function () {
     )
     await waitForSpecificDecision(mrn, 'H01')
 
+    testLogger.info('Asserting Summary Levels after Level 3 Match')
     const finalAllSummaryLevels = await waitForLevelsChange(
       thirdAllSummaryLevels,
       () => getMatchingLevels(from, to)
