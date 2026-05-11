@@ -43,6 +43,7 @@
     "he": "1.2.0",
     "html-entities": "2.6.0",
     "https-proxy-agent": "9.0.0",
+    "ip-address": "10.1.1",
     "p-wait-for": "5.0.2",
     "pino": "9.7.0",
     "proxy-agent": "8.0.1",
