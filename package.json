@@ -79,7 +79,7 @@
   "overrides": {
     "serialize-javascript": "7.0.5",
     "diff": "8.0.4",
-    "protobufjs": "7.5.5",
+    "protobufjs": "8.3.0",
     "ip-address": "10.1.1"
   },
   "resolutions": {
