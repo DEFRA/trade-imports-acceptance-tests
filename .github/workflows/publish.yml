@@ -24,6 +24,6 @@ jobs:
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 #v6
 
       - name: Build the test suite
-        uses: DEFRA/cdp-build-action/build-test@main
+        uses: DEFRA/cdp-build-action/build-test@dfb7dbaa4129b6e7e6b250c043d06628b32f8167
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
