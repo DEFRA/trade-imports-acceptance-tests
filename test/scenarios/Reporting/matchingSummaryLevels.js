@@ -63,6 +63,12 @@ describe('Reporting Matching Summary Levels', function () {
       initialSummaryLevelTotal
     )
 
+    const firstMatchesDataWithoutWithoutV2 = await getDataMatches(from, to)
+    const firstMatchesDataWithoutWithV2 = await getDataMatches(from, to, true)
+
+    testLogger.info('firstMatchesDataWithoutWithoutV2: ', { firstMatchesDataWithoutWithoutV2 })
+    testLogger.info('firstMatchesDataWithoutWithV2: ', { firstMatchesDataWithoutWithV2 })
+
     testLogger.info('Sending CHED-A to match at Level 1')
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {

@@ -69,9 +69,10 @@ export async function getMatchingLevels(from, to) {
   return await makeGetRequest(url)
 }
 
-export async function getDataMatches(from, to, match) {
-  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/matches/data?from=${from}&to=${to}&match=${match}`
-  return await makeGetRequest(url)
+export async function getDataMatches(from, to, useV2 = false) {
+  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/matches/data?from=${from}&to=${to}&match=false`
+  const headers = useV2 ? { useV2: 'true' } : {}
+  return await makeGetRequest(url, headers)
 }
 
 export async function waitForLevelsChange(
@@ -97,12 +98,13 @@ export async function waitForLevelsChange(
   throw new Error('Timeout: No level changed within the timeout period')
 }
 
-async function makeGetRequest(url) {
+async function makeGetRequest(url, additionalHeaders = {}) {
   const { statusCode, body } = await request(url, {
     method: 'GET',
     headers: {
       Authorization: `Basic ${encodedAuth}`,
-      Accept: 'application/json'
+      Accept: 'application/json',
+      ...additionalHeaders
     }
   })
 
