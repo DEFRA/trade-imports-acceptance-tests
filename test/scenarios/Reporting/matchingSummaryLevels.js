@@ -63,21 +63,21 @@ describe('Reporting Matching Summary Levels', function () {
       initialSummaryLevelTotal
     )
 
-    const firstMatchesDataWithoutWithoutV2 = await getDataMatches(from, to)
-    const firstMatchesDataWithoutWithV2 = await getDataMatches(from, to, true)
+    const firstNoMatchesDataWithoutV2 = await getDataMatches(from, to)
+    const firstNoMatchesDataWithV2 = await getDataMatches(from, to, true)
 
-    testLogger.info('firstMatchesDataWithoutWithoutV2: ', {
-      firstMatchesDataWithoutWithoutV2
+    testLogger.info('firstNoMatchesDataWithoutV2: ', {
+      firstNoMatchesDataWithoutV2
     })
-    testLogger.info('firstMatchesDataWithoutWithV2: ', {
-      firstMatchesDataWithoutWithV2
+    testLogger.info('firstNoMatchesDataWithV2: ', {
+      firstNoMatchesDataWithV2
     })
 
-    expect(firstMatchesDataWithoutWithoutV2.data[0]).to.include({
+    expect(firstNoMatchesDataWithoutV2.data[0]).to.include({
       reference: mrn
     })
 
-    expect(firstMatchesDataWithoutWithV2.data[0]).to.include({
+    expect(firstNoMatchesDataWithV2.data[0]).to.include({
       mrn,
       itemNumber: 1,
       commodityCode: '0103911001',
@@ -170,20 +170,20 @@ describe('Reporting Matching Summary Levels', function () {
     expect(secondUpdateSummaryLevelThree).to.equal(firstUpdateSummaryLevelThree)
     expect(secondUpdateSummaryTotal).to.equal(firstUpdateSummaryTotal)
 
-    const secondMatchesDataWithoutWithoutV2 = await getDataMatches(from, to)
-    const secondMatchesDataWithoutWithV2 = await getDataMatches(from, to, true)
+    const secondNoMatchesDataWithoutV2 = await getDataMatches(from, to)
+    const secondNoMatchesDataWithV2 = await getDataMatches(from, to, true)
 
-    testLogger.info('secondMatchesDataWithoutWithoutV2: ', {
-      secondMatchesDataWithoutWithoutV2
+    testLogger.info('secondNoMatchesDataWithoutV2: ', {
+      secondNoMatchesDataWithoutV2
     })
-    testLogger.info('secondMatchesDataWithoutWithV2: ', {
-      secondMatchesDataWithoutWithV2
+    testLogger.info('secondNoMatchesDataWithV2: ', {
+      secondNoMatchesDataWithV2
     })
 
-    expect(secondMatchesDataWithoutWithoutV2).to.have.property('data')
-    expect(secondMatchesDataWithoutWithoutV2.data).to.have.lengthOf(0)
+    expect(secondNoMatchesDataWithoutV2).to.have.property('data')
+    expect(secondNoMatchesDataWithoutV2.data).to.have.lengthOf(0)
 
-    expect(secondMatchesDataWithoutWithV2.data[0]).to.include({
+    expect(secondNoMatchesDataWithV2.data[0]).to.include({
       mrn,
       itemNumber: 1,
       commodityCode: '0103911001',
@@ -199,7 +199,7 @@ describe('Reporting Matching Summary Levels', function () {
       declarantId: 'GB123456789013'
     })
 
-    expect(secondMatchesDataWithoutWithV2.data[1]).to.include({
+    expect(secondNoMatchesDataWithV2.data[1]).to.include({
       mrn,
       itemNumber: 1,
       commodityCode: '0103911001',
@@ -292,20 +292,20 @@ describe('Reporting Matching Summary Levels', function () {
     expect(thirdUpdateSummaryLevelThree).to.equal(secondUpdateSummaryLevelThree)
     expect(thirdUpdateSummaryTotal).to.equal(secondUpdateSummaryTotal)
 
-    const thirdMatchesDataWithoutWithoutV2 = await getDataMatches(from, to)
-    const thirdMatchesDataWithoutWithV2 = await getDataMatches(from, to, true)
+    const thirdNoMatchesDataWithoutV2 = await getDataMatches(from, to)
+    const thirdNoMatchesDataWithV2 = await getDataMatches(from, to, true)
 
-    testLogger.info('thirdMatchesDataWithoutWithoutV2: ', {
-      thirdMatchesDataWithoutWithoutV2
+    testLogger.info('thirdNoMatchesDataWithoutV2: ', {
+      thirdNoMatchesDataWithoutV2
     })
-    testLogger.info('thirdMatchesDataWithoutWithV2: ', {
-      thirdMatchesDataWithoutWithV2
+    testLogger.info('thirdNoMatchesDataWithV2: ', {
+      thirdNoMatchesDataWithV2
     })
 
-    expect(thirdMatchesDataWithoutWithoutV2).to.have.property('data')
-    expect(thirdMatchesDataWithoutWithoutV2.data).to.have.lengthOf(0)
+    expect(thirdNoMatchesDataWithoutV2).to.have.property('data')
+    expect(thirdNoMatchesDataWithoutV2.data).to.have.lengthOf(0)
 
-    expect(thirdMatchesDataWithoutWithV2.data[0]).to.include({
+    expect(thirdNoMatchesDataWithV2.data[0]).to.include({
       mrn,
       itemNumber: 1,
       commodityCode: '0103911001',
@@ -321,7 +321,7 @@ describe('Reporting Matching Summary Levels', function () {
       declarantId: 'GB123456789013'
     })
 
-    expect(thirdMatchesDataWithoutWithV2.data[1]).to.include({
+    expect(thirdNoMatchesDataWithV2.data[1]).to.include({
       mrn,
       itemNumber: 1,
       commodityCode: '0103911001',
@@ -414,20 +414,20 @@ describe('Reporting Matching Summary Levels', function () {
     )
     expect(finalUpdateSummaryTotal).to.equal(thirdUpdateSummaryTotal)
 
-    const finalMatchesDataWithoutWithoutV2 = await getDataMatches(from, to)
-    const finalMatchesDataWithoutWithV2 = await getDataMatches(from, to, true)
+    const finalNoMatchesDataWithoutV2 = await getDataMatches(from, to)
+    const finalNoMatchesDataWithV2 = await getDataMatches(from, to, true)
 
-    testLogger.info('finalMatchesDataWithoutWithoutV2: ', {
-      finalMatchesDataWithoutWithoutV2
+    testLogger.info('finalNoMatchesDataWithoutV2: ', {
+      finalNoMatchesDataWithoutV2
     })
-    testLogger.info('finalMatchesDataWithoutWithV2: ', {
-      finalMatchesDataWithoutWithV2
+    testLogger.info('finalNoMatchesDataWithV2: ', {
+      finalNoMatchesDataWithV2
     })
 
-    expect(finalMatchesDataWithoutWithoutV2).to.have.property('data')
-    expect(finalMatchesDataWithoutWithoutV2.data).to.have.lengthOf(0)
+    expect(finalNoMatchesDataWithoutV2).to.have.property('data')
+    expect(finalNoMatchesDataWithoutV2.data).to.have.lengthOf(0)
 
-    expect(finalMatchesDataWithoutWithV2).to.have.property('data')
-    expect(finalMatchesDataWithoutWithV2.data).to.have.lengthOf(0)
+    expect(finalNoMatchesDataWithV2).to.have.property('data')
+    expect(finalNoMatchesDataWithV2.data).to.have.lengthOf(0)
   })
 })

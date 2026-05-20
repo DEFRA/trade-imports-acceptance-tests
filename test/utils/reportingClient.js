@@ -69,8 +69,8 @@ export async function getMatchingLevels(from, to) {
   return await makeGetRequest(url)
 }
 
-export async function getDataMatches(from, to, useV2 = false) {
-  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/matches/data?from=${from}&to=${to}&match=false`
+export async function getDataMatches(from, to, useV2 = false, match = false) {
+  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/matches/data?from=${from}&to=${to}&match=${match}`
   const headers = useV2 ? { useV2: 'true' } : {}
   return await makeGetRequest(url, headers)
 }
