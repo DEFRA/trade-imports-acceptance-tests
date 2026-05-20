@@ -73,10 +73,12 @@ describe('Reporting Matching Summary Levels', function () {
       firstNoMatchesDataWithV2
     })
 
+    expect(firstNoMatchesDataWithoutV2.data).to.have.lengthOf(1)
     expect(firstNoMatchesDataWithoutV2.data[0]).to.include({
       reference: mrn
     })
 
+    expect(firstNoMatchesDataWithV2.data).to.have.lengthOf(1)
     expect(firstNoMatchesDataWithV2.data[0]).to.include({
       mrn,
       itemNumber: 1,
@@ -92,6 +94,24 @@ describe('Reporting Matching Summary Levels', function () {
       dispatchCountryCode: 'CN',
       declarantId: 'GB123456789013'
     })
+
+    const firstMatchesDataWithoutV2 = await getDataMatches(
+      from,
+      to,
+      false,
+      true
+    )
+    const firstMatchesDataWithV2 = await getDataMatches(from, to, true, true)
+
+    testLogger.info('firstMatchesDataWithoutV2: ', {
+      firstMatchesDataWithoutV2
+    })
+    testLogger.info('firstMatchesDataWithV2: ', {
+      firstMatchesDataWithV2
+    })
+
+    expect(firstMatchesDataWithoutV2.data).to.have.lengthOf(0)
+    expect(firstMatchesDataWithV2.data).to.have.lengthOf(0)
 
     testLogger.info('Sending CHED-A to match at Level 1')
     await sendIpaffsMessage(
@@ -180,9 +200,9 @@ describe('Reporting Matching Summary Levels', function () {
       secondNoMatchesDataWithV2
     })
 
-    expect(secondNoMatchesDataWithoutV2).to.have.property('data')
     expect(secondNoMatchesDataWithoutV2.data).to.have.lengthOf(0)
 
+    expect(secondNoMatchesDataWithV2.data).to.have.lengthOf(2)
     expect(secondNoMatchesDataWithV2.data[0]).to.include({
       mrn,
       itemNumber: 1,
@@ -198,7 +218,6 @@ describe('Reporting Matching Summary Levels', function () {
       dispatchCountryCode: 'CN',
       declarantId: 'GB123456789013'
     })
-
     expect(secondNoMatchesDataWithV2.data[1]).to.include({
       mrn,
       itemNumber: 1,
@@ -214,6 +233,28 @@ describe('Reporting Matching Summary Levels', function () {
       dispatchCountryCode: 'CN',
       declarantId: 'GB123456789013'
     })
+
+    const secondMatchesDataWithoutV2 = await getDataMatches(
+      from,
+      to,
+      false,
+      true
+    )
+    const secondMatchesDataWithV2 = await getDataMatches(from, to, true, true)
+
+    testLogger.info('secondMatchesDataWithoutV2: ', {
+      secondMatchesDataWithoutV2
+    })
+    testLogger.info('secondMatchesDataWithV2: ', {
+      secondMatchesDataWithV2
+    })
+
+    expect(secondMatchesDataWithoutV2.data).to.have.lengthOf(1)
+    expect(secondMatchesDataWithoutV2.data[0]).to.include({
+      reference: mrn
+    })
+
+    expect(secondMatchesDataWithV2.data).to.have.lengthOf(0)
 
     testLogger.info('Updating CHED-A to match at Level 2')
     await sendIpaffsMessage(
@@ -302,9 +343,9 @@ describe('Reporting Matching Summary Levels', function () {
       thirdNoMatchesDataWithV2
     })
 
-    expect(thirdNoMatchesDataWithoutV2).to.have.property('data')
     expect(thirdNoMatchesDataWithoutV2.data).to.have.lengthOf(0)
 
+    expect(thirdNoMatchesDataWithV2.data).to.have.lengthOf(2)
     expect(thirdNoMatchesDataWithV2.data[0]).to.include({
       mrn,
       itemNumber: 1,
@@ -320,7 +361,6 @@ describe('Reporting Matching Summary Levels', function () {
       dispatchCountryCode: 'CN',
       declarantId: 'GB123456789013'
     })
-
     expect(thirdNoMatchesDataWithV2.data[1]).to.include({
       mrn,
       itemNumber: 1,
@@ -336,6 +376,28 @@ describe('Reporting Matching Summary Levels', function () {
       dispatchCountryCode: 'CN',
       declarantId: 'GB123456789013'
     })
+
+    const thirdMatchesDataWithoutV2 = await getDataMatches(
+      from,
+      to,
+      false,
+      true
+    )
+    const thirdMatchesDataWithV2 = await getDataMatches(from, to, true, true)
+
+    testLogger.info('thirdMatchesDataWithoutV2: ', {
+      thirdMatchesDataWithoutV2
+    })
+    testLogger.info('thirdMatchesDataWithV2: ', {
+      thirdMatchesDataWithV2
+    })
+
+    expect(thirdMatchesDataWithoutV2.data).to.have.lengthOf(1)
+    expect(thirdMatchesDataWithoutV2.data[0]).to.include({
+      reference: mrn
+    })
+
+    expect(thirdMatchesDataWithV2.data).to.have.lengthOf(0)
 
     testLogger.info('Updating CHED-A to match Level 3')
     await sendIpaffsMessage(
@@ -424,10 +486,44 @@ describe('Reporting Matching Summary Levels', function () {
       finalNoMatchesDataWithV2
     })
 
-    expect(finalNoMatchesDataWithoutV2).to.have.property('data')
     expect(finalNoMatchesDataWithoutV2.data).to.have.lengthOf(0)
-
-    expect(finalNoMatchesDataWithV2).to.have.property('data')
     expect(finalNoMatchesDataWithV2.data).to.have.lengthOf(0)
+
+    const finalMatchesDataWithoutV2 = await getDataMatches(
+      from,
+      to,
+      false,
+      true
+    )
+    const finalMatchesDataWithV2 = await getDataMatches(from, to, true, true)
+
+    testLogger.info('finalMatchesDataWithoutV2: ', {
+      finalMatchesDataWithoutV2
+    })
+    testLogger.info('finalMatchesDataWithV2: ', {
+      finalMatchesDataWithV2
+    })
+
+    expect(finalMatchesDataWithoutV2.data).to.have.lengthOf(1)
+    expect(finalMatchesDataWithoutV2.data[0]).to.include({
+      reference: mrn
+    })
+
+    expect(finalMatchesDataWithV2.data).to.have.lengthOf(1)
+    expect(finalMatchesDataWithV2.data[0]).to.include({
+      mrn,
+      itemNumber: 1,
+      commodityCode: '0103911001',
+      checkCode: 'H221',
+      quantityOrWeight: 500,
+      chedReference: docRef,
+      match: 'Yes',
+      authority: 'AHVLA',
+      decision: 'H01',
+      level: 1,
+      mode: 'Active',
+      dispatchCountryCode: 'CN',
+      declarantId: 'GB123456789013'
+    })
   })
 })
