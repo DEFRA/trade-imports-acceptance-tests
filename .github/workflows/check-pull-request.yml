@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 #v6
 
       - name: Test code and Create Test Coverage Reports
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -28,7 +28,7 @@ jobs:
       - run: npm run format:check
       - run: npm run lint
       - name: Check Dockerfile Builds
-        uses: docker/build-push-action@v7.1.0
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
         with:
           context: .
           file: ./Dockerfile
@@ -49,4 +49,4 @@ jobs:
 #    name: Run Journey Tests
 #    runs-on: ubuntu-latest
 #    steps:
-#      - uses: DEFRA/cdp-node-journey-test-suite-template/run-journey-tests@main
+#      - uses: DEFRA/cdp-node-journey-test-suite-template/run-journey-tests@0fbf0772fed6bddd2ca9c9722c188b0adf2a2907
