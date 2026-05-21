@@ -18,6 +18,10 @@ describe('Reporting Matching Summary Levels', function () {
 
     const docRef = await generateDocumentReference()
     const mrn = generateRandomMRN()
+    const filterWithoutV2ByMrn = (response) =>
+      response.data.filter((entry) => entry.reference === mrn)
+    const filterWithV2ByMrn = (response) =>
+      response.data.filter((entry) => entry.mrn === mrn)
 
     testLogger.info('Sending Clearance Request for Mo Match')
     await newClearanceRequest()
@@ -62,6 +66,70 @@ describe('Reporting Matching Summary Levels', function () {
     expect(firstUpdateSummaryTotal).to.be.greaterThanOrEqual(
       initialSummaryLevelTotal
     )
+
+    const firstNoMatchesDataWithoutV2 = await getDataMatches(from, to)
+    const firstNoMatchesDataWithV2 = await getDataMatches(from, to, true)
+
+    testLogger.info('firstNoMatchesDataWithoutV2: ', {
+      firstNoMatchesDataWithoutV2
+    })
+    testLogger.info('firstNoMatchesDataWithV2: ', {
+      firstNoMatchesDataWithV2
+    })
+
+    const firstNoMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      firstNoMatchesDataWithoutV2
+    )
+    const firstNoMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      firstNoMatchesDataWithV2
+    )
+
+    expect(firstNoMatchesDataWithoutV2ForMrn).to.have.lengthOf(1)
+    expect(firstNoMatchesDataWithoutV2ForMrn[0]).to.include({
+      reference: mrn
+    })
+
+    expect(firstNoMatchesDataWithV2ForMrn).to.have.lengthOf(1)
+    expect(firstNoMatchesDataWithV2ForMrn[0]).to.include({
+      mrn,
+      itemNumber: 1,
+      commodityCode: '0103911001',
+      checkCode: 'H221',
+      quantityOrWeight: 500,
+      chedReference: docRef,
+      match: 'No',
+      authority: 'AHVLA',
+      decision: 'X00',
+      level: 1,
+      mode: 'Active',
+      dispatchCountryCode: 'CN',
+      declarantId: 'GB123456789013'
+    })
+
+    const firstMatchesDataWithoutV2 = await getDataMatches(
+      from,
+      to,
+      false,
+      true
+    )
+    const firstMatchesDataWithV2 = await getDataMatches(from, to, true, true)
+
+    testLogger.info('firstMatchesDataWithoutV2: ', {
+      firstMatchesDataWithoutV2
+    })
+    testLogger.info('firstMatchesDataWithV2: ', {
+      firstMatchesDataWithV2
+    })
+
+    const firstMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      firstMatchesDataWithoutV2
+    )
+    const firstMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      firstMatchesDataWithV2
+    )
+
+    expect(firstMatchesDataWithoutV2ForMrn).to.have.lengthOf(0)
+    expect(firstMatchesDataWithV2ForMrn).to.have.lengthOf(0)
 
     testLogger.info('Sending CHED-A to match at Level 1')
     await sendIpaffsMessage(
@@ -140,6 +208,86 @@ describe('Reporting Matching Summary Levels', function () {
     expect(secondUpdateSummaryLevelThree).to.equal(firstUpdateSummaryLevelThree)
     expect(secondUpdateSummaryTotal).to.equal(firstUpdateSummaryTotal)
 
+    const secondNoMatchesDataWithoutV2 = await getDataMatches(from, to)
+    const secondNoMatchesDataWithV2 = await getDataMatches(from, to, true)
+
+    testLogger.info('secondNoMatchesDataWithoutV2: ', {
+      secondNoMatchesDataWithoutV2
+    })
+    testLogger.info('secondNoMatchesDataWithV2: ', {
+      secondNoMatchesDataWithV2
+    })
+
+    const secondNoMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      secondNoMatchesDataWithoutV2
+    )
+    const secondNoMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      secondNoMatchesDataWithV2
+    )
+
+    expect(secondNoMatchesDataWithoutV2ForMrn).to.have.lengthOf(0)
+
+    expect(secondNoMatchesDataWithV2ForMrn).to.have.lengthOf(2)
+    expect(secondNoMatchesDataWithV2ForMrn[0]).to.include({
+      mrn,
+      itemNumber: 1,
+      commodityCode: '0103911001',
+      checkCode: 'H221',
+      quantityOrWeight: 500,
+      chedReference: docRef,
+      match: 'Yes',
+      authority: 'AHVLA',
+      decision: 'H01',
+      level: 1,
+      mode: 'Active',
+      dispatchCountryCode: 'CN',
+      declarantId: 'GB123456789013'
+    })
+    expect(secondNoMatchesDataWithV2ForMrn[1]).to.include({
+      mrn,
+      itemNumber: 1,
+      commodityCode: '0103911001',
+      checkCode: 'H221',
+      quantityOrWeight: 500,
+      chedReference: docRef,
+      match: 'No',
+      authority: 'AHVLA',
+      decision: 'X00',
+      level: 2,
+      mode: 'Passive',
+      dispatchCountryCode: 'CN',
+      declarantId: 'GB123456789013'
+    })
+
+    const secondMatchesDataWithoutV2 = await getDataMatches(
+      from,
+      to,
+      false,
+      true
+    )
+    const secondMatchesDataWithV2 = await getDataMatches(from, to, true, true)
+
+    testLogger.info('secondMatchesDataWithoutV2: ', {
+      secondMatchesDataWithoutV2
+    })
+    testLogger.info('secondMatchesDataWithV2: ', {
+      secondMatchesDataWithV2
+    })
+
+    const secondMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      secondMatchesDataWithoutV2
+    )
+    const secondMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      secondMatchesDataWithV2
+    )
+
+    expect(secondMatchesDataWithoutV2ForMrn).to.have.lengthOf(1)
+    expect(secondMatchesDataWithoutV2ForMrn[0]).to.include({
+      reference: mrn
+    })
+
+    expect(secondMatchesDataWithV2ForMrn).to.have.lengthOf(0)
+
     testLogger.info('Updating CHED-A to match at Level 2')
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
@@ -217,6 +365,86 @@ describe('Reporting Matching Summary Levels', function () {
     expect(thirdUpdateSummaryLevelThree).to.equal(secondUpdateSummaryLevelThree)
     expect(thirdUpdateSummaryTotal).to.equal(secondUpdateSummaryTotal)
 
+    const thirdNoMatchesDataWithoutV2 = await getDataMatches(from, to)
+    const thirdNoMatchesDataWithV2 = await getDataMatches(from, to, true)
+
+    testLogger.info('thirdNoMatchesDataWithoutV2: ', {
+      thirdNoMatchesDataWithoutV2
+    })
+    testLogger.info('thirdNoMatchesDataWithV2: ', {
+      thirdNoMatchesDataWithV2
+    })
+
+    const thirdNoMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      thirdNoMatchesDataWithoutV2
+    )
+    const thirdNoMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      thirdNoMatchesDataWithV2
+    )
+
+    expect(thirdNoMatchesDataWithoutV2ForMrn).to.have.lengthOf(0)
+
+    expect(thirdNoMatchesDataWithV2ForMrn).to.have.lengthOf(2)
+    expect(thirdNoMatchesDataWithV2ForMrn[0]).to.include({
+      mrn,
+      itemNumber: 1,
+      commodityCode: '0103911001',
+      checkCode: 'H221',
+      quantityOrWeight: 500,
+      chedReference: docRef,
+      match: 'Yes',
+      authority: 'AHVLA',
+      decision: 'H01',
+      level: 1,
+      mode: 'Active',
+      dispatchCountryCode: 'CN',
+      declarantId: 'GB123456789013'
+    })
+    expect(thirdNoMatchesDataWithV2ForMrn[1]).to.include({
+      mrn,
+      itemNumber: 1,
+      commodityCode: '0103911001',
+      checkCode: 'H221',
+      quantityOrWeight: 500,
+      chedReference: docRef,
+      match: 'No',
+      authority: 'AHVLA',
+      decision: 'X00',
+      level: 3,
+      mode: 'Passive',
+      dispatchCountryCode: 'CN',
+      declarantId: 'GB123456789013'
+    })
+
+    const thirdMatchesDataWithoutV2 = await getDataMatches(
+      from,
+      to,
+      false,
+      true
+    )
+    const thirdMatchesDataWithV2 = await getDataMatches(from, to, true, true)
+
+    testLogger.info('thirdMatchesDataWithoutV2: ', {
+      thirdMatchesDataWithoutV2
+    })
+    testLogger.info('thirdMatchesDataWithV2: ', {
+      thirdMatchesDataWithV2
+    })
+
+    const thirdMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      thirdMatchesDataWithoutV2
+    )
+    const thirdMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      thirdMatchesDataWithV2
+    )
+
+    expect(thirdMatchesDataWithoutV2ForMrn).to.have.lengthOf(1)
+    expect(thirdMatchesDataWithoutV2ForMrn[0]).to.include({
+      reference: mrn
+    })
+
+    expect(thirdMatchesDataWithV2ForMrn).to.have.lengthOf(0)
+
     testLogger.info('Updating CHED-A to match Level 3')
     await sendIpaffsMessage(
       loadIPAFFSJson('CHEDA.json', {
@@ -293,5 +521,69 @@ describe('Reporting Matching Summary Levels', function () {
       thirdUpdateSummaryLevelThree
     )
     expect(finalUpdateSummaryTotal).to.equal(thirdUpdateSummaryTotal)
+
+    const finalNoMatchesDataWithoutV2 = await getDataMatches(from, to)
+    const finalNoMatchesDataWithV2 = await getDataMatches(from, to, true)
+
+    testLogger.info('finalNoMatchesDataWithoutV2: ', {
+      finalNoMatchesDataWithoutV2
+    })
+    testLogger.info('finalNoMatchesDataWithV2: ', {
+      finalNoMatchesDataWithV2
+    })
+
+    const finalNoMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      finalNoMatchesDataWithoutV2
+    )
+    const finalNoMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      finalNoMatchesDataWithV2
+    )
+
+    expect(finalNoMatchesDataWithoutV2ForMrn).to.have.lengthOf(0)
+    expect(finalNoMatchesDataWithV2ForMrn).to.have.lengthOf(0)
+
+    const finalMatchesDataWithoutV2 = await getDataMatches(
+      from,
+      to,
+      false,
+      true
+    )
+    const finalMatchesDataWithV2 = await getDataMatches(from, to, true, true)
+
+    testLogger.info('finalMatchesDataWithoutV2: ', {
+      finalMatchesDataWithoutV2
+    })
+    testLogger.info('finalMatchesDataWithV2: ', {
+      finalMatchesDataWithV2
+    })
+
+    const finalMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      finalMatchesDataWithoutV2
+    )
+    const finalMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      finalMatchesDataWithV2
+    )
+
+    expect(finalMatchesDataWithoutV2ForMrn).to.have.lengthOf(1)
+    expect(finalMatchesDataWithoutV2ForMrn[0]).to.include({
+      reference: mrn
+    })
+
+    expect(finalMatchesDataWithV2ForMrn).to.have.lengthOf(1)
+    expect(finalMatchesDataWithV2ForMrn[0]).to.include({
+      mrn,
+      itemNumber: 1,
+      commodityCode: '0103911001',
+      checkCode: 'H221',
+      quantityOrWeight: 500,
+      chedReference: docRef,
+      match: 'Yes',
+      authority: 'AHVLA',
+      decision: 'H01',
+      level: 1,
+      mode: 'Active',
+      dispatchCountryCode: 'CN',
+      declarantId: 'GB123456789013'
+    })
   })
 })
