@@ -18,6 +18,10 @@ describe('Reporting Matching Summary Levels', function () {
 
     const docRef = await generateDocumentReference()
     const mrn = generateRandomMRN()
+    const filterWithoutV2ByMrn = (response) =>
+      response.data.filter((entry) => entry.reference === mrn)
+    const filterWithV2ByMrn = (response) =>
+      response.data.filter((entry) => entry.mrn === mrn)
 
     testLogger.info('Sending Clearance Request for Mo Match')
     await newClearanceRequest()
@@ -73,13 +77,20 @@ describe('Reporting Matching Summary Levels', function () {
       firstNoMatchesDataWithV2
     })
 
-    expect(firstNoMatchesDataWithoutV2.data).to.have.lengthOf(1)
-    expect(firstNoMatchesDataWithoutV2.data[0]).to.include({
+    const firstNoMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      firstNoMatchesDataWithoutV2
+    )
+    const firstNoMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      firstNoMatchesDataWithV2
+    )
+
+    expect(firstNoMatchesDataWithoutV2ForMrn).to.have.lengthOf(1)
+    expect(firstNoMatchesDataWithoutV2ForMrn[0]).to.include({
       reference: mrn
     })
 
-    expect(firstNoMatchesDataWithV2.data).to.have.lengthOf(1)
-    expect(firstNoMatchesDataWithV2.data[0]).to.include({
+    expect(firstNoMatchesDataWithV2ForMrn).to.have.lengthOf(1)
+    expect(firstNoMatchesDataWithV2ForMrn[0]).to.include({
       mrn,
       itemNumber: 1,
       commodityCode: '0103911001',
@@ -110,8 +121,15 @@ describe('Reporting Matching Summary Levels', function () {
       firstMatchesDataWithV2
     })
 
-    expect(firstMatchesDataWithoutV2.data).to.have.lengthOf(0)
-    expect(firstMatchesDataWithV2.data).to.have.lengthOf(0)
+    const firstMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      firstMatchesDataWithoutV2
+    )
+    const firstMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      firstMatchesDataWithV2
+    )
+
+    expect(firstMatchesDataWithoutV2ForMrn).to.have.lengthOf(0)
+    expect(firstMatchesDataWithV2ForMrn).to.have.lengthOf(0)
 
     testLogger.info('Sending CHED-A to match at Level 1')
     await sendIpaffsMessage(
@@ -200,10 +218,17 @@ describe('Reporting Matching Summary Levels', function () {
       secondNoMatchesDataWithV2
     })
 
-    expect(secondNoMatchesDataWithoutV2.data).to.have.lengthOf(0)
+    const secondNoMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      secondNoMatchesDataWithoutV2
+    )
+    const secondNoMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      secondNoMatchesDataWithV2
+    )
 
-    expect(secondNoMatchesDataWithV2.data).to.have.lengthOf(2)
-    expect(secondNoMatchesDataWithV2.data[0]).to.include({
+    expect(secondNoMatchesDataWithoutV2ForMrn).to.have.lengthOf(0)
+
+    expect(secondNoMatchesDataWithV2ForMrn).to.have.lengthOf(2)
+    expect(secondNoMatchesDataWithV2ForMrn[0]).to.include({
       mrn,
       itemNumber: 1,
       commodityCode: '0103911001',
@@ -218,7 +243,7 @@ describe('Reporting Matching Summary Levels', function () {
       dispatchCountryCode: 'CN',
       declarantId: 'GB123456789013'
     })
-    expect(secondNoMatchesDataWithV2.data[1]).to.include({
+    expect(secondNoMatchesDataWithV2ForMrn[1]).to.include({
       mrn,
       itemNumber: 1,
       commodityCode: '0103911001',
@@ -249,12 +274,19 @@ describe('Reporting Matching Summary Levels', function () {
       secondMatchesDataWithV2
     })
 
-    expect(secondMatchesDataWithoutV2.data).to.have.lengthOf(1)
-    expect(secondMatchesDataWithoutV2.data[0]).to.include({
+    const secondMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      secondMatchesDataWithoutV2
+    )
+    const secondMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      secondMatchesDataWithV2
+    )
+
+    expect(secondMatchesDataWithoutV2ForMrn).to.have.lengthOf(1)
+    expect(secondMatchesDataWithoutV2ForMrn[0]).to.include({
       reference: mrn
     })
 
-    expect(secondMatchesDataWithV2.data).to.have.lengthOf(0)
+    expect(secondMatchesDataWithV2ForMrn).to.have.lengthOf(0)
 
     testLogger.info('Updating CHED-A to match at Level 2')
     await sendIpaffsMessage(
@@ -343,10 +375,17 @@ describe('Reporting Matching Summary Levels', function () {
       thirdNoMatchesDataWithV2
     })
 
-    expect(thirdNoMatchesDataWithoutV2.data).to.have.lengthOf(0)
+    const thirdNoMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      thirdNoMatchesDataWithoutV2
+    )
+    const thirdNoMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      thirdNoMatchesDataWithV2
+    )
 
-    expect(thirdNoMatchesDataWithV2.data).to.have.lengthOf(2)
-    expect(thirdNoMatchesDataWithV2.data[0]).to.include({
+    expect(thirdNoMatchesDataWithoutV2ForMrn).to.have.lengthOf(0)
+
+    expect(thirdNoMatchesDataWithV2ForMrn).to.have.lengthOf(2)
+    expect(thirdNoMatchesDataWithV2ForMrn[0]).to.include({
       mrn,
       itemNumber: 1,
       commodityCode: '0103911001',
@@ -361,7 +400,7 @@ describe('Reporting Matching Summary Levels', function () {
       dispatchCountryCode: 'CN',
       declarantId: 'GB123456789013'
     })
-    expect(thirdNoMatchesDataWithV2.data[1]).to.include({
+    expect(thirdNoMatchesDataWithV2ForMrn[1]).to.include({
       mrn,
       itemNumber: 1,
       commodityCode: '0103911001',
@@ -392,12 +431,19 @@ describe('Reporting Matching Summary Levels', function () {
       thirdMatchesDataWithV2
     })
 
-    expect(thirdMatchesDataWithoutV2.data).to.have.lengthOf(1)
-    expect(thirdMatchesDataWithoutV2.data[0]).to.include({
+    const thirdMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      thirdMatchesDataWithoutV2
+    )
+    const thirdMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      thirdMatchesDataWithV2
+    )
+
+    expect(thirdMatchesDataWithoutV2ForMrn).to.have.lengthOf(1)
+    expect(thirdMatchesDataWithoutV2ForMrn[0]).to.include({
       reference: mrn
     })
 
-    expect(thirdMatchesDataWithV2.data).to.have.lengthOf(0)
+    expect(thirdMatchesDataWithV2ForMrn).to.have.lengthOf(0)
 
     testLogger.info('Updating CHED-A to match Level 3')
     await sendIpaffsMessage(
@@ -486,8 +532,15 @@ describe('Reporting Matching Summary Levels', function () {
       finalNoMatchesDataWithV2
     })
 
-    expect(finalNoMatchesDataWithoutV2.data).to.have.lengthOf(0)
-    expect(finalNoMatchesDataWithV2.data).to.have.lengthOf(0)
+    const finalNoMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      finalNoMatchesDataWithoutV2
+    )
+    const finalNoMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      finalNoMatchesDataWithV2
+    )
+
+    expect(finalNoMatchesDataWithoutV2ForMrn).to.have.lengthOf(0)
+    expect(finalNoMatchesDataWithV2ForMrn).to.have.lengthOf(0)
 
     const finalMatchesDataWithoutV2 = await getDataMatches(
       from,
@@ -504,13 +557,20 @@ describe('Reporting Matching Summary Levels', function () {
       finalMatchesDataWithV2
     })
 
-    expect(finalMatchesDataWithoutV2.data).to.have.lengthOf(1)
-    expect(finalMatchesDataWithoutV2.data[0]).to.include({
+    const finalMatchesDataWithoutV2ForMrn = filterWithoutV2ByMrn(
+      finalMatchesDataWithoutV2
+    )
+    const finalMatchesDataWithV2ForMrn = filterWithV2ByMrn(
+      finalMatchesDataWithV2
+    )
+
+    expect(finalMatchesDataWithoutV2ForMrn).to.have.lengthOf(1)
+    expect(finalMatchesDataWithoutV2ForMrn[0]).to.include({
       reference: mrn
     })
 
-    expect(finalMatchesDataWithV2.data).to.have.lengthOf(1)
-    expect(finalMatchesDataWithV2.data[0]).to.include({
+    expect(finalMatchesDataWithV2ForMrn).to.have.lengthOf(1)
+    expect(finalMatchesDataWithV2ForMrn[0]).to.include({
       mrn,
       itemNumber: 1,
       commodityCode: '0103911001',
