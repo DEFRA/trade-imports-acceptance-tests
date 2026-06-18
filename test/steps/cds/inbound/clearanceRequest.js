@@ -80,6 +80,11 @@ export class ClearanceRequestTestBuilder {
     return this
   }
 
+  withDispatchCountryCode(dispatchCountryCode) {
+    this.builder.withDispatchCountryCode(dispatchCountryCode)
+    return this
+  }
+
   async sendClearanceRequest() {
     if (!this.mrn) {
       this.mrn = globalThis.generateRandomMRN()
@@ -235,6 +240,11 @@ export class FluentClearanceRequestTest {
 
   withCorrelationId(correlationId) {
     this.builder.withCorrelationId(correlationId)
+    return this
+  }
+
+  withDispatchCountryCode(dispatchCountryCode) {
+    this.builder.withDispatchCountryCode(dispatchCountryCode)
     return this
   }
 
