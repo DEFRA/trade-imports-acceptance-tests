@@ -29,8 +29,6 @@ const testCases = [
 describe('Reporting Matching Summary Levels by Region', function () {
   testCases.forEach(({ regionKey, regionLabel, dispatchCountryCode }) => {
     it(`should update region levels for ${regionLabel}`, async function () {
-      this.timeout(5 * 60 * 1000)
-
       const now = Date.now()
       const from = new Date(now - 10 * 1000).toISOString()
       const to = new Date(now + 10 * 1000).toISOString()
