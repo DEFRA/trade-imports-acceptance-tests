@@ -477,7 +477,7 @@ describe('Reporting Matching Summary Levels', function () {
                   },
                   {
                     key: 'netweight',
-                    data: '500'
+                    data: '600'
                   }
                 ],
                 identifiers: [
