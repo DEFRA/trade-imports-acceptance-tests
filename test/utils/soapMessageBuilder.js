@@ -114,6 +114,11 @@ export class SoapMessageBuilder {
         baseData.CorrelationId = this._correlationId
       }
 
+      // Override DispatchCountryCode if explicitly set
+      if (this._dispatchCountryCode !== undefined) {
+        baseData.DispatchCountryCode = this._dispatchCountryCode
+      }
+
       if (baseData.PreviousVersionNumber == null) {
         const entryVersion = baseData.EntryVersionNumber
         if (entryVersion > 1) {
@@ -327,6 +332,18 @@ export class SoapMessageBuilder {
 
     // Store the correlation ID to be used in buildModel
     this._correlationId = correlationId
+    return this
+  }
+
+  withDispatchCountryCode(dispatchCountryCode) {
+    if (this.templateType !== 'clearance') {
+      throw new Error(
+        `withDispatchCountryCode is only supported for clearance requests`
+      )
+    }
+
+    // Store the dispatch country code to be used in buildModel
+    this._dispatchCountryCode = dispatchCountryCode
     return this
   }
 }

@@ -4,3 +4,4 @@ CVE-2026-33671
 CVE-2026-33672
 CVE-2026-42338
 CVE-2026-45149
+CVE-2026-53655 # False positive - package-lock.json and npm tree resolve tar@7.5.16
