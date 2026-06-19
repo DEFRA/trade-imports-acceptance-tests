@@ -163,7 +163,7 @@ describe('Reporting Matching Summary Levels', function () {
                   },
                   {
                     key: 'netweight',
-                    data: '1000'
+                    data: '250'
                   }
                 ],
                 identifiers: [
@@ -320,7 +320,7 @@ describe('Reporting Matching Summary Levels', function () {
                   },
                   {
                     key: 'netweight',
-                    data: '1000'
+                    data: '250'
                   }
                 ],
                 identifiers: [
@@ -477,7 +477,7 @@ describe('Reporting Matching Summary Levels', function () {
                   },
                   {
                     key: 'netweight',
-                    data: '400'
+                    data: '500'
                   }
                 ],
                 identifiers: [

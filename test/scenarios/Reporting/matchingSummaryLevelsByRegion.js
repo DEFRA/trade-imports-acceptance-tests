@@ -133,7 +133,7 @@ describe('Reporting Matching Summary Levels by Region', function () {
                   keyDataPair: [
                     {
                       key: 'netweight',
-                      data: '1000'
+                      data: '250'
                     }
                   ],
                   identifiers: [
@@ -225,7 +225,7 @@ describe('Reporting Matching Summary Levels by Region', function () {
                   keyDataPair: [
                     {
                       key: 'netweight',
-                      data: '1000'
+                      data: '250'
                     }
                   ],
                   identifiers: [
