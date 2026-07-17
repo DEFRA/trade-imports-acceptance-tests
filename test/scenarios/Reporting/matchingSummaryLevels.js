@@ -26,9 +26,9 @@ describe('Reporting Matching Summary Levels', function () {
     testLogger.info('Sending Clearance Request for Mo Match')
     await newClearanceRequest()
       .addItem({
-        TaricCommodityCode: '0103911001',
-        ItemNetMass: 500,
-        ItemSupplementaryUnits: 500,
+        TaricCommodityCode: '1601009105',
+        ItemNetMass: 75,
+        ItemSupplementaryUnits: 175,
         Documents: [{ DocumentCode: 'C640', DocumentReference: docRef }],
         Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
       })
@@ -93,9 +93,9 @@ describe('Reporting Matching Summary Levels', function () {
     expect(firstNoMatchesDataWithV2ForMrn[0]).to.include({
       mrn,
       itemNumber: 1,
-      commodityCode: '0103911001',
+      commodityCode: '1601009105',
       checkCode: 'H221',
-      quantityOrWeight: 500,
+      quantityOrWeight: 175,
       chedReference: docRef,
       match: 'No',
       authority: 'AHVLA',
@@ -159,11 +159,11 @@ describe('Reporting Matching Summary Levels', function () {
                 keyDataPair: [
                   {
                     key: 'number_package',
-                    data: '1000'
+                    data: '50'
                   },
                   {
                     key: 'netweight',
-                    data: '250'
+                    data: '50'
                   }
                 ],
                 identifiers: [
@@ -231,9 +231,9 @@ describe('Reporting Matching Summary Levels', function () {
     expect(secondNoMatchesDataWithV2ForMrn[0]).to.include({
       mrn,
       itemNumber: 1,
-      commodityCode: '0103911001',
+      commodityCode: '1601009105',
       checkCode: 'H221',
-      quantityOrWeight: 500,
+      quantityOrWeight: 175,
       chedReference: docRef,
       match: 'Yes',
       authority: 'AHVLA',
@@ -246,9 +246,9 @@ describe('Reporting Matching Summary Levels', function () {
     expect(secondNoMatchesDataWithV2ForMrn[1]).to.include({
       mrn,
       itemNumber: 1,
-      commodityCode: '0103911001',
+      commodityCode: '1601009105',
       checkCode: 'H221',
-      quantityOrWeight: 500,
+      quantityOrWeight: 175,
       chedReference: docRef,
       match: 'No',
       authority: 'AHVLA',
@@ -297,7 +297,7 @@ describe('Reporting Matching Summary Levels', function () {
           commodities: {
             commodityComplement: [
               {
-                commodityID: '0103911001',
+                commodityID: '1601009105',
                 commodityDescription: 'Live horses, asses, mules and hinnies',
                 complementID: 1,
                 complementName: 'Equus asinus',
@@ -316,11 +316,11 @@ describe('Reporting Matching Summary Levels', function () {
                 keyDataPair: [
                   {
                     key: 'number_package',
-                    data: '1000'
+                    data: '50'
                   },
                   {
                     key: 'netweight',
-                    data: '250'
+                    data: '50'
                   }
                 ],
                 identifiers: [
@@ -388,9 +388,9 @@ describe('Reporting Matching Summary Levels', function () {
     expect(thirdNoMatchesDataWithV2ForMrn[0]).to.include({
       mrn,
       itemNumber: 1,
-      commodityCode: '0103911001',
+      commodityCode: '1601009105',
       checkCode: 'H221',
-      quantityOrWeight: 500,
+      quantityOrWeight: 175,
       chedReference: docRef,
       match: 'Yes',
       authority: 'AHVLA',
@@ -403,9 +403,9 @@ describe('Reporting Matching Summary Levels', function () {
     expect(thirdNoMatchesDataWithV2ForMrn[1]).to.include({
       mrn,
       itemNumber: 1,
-      commodityCode: '0103911001',
+      commodityCode: '1601009105',
       checkCode: 'H221',
-      quantityOrWeight: 500,
+      quantityOrWeight: 175,
       chedReference: docRef,
       match: 'No',
       authority: 'AHVLA',
@@ -454,7 +454,7 @@ describe('Reporting Matching Summary Levels', function () {
           commodities: {
             commodityComplement: [
               {
-                commodityID: '0103911001',
+                commodityID: '1601009105',
                 commodityDescription: 'Live horses, asses, mules and hinnies',
                 complementID: 1,
                 complementName: 'Equus asinus',
@@ -473,11 +473,11 @@ describe('Reporting Matching Summary Levels', function () {
                 keyDataPair: [
                   {
                     key: 'number_package',
-                    data: '400'
+                    data: '185'
                   },
                   {
                     key: 'netweight',
-                    data: '600'
+                    data: '50'
                   }
                 ],
                 identifiers: [
@@ -573,9 +573,9 @@ describe('Reporting Matching Summary Levels', function () {
     expect(finalMatchesDataWithV2ForMrn[0]).to.include({
       mrn,
       itemNumber: 1,
-      commodityCode: '0103911001',
+      commodityCode: '1601009105',
       checkCode: 'H221',
-      quantityOrWeight: 500,
+      quantityOrWeight: 175,
       chedReference: docRef,
       match: 'Yes',
       authority: 'AHVLA',
