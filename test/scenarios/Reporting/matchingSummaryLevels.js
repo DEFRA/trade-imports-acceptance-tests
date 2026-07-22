@@ -1,5 +1,31 @@
 describe('Reporting Matching Summary Levels', function () {
-  it('should update matching summary levels', async function () {
+  const testCases = [
+    {
+      taricCommodityCode: '1601009105',
+      customDeclarationWeight: 175,
+      initialLevelThreeNetWeight: '75',
+      initialLevelThreeNumberPackage: '175',
+      finalLevelThreeNetWeight: '50',
+      finalLevelThreeNumberPackage: '185'
+    },
+    {
+      taricCommodityCode: '0106410000',
+      customDeclarationWeight: 185,
+      initialLevelThreeNetWeight: '85',
+      initialLevelThreeNumberPackage: '185',
+      finalLevelThreeNetWeight: '95',
+      finalLevelThreeNumberPackage: '175'
+    }
+  ]
+
+  const runMatchingSummaryLevelsTest = async function ({
+    taricCommodityCode,
+    customDeclarationWeight,
+    initialLevelThreeNumberPackage,
+    initialLevelThreeNetWeight,
+    finalLevelThreeNumberPackage,
+    finalLevelThreeNetWeight
+  }) {
     const now = Date.now()
     const from = new Date(now - 10 * 1000).toISOString()
     const to = new Date(now + 10 * 1000).toISOString()
@@ -26,9 +52,9 @@ describe('Reporting Matching Summary Levels', function () {
     testLogger.info('Sending Clearance Request for Mo Match')
     await newClearanceRequest()
       .addItem({
-        TaricCommodityCode: '0103911001',
-        ItemNetMass: 500,
-        ItemSupplementaryUnits: 500,
+        TaricCommodityCode: taricCommodityCode,
+        ItemNetMass: initialLevelThreeNetWeight,
+        ItemSupplementaryUnits: initialLevelThreeNumberPackage,
         Documents: [{ DocumentCode: 'C640', DocumentReference: docRef }],
         Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
       })
@@ -93,9 +119,9 @@ describe('Reporting Matching Summary Levels', function () {
     expect(firstNoMatchesDataWithV2ForMrn[0]).to.include({
       mrn,
       itemNumber: 1,
-      commodityCode: '0103911001',
+      commodityCode: taricCommodityCode,
       checkCode: 'H221',
-      quantityOrWeight: 500,
+      quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'No',
       authority: 'AHVLA',
@@ -159,11 +185,11 @@ describe('Reporting Matching Summary Levels', function () {
                 keyDataPair: [
                   {
                     key: 'number_package',
-                    data: '1000'
+                    data: '50'
                   },
                   {
                     key: 'netweight',
-                    data: '250'
+                    data: '50'
                   }
                 ],
                 identifiers: [
@@ -231,9 +257,9 @@ describe('Reporting Matching Summary Levels', function () {
     expect(secondNoMatchesDataWithV2ForMrn[0]).to.include({
       mrn,
       itemNumber: 1,
-      commodityCode: '0103911001',
+      commodityCode: taricCommodityCode,
       checkCode: 'H221',
-      quantityOrWeight: 500,
+      quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'Yes',
       authority: 'AHVLA',
@@ -246,9 +272,9 @@ describe('Reporting Matching Summary Levels', function () {
     expect(secondNoMatchesDataWithV2ForMrn[1]).to.include({
       mrn,
       itemNumber: 1,
-      commodityCode: '0103911001',
+      commodityCode: taricCommodityCode,
       checkCode: 'H221',
-      quantityOrWeight: 500,
+      quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'No',
       authority: 'AHVLA',
@@ -297,7 +323,7 @@ describe('Reporting Matching Summary Levels', function () {
           commodities: {
             commodityComplement: [
               {
-                commodityID: '0103911001',
+                commodityID: taricCommodityCode,
                 commodityDescription: 'Live horses, asses, mules and hinnies',
                 complementID: 1,
                 complementName: 'Equus asinus',
@@ -316,11 +342,11 @@ describe('Reporting Matching Summary Levels', function () {
                 keyDataPair: [
                   {
                     key: 'number_package',
-                    data: '1000'
+                    data: '50'
                   },
                   {
                     key: 'netweight',
-                    data: '250'
+                    data: '50'
                   }
                 ],
                 identifiers: [
@@ -388,9 +414,9 @@ describe('Reporting Matching Summary Levels', function () {
     expect(thirdNoMatchesDataWithV2ForMrn[0]).to.include({
       mrn,
       itemNumber: 1,
-      commodityCode: '0103911001',
+      commodityCode: taricCommodityCode,
       checkCode: 'H221',
-      quantityOrWeight: 500,
+      quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'Yes',
       authority: 'AHVLA',
@@ -403,9 +429,9 @@ describe('Reporting Matching Summary Levels', function () {
     expect(thirdNoMatchesDataWithV2ForMrn[1]).to.include({
       mrn,
       itemNumber: 1,
-      commodityCode: '0103911001',
+      commodityCode: taricCommodityCode,
       checkCode: 'H221',
-      quantityOrWeight: 500,
+      quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'No',
       authority: 'AHVLA',
@@ -454,7 +480,7 @@ describe('Reporting Matching Summary Levels', function () {
           commodities: {
             commodityComplement: [
               {
-                commodityID: '0103911001',
+                commodityID: taricCommodityCode,
                 commodityDescription: 'Live horses, asses, mules and hinnies',
                 complementID: 1,
                 complementName: 'Equus asinus',
@@ -473,11 +499,11 @@ describe('Reporting Matching Summary Levels', function () {
                 keyDataPair: [
                   {
                     key: 'number_package',
-                    data: '400'
+                    data: finalLevelThreeNumberPackage
                   },
                   {
                     key: 'netweight',
-                    data: '600'
+                    data: finalLevelThreeNetWeight
                   }
                 ],
                 identifiers: [
@@ -573,9 +599,9 @@ describe('Reporting Matching Summary Levels', function () {
     expect(finalMatchesDataWithV2ForMrn[0]).to.include({
       mrn,
       itemNumber: 1,
-      commodityCode: '0103911001',
+      commodityCode: taricCommodityCode,
       checkCode: 'H221',
-      quantityOrWeight: 500,
+      quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'Yes',
       authority: 'AHVLA',
@@ -584,6 +610,12 @@ describe('Reporting Matching Summary Levels', function () {
       mode: 'Active',
       dispatchCountryCode: 'CN',
       declarantId: 'GB123456789013'
+    })
+  }
+
+  testCases.forEach((testCase) => {
+    it(`should update matching summary levels for TaricCommodityCode ${testCase.taricCommodityCode}`, async function () {
+      await runMatchingSummaryLevelsTest(testCase)
     })
   })
 })

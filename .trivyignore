@@ -5,3 +5,7 @@ CVE-2026-33672
 CVE-2026-42338
 CVE-2026-45149
 CVE-2026-53655 # False positive - package-lock.json and npm tree resolve tar@7.5.16
+CVE-2026-48758 # Not present in the application dependency tree.
+CVE-2026-48816 # Not present in the application dependency tree.
+CVE-2026-48815 # Not present in the application dependency tree.
+CVE-2026-54515 # Bundled by allure-commandline; no newer npm release includes the fixed Jackson version.

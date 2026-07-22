@@ -40,6 +40,7 @@ export const clearanceRequestTemplate = `<?xml version="1.0" encoding="utf-8"?>
                 {{#if ConsigneeId}}<ConsigneeId>{{ConsigneeId}}</ConsigneeId>{{/if}}
                 {{#if ConsigneeName}}<ConsigneeName>{{ConsigneeName}}</ConsigneeName>{{/if}}
                 {{#if ItemNetMass}}<ItemNetMass>{{ItemNetMass}}</ItemNetMass>{{/if}}
+                {{#if ItemSupplementaryUnits}}<ItemSupplementaryUnits>{{ItemSupplementaryUnits}}</ItemSupplementaryUnits>{{/if}}
                 {{#if ItemOriginCountryCode}}<ItemOriginCountryCode>{{ItemOriginCountryCode}}</ItemOriginCountryCode>{{/if}}
 
                 {{#each Documents}}
