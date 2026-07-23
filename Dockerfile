@@ -1,4 +1,4 @@
-FROM node:25.9.0-alpine
+FROM node:26.5.0-alpine3.24
 
 ENV TZ="Europe/London"
 
@@ -10,6 +10,9 @@ RUN apk update && \
     openjdk17-jre-headless \
     curl \
     aws-cli
+
+# Upgrade npm to fix vulnerabilities in bundled tar and brace-expansion
+RUN npm install -g npm@12.0.1
 
 WORKDIR /app
 
