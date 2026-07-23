@@ -1,7 +1,7 @@
 const withHeaders = (headers) => ({
   Authorization: TRADE_IMPORTS_DATA_API_AUTHORIZATION_HEADER,
   'Content-Type': 'application/json',
-  'X-API-Key': CDP_API_KEY,
+  ...(CDP_API_KEY ? { 'X-API-Key': CDP_API_KEY } : {}),
   ...headers
 })
 
