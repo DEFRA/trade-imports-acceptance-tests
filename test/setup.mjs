@@ -102,9 +102,7 @@ function initGlobals() {
     globalThis.BASE_URL_TRADE_IMPORTS_DATA_API = `https://trade-imports-data-api.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
   }
 
-  if (process.env.CDP_API_KEY) {
-    globalThis.CDP_API_KEY = process.env.CDP_API_KEY
-  }
+  globalThis.CDP_API_KEY = process.env.CDP_API_KEY
 
   if (process.env.BASE_URL_TRADE_IMPORTS_CDS_SIMULATOR) {
     globalThis.BASE_URL_TRADE_IMPORTS_CDS_SIMULATOR =
