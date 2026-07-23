@@ -35,7 +35,7 @@ describe('BTMS receives an update to an existing TRACES CHED - TC-2', function (
     const existing = await dataApiClientGetTracesChed(this.docRef)
     const etag = existing.headers.get('etag')
 
-    expect(etag).to.not.be.null()
+    expect(etag).to.not.equal(null)
 
     const before = JSON.parse(await existing.text())
     expect(getGrossWeight(before)).to.equal('100')
