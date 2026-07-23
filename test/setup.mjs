@@ -25,6 +25,7 @@ import * as rawTradeimportsdatapiMessageHandler from './utils/tradeimportsdatapi
 import * as rawIpaffsMessageHandler from './utils/ipaffsMessageHandler.js'
 import * as rawGmrMessageHandler from './utils/gmrMessageHandler.js'
 import * as rawReportingClient from './utils/reportingClient.js'
+import * as dataApiClient from './utils/dataApiClient.js'
 import * as rawTestContext from '../utils/testContext.js'
 
 import process from 'process'
@@ -39,14 +40,15 @@ function initGlobals() {
     testContext: rawTestContext,
     testDataFunctions: rawTestDataFunctions,
     ipaffsMessageHandler: rawIpaffsMessageHandler,
-    rawGmrMessageHandler: rawGmrMessageHandler,
+    rawGmrMessageHandler,
     decisionParser: rawDecisionParser,
     SoapMessageBuilder: rawSoapMessageBuilder,
     sendSoapRequest: rawSendSoapRequest,
     waitForDecision: rawWaitForDecision,
     waitForError: rawWaitForError,
     tradeimportsdatapiMessageHandler: rawTradeimportsdatapiMessageHandler,
-    reportingClient: rawReportingClient
+    reportingClient: rawReportingClient,
+    dataApiClient
   })
 
   registerGlobalFunctions({
@@ -98,6 +100,10 @@ function initGlobals() {
       process.env.BASE_URL_TRADE_IMPORTS_DATA_API
   } else {
     globalThis.BASE_URL_TRADE_IMPORTS_DATA_API = `https://trade-imports-data-api.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
+  }
+
+  if (process.env.CDP_API_KEY) {
+    globalThis.CDP_API_KEY = process.env.CDP_API_KEY
   }
 
   if (process.env.BASE_URL_TRADE_IMPORTS_CDS_SIMULATOR) {

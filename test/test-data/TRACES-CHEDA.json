@@ -1,0 +1,407 @@
+{
+  "$model": "defra/certificate-internal/1",
+  "$type": "ched",
+  "exchangedDocument": {
+    "name": "CHED-A - Common Health Entry Document for Animal",
+    "identifier": "CHEDA.XI.2026.0000083",
+    "traderAssignedId": null,
+    "documentTypeCode": "636",
+    "documentStatusCode": "1",
+    "notificationStatusCode": null,
+    "versionId": null,
+    "functionCode": null,
+    "issueDateTime": "2026-07-21T09:51:46+00:00",
+    "issuer": {
+      "identifier": "GB07104",
+      "urlId": "https://traces-codelists.ec.europa.eu/authority_activity_id",
+      "name": "Mallusk",
+      "partyRoleCode": {
+        "value": "VJ",
+        "urlId": "https://traces-codelists.ec.europa.eu/3035",
+        "name": "Officer (Identification of Applicant)"
+      },
+      "partyTypeCode": [
+        {
+          "value": "AUTHORITY",
+          "urlId": "https://traces-codelists.ec.europa.eu/user_body_role",
+          "name": "Authority"
+        }
+      ],
+      "postalAddress": {
+        "postcodeCode": "BT40",
+        "lineOne": "\"Crown Buildings, PoundStreet, Larne, Northern Ireland.\t\"",
+        "lineTwo": null,
+        "cityName": "Larne",
+        "countryId": "XI",
+        "countryName": "United Kingdom (Northern Ireland)",
+        "countrySubDivisionName": "County Antrim"
+      },
+      "definedContact": [
+        {
+          "personName": "BTMS BTMS",
+          "emailURIUniversalCommunication": null,
+          "telephoneUniversalCommunication": null
+        }
+      ]
+    },
+    "includedNote": [
+      {
+        "type": "Note",
+        "identifier": null,
+        "name": null,
+        "subject": null,
+        "creationDateTime": null,
+        "noteSubjectCode": null,
+        "subjectCode": {
+          "value": "CHED_TYPE",
+          "urlId": "ched_note_subject_code",
+          "name": null
+        },
+        "content": [null],
+        "contentCode": [
+          {
+            "value": "A",
+            "urlId": "ched_type",
+            "name": null
+          }
+        ]
+      },
+      {
+        "type": "Note",
+        "identifier": null,
+        "name": null,
+        "subject": null,
+        "creationDateTime": null,
+        "noteSubjectCode": null,
+        "subjectCode": {
+          "value": "LAST_UPDATE_DATETIME",
+          "urlId": "ched_note_subject_code",
+          "name": null
+        },
+        "content": ["2026-07-21T11:51:46.000+02:00"],
+        "contentCode": null
+      }
+    ],
+    "referenceDocument": [
+      {
+        "typeCode": "636",
+        "relationshipTypeCode": "CAW",
+        "identifier": "CHEDA.XI.2026.0000083",
+        "issueDateTime": null,
+        "attachmentBinaryObject": null,
+        "information": null
+      },
+      {
+        "typeCode": "521",
+        "relationshipTypeCode": "ZZZ",
+        "identifier": "455645665566",
+        "issueDateTime": null,
+        "attachmentBinaryObject": null,
+        "information": null
+      }
+    ],
+    "firstSignatoryAuthentication": {
+      "typeCode": "4",
+      "actualDateTime": "2026-07-21T09:51:46+00:00",
+      "governmentActionTypeCode": "Inspection (Identification of Applicant)",
+      "provider": {
+        "identifier": null,
+        "urlId": null,
+        "name": null,
+        "partyRoleCode": null,
+        "partyTypeCode": null,
+        "postalAddress": null,
+        "definedContact": null
+      },
+      "includedClause": [
+        {
+          "identifier": "PURPOSE",
+          "content": "FREE_CIRCULATION",
+          "urlId": null
+        },
+        {
+          "identifier": "GOODS_CERTIFIED_AS",
+          "content": "BREEDING_PRODUCTION",
+          "urlId": null
+        },
+        {
+          "identifier": "SIGNATORY_PERSON_EMAIL",
+          "content": "test@defra.gov.uk",
+          "urlId": null
+        }
+      ]
+    },
+    "secondSignatoryAuthentication": null,
+    "thirdSignatoryAuthentication": null,
+    "fourthSignatoryAuthentication": null
+  },
+  "specifiedConsignment": {
+    "availabilityDueDateTime": "2026-07-11T23:00:00+00:00",
+    "exportExitDateTime": null,
+    "consignorParty": {
+      "identifier": "123434567890",
+      "urlId": "https://traces-codelists.ec.europa.eu/national_registry_number",
+      "name": "Defra Test",
+      "partyRoleCode": {
+        "value": "EX",
+        "urlId": "https://traces-codelists.ec.europa.eu/3035",
+        "name": "Exporter"
+      },
+      "partyTypeCode": [
+        {
+          "value": "ANIMAL_EXPORTER",
+          "urlId": "https://traces-codelists.ec.europa.eu/operator_activity_type",
+          "name": "Animal exporter"
+        },
+        {
+          "value": "EXP",
+          "urlId": "https://traces-codelists.ec.europa.eu/classification_section_code",
+          "name": "Animal exporter"
+        }
+      ],
+      "postalAddress": {
+        "postcodeCode": "CW1",
+        "lineOne": "Test",
+        "lineTwo": null,
+        "cityName": "Crewe",
+        "countryId": "GB",
+        "countryName": "United Kingdom",
+        "countrySubDivisionName": "Cheshire East"
+      },
+      "definedContact": null
+    },
+    "consigneeParty": {
+      "identifier": "GB00999999",
+      "urlId": "https://traces-codelists.ec.europa.eu/operator_activity_id",
+      "name": "SAUSAGES LTD",
+      "partyRoleCode": {
+        "value": "CN",
+        "urlId": "https://traces-codelists.ec.europa.eu/9999",
+        "name": "Consignee (Importer)"
+      },
+      "partyTypeCode": [
+        {
+          "value": "ANIMAL_ESTABLISHMENT",
+          "urlId": "https://traces-codelists.ec.europa.eu/operator_activity_type",
+          "name": "Animal establishment"
+        },
+        {
+          "value": "OTH-OPER",
+          "urlId": "https://traces-codelists.ec.europa.eu/classification_section_code",
+          "name": "Other operators"
+        }
+      ],
+      "postalAddress": {
+        "postcodeCode": "BT38",
+        "lineOne": "MASSIVE BUSINESS PARK COUNTY .ANTRIM",
+        "lineTwo": null,
+        "cityName": "Carrickfergus",
+        "countryId": "XI",
+        "countryName": "United Kingdom (Northern Ireland)",
+        "countrySubDivisionName": "County Antrim"
+      },
+      "definedContact": null
+    },
+    "despatchParty": null,
+    "deliveryParty": {
+      "identifier": "GB00146732",
+      "urlId": "https://traces-codelists.ec.europa.eu/operator_activity_id",
+      "name": "GLENKRAG LTD",
+      "partyRoleCode": {
+        "value": "DP",
+        "urlId": "https://traces-codelists.ec.europa.eu/3035",
+        "name": "Delivery party (Place of destination)"
+      },
+      "partyTypeCode": [
+        {
+          "value": "ANIMAL_ESTABLISHMENT",
+          "urlId": "https://traces-codelists.ec.europa.eu/operator_activity_type",
+          "name": "Animal establishment"
+        },
+        {
+          "value": "OTH-OPER",
+          "urlId": "https://traces-codelists.ec.europa.eu/classification_section_code",
+          "name": "Other operators"
+        }
+      ],
+      "postalAddress": {
+        "postcodeCode": "BT38",
+        "lineOne": "MASSIVE BUSINESS PARK COUNTY .ANTRIM",
+        "lineTwo": null,
+        "cityName": "Carrickfergus",
+        "countryId": "XI",
+        "countryName": "United Kingdom (Northern Ireland)",
+        "countrySubDivisionName": "County Antrim"
+      },
+      "definedContact": null
+    },
+    "carrier": null,
+    "customsTransitAgentParty": {
+      "identifier": "78557",
+      "urlId": "https://traces-codelists.ec.europa.eu/operator_internal_activity_id",
+      "name": "ABP EU TEST",
+      "partyRoleCode": {
+        "value": "CB",
+        "urlId": "https://traces-codelists.ec.europa.eu/3035",
+        "name": "Customs broker (Responsible for consignment)"
+      },
+      "partyTypeCode": [
+        {
+          "value": "RESPONSIBLE_FOR_THE_LOAD",
+          "urlId": "https://traces-codelists.ec.europa.eu/operator_activity_type",
+          "name": "Responsible for the load"
+        },
+        {
+          "value": "RFL",
+          "urlId": "https://traces-codelists.ec.europa.eu/classification_section_code",
+          "name": "Responsible For the Load (Freight Forwarder)"
+        }
+      ],
+      "postalAddress": {
+        "postcodeCode": "13700",
+        "lineOne": "Avenue Pierre Saul 10",
+        "lineTwo": null,
+        "cityName": "Marignane",
+        "countryId": "FR",
+        "countryName": "France",
+        "countrySubDivisionName": "Bouches-du-Rhône"
+      },
+      "definedContact": null
+    },
+    "originCountry": null,
+    "exportCountry": null,
+    "importCountry": null,
+    "reExportCountry": null,
+    "transitCountry": null,
+    "unloadingBaseportLocation": {
+      "identifier": "GBBEL",
+      "urlId": "https://traces-codelists.ec.europa.eu/un_locode",
+      "name": "County Down",
+      "typeCode": null,
+      "postalAddress": null
+    },
+    "mainCarriageLogisticsTransportMovement": [
+      {
+        "identifier": "ABC",
+        "urlId": null,
+        "modeCode": "3",
+        "usedLogisticsTransportMeans": null,
+        "transportContractRelatedReferencedDocument": null,
+        "arrivalEvent": null,
+        "departureEvent": null
+      }
+    ],
+    "transitTradeCountry": null,
+    "packageQuantity": null,
+    "includedConsignmentItem": [
+      {
+        "natureIdCargo": [
+          {
+            "typeCode": "12"
+          }
+        ],
+        "includedTradeLineItem": [
+          {
+            "sequenceNumeric": 0,
+            "description": ["Consignment totals and summary"],
+            "scientificName": null,
+            "netWeight": {
+              "content": "0",
+              "value": null,
+              "unitCode": null,
+              "unitCodeListVersionId": null
+            },
+            "grossWeight": {
+              "content": "100",
+              "value": null,
+              "unitCode": "KGM",
+              "unitCodeListVersionId": null
+            },
+            "applicableClassification": null,
+            "physicalReferencedLogisticsPackage": [
+              {
+                "levelCode": 4,
+                "typeCode": "NA",
+                "itemQuantity": 0
+              }
+            ],
+            "specifiedTradeProduct": null,
+            "specifiedLineTradeDelivery": null,
+            "additionalInformationNote": null
+          },
+          {
+            "sequenceNumeric": 1,
+            "description": [null],
+            "scientificName": null,
+            "netWeight": null,
+            "grossWeight": null,
+            "applicableClassification": [
+              {
+                "systemId": "CN",
+                "systemName": "CN Code (Combined Nomenclature)",
+                "classCode": {
+                  "value": "03019985",
+                  "urlId": "https://traces-codelists.ec.europa.eu/class_code_system/CN",
+                  "name": null
+                },
+                "className": [
+                  "FISH AND CRUSTACEANS, MOLLUSCS AND OTHER AQUATIC INVERTEBRATES",
+                  "Live fish",
+                  "Other live fish",
+                  "Other",
+                  "Saltwater fish"
+                ]
+              },
+              {
+                "systemId": "INVASIVE_NOT_ALLOWED",
+                "systemName": "Invasive species (not allowed)",
+                "classCode": null,
+                "className": null
+              }
+            ],
+            "physicalReferencedLogisticsPackage": null,
+            "specifiedTradeProduct": null,
+            "specifiedLineTradeDelivery": null,
+            "additionalInformationNote": null
+          },
+          {
+            "sequenceNumeric": 2,
+            "description": [null],
+            "scientificName": null,
+            "netWeight": null,
+            "grossWeight": null,
+            "applicableClassification": [
+              {
+                "systemId": "CN",
+                "systemName": "CN Code (Combined Nomenclature)",
+                "classCode": {
+                  "value": "03019985",
+                  "urlId": "https://traces-codelists.ec.europa.eu/class_code_system/CN",
+                  "name": null
+                },
+                "className": [
+                  "FISH AND CRUSTACEANS, MOLLUSCS AND OTHER AQUATIC INVERTEBRATES",
+                  "Live fish",
+                  "Other live fish",
+                  "Other",
+                  "Saltwater fish"
+                ]
+              },
+              {
+                "systemId": "INVASIVE_ALLOWED",
+                "systemName": "Invasive species (allowed)",
+                "classCode": null,
+                "className": null
+              }
+            ],
+            "physicalReferencedLogisticsPackage": null,
+            "specifiedTradeProduct": null,
+            "specifiedLineTradeDelivery": null,
+            "additionalInformationNote": null
+          }
+        ]
+      }
+    ]
+  },
+  "laboratoryObservationResult": null
+}

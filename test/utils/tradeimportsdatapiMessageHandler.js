@@ -1,10 +1,10 @@
-import { request } from 'undici'
 import pWaitFor from 'p-wait-for'
 import { TimeoutError } from 'p-timeout'
 
 const ENDPOINTS = {
   IPAFFS: (key) =>
     `${BASE_URL_TRADE_IMPORTS_DATA_API}/import-pre-notifications/${key}`,
+  TRACES: (key) => `${BASE_URL_TRADE_IMPORTS_DATA_API}/traces-cheds/${key}/`,
   ERROR: (key) => `${BASE_URL_TRADE_IMPORTS_DATA_API}/processing-errors/${key}`,
   DEFAULT: (key) =>
     `${BASE_URL_TRADE_IMPORTS_DATA_API}/customs-declarations/${key}`
@@ -49,18 +49,14 @@ export async function waitForDataInAPI(
         try {
           testLogger.info(`Polling: ${url}`)
 
-          const resp = await request(url, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: TRADE_IMPORTS_DATA_API_AUTHORIZATION_HEADER
-            }
+          const resp = await dataApiClientRequest(url, {
+            method: 'GET'
           })
 
           lastResponse = resp
-          lastResponseText = await resp.body.text()
+          lastResponseText = await resp.text()
 
-          if (resp.statusCode !== 200) {
+          if (resp.status !== 200) {
             testLogger.error(`Error polling for key: ${key}`, {
               lastResponse,
               lastResponseText

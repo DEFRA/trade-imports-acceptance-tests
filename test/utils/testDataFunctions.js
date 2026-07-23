@@ -27,15 +27,7 @@ export async function generateDocumentReference({
     Array.from({ length }, () => Math.floor(Math.random() * 10)).join('')
 
   const prefix = randomNumberString(prefixLength)
-
-  const resp = await fetch(`${BASE_URL_TRADE_IMPORTS_DATA_API}/admin/max-id`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: TRADE_IMPORTS_DATA_API_AUTHORIZATION_HEADER
-    }
-  })
-  if (!resp.ok) throw new Error(`HTTP ${resp.status} ${resp.statusText}`)
+  const resp = await dataApiClientGetMaxId()
 
   const data = await resp.json()
   let baseNumber = 1000000
@@ -83,6 +75,14 @@ export function loadIPAFFSJson(filename, overrides = {}) {
   }
 
   return json
+}
+
+export function loadTRACESChed(filename, override = (content) => content) {
+  const filePath = path.join(globalThis.__dirname, 'test-data', filename)
+  const content = fs.readFileSync(filePath, 'utf-8')
+  const json = JSON.parse(content)
+
+  return override(json)
 }
 
 export function loadGmrJson(filename, overrides = {}) {
