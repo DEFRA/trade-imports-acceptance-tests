@@ -10,14 +10,12 @@ describe('BTMS receives an update to an existing TRACES CHED - TC-2', function (
 
     const json = loadTRACESChed('TRACES-CHEDA.json', (content) => {
       content.exchangedDocument.identifier = this.docRef
-      return content
+      return setTracesLastUpdateTime(content, new Date().toISOString())
     })
 
-    testLogger.info('Send TRACES CHED')
-    // A queue is not yet set up to ingest these via the processor, so this
-    // just sends it to the Data API directly
-    const resp = await dataApiClientPutTracesChed(this.docRef, json)
-    expect(resp.status).to.equal(201)
+    testLogger.info('Send TRACES CHED to the processor')
+    const { response } = await processorPostTracesChed(json)
+    expect(response.status).to.equal(204)
 
     testLogger.info('Check it was received')
     await waitForDataInAPI(this.docRef, 'TRACES')
@@ -28,27 +26,33 @@ describe('BTMS receives an update to an existing TRACES CHED - TC-2', function (
       content.exchangedDocument.identifier = this.docRef
       content.specifiedConsignment.includedConsignmentItem[0].includedTradeLineItem[0].grossWeight.content =
         '200'
-      return content
+      return setTracesLastUpdateTime(
+        content,
+        new Date(Date.now() + 1000).toISOString()
+      )
     })
 
-    testLogger.info('Fetching etag for existing TRACES Ched')
+    testLogger.info('Fetching existing TRACES Ched')
     const existing = await dataApiClientGetTracesChed(this.docRef)
-    const etag = existing.headers.get('etag')
-
-    expect(etag).to.not.equal(null)
-
     const before = JSON.parse(await existing.text())
     expect(getGrossWeight(before)).to.equal('100')
 
-    testLogger.info('Sending an updated TRACES Ched')
-    const updateResp = await dataApiClientPutTracesChed(
-      this.docRef,
-      updated,
-      etag
-    )
-    expect(updateResp.status).to.equal(204)
+    testLogger.info('Sending an updated TRACES Ched to the processor')
+    const { response } = await processorPostTracesChed(updated)
+    expect(response.status).to.equal(204)
 
     testLogger.info('Checking if TRACES Ched was updated')
+    await waitForDataInAPI(this.docRef, 'TRACES', {
+      ched: {
+        specifiedConsignment: {
+          includedConsignmentItem: [
+            {
+              includedTradeLineItem: [{ grossWeight: { content: '200' } }]
+            }
+          ]
+        }
+      }
+    })
     const after = await dataApiClientGetTracesChed(this.docRef)
     const parsed = JSON.parse(await after.text())
     expect(getGrossWeight(parsed)).to.equal('200')
