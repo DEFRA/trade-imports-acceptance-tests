@@ -26,6 +26,7 @@ import * as rawIpaffsMessageHandler from './utils/ipaffsMessageHandler.js'
 import * as rawGmrMessageHandler from './utils/gmrMessageHandler.js'
 import * as rawReportingClient from './utils/reportingClient.js'
 import * as dataApiClient from './utils/dataApiClient.js'
+import * as rawProcessorClient from './utils/processorClient.js'
 import * as rawTestContext from '../utils/testContext.js'
 
 import process from 'process'
@@ -48,7 +49,8 @@ function initGlobals() {
     waitForError: rawWaitForError,
     tradeimportsdatapiMessageHandler: rawTradeimportsdatapiMessageHandler,
     reportingClient: rawReportingClient,
-    dataApiClient
+    dataApiClient,
+    processorClient: rawProcessorClient
   })
 
   registerGlobalFunctions({
@@ -111,6 +113,13 @@ function initGlobals() {
     globalThis.BASE_URL_TRADE_IMPORTS_CDS_SIMULATOR = `https://trade-imports-cds-simulator-api.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
   }
 
+  if (process.env.BASE_URL_TRADE_IMPORTS_PROCESSOR) {
+    globalThis.BASE_URL_TRADE_IMPORTS_PROCESSOR =
+      process.env.BASE_URL_TRADE_IMPORTS_PROCESSOR
+  } else {
+    globalThis.BASE_URL_TRADE_IMPORTS_PROCESSOR = `https://trade-imports-processor.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
+  }
+
   if (process.env.BASE_URL_TRADE_IMPORTS_REPORTING) {
     globalThis.BASE_URL_TRADE_IMPORTS_REPORTING =
       process.env.BASE_URL_TRADE_IMPORTS_REPORTING
@@ -130,6 +139,12 @@ function initGlobals() {
     'Basic ' +
     Buffer.from(
       `${process.env.TRADE_IMPORTS_DATA_API_USER}:${process.env.TRADE_IMPORTS_DATA_API_KEY}`
+    ).toString('base64')
+
+  globalThis.TRADE_IMPORTS_PROCESSOR_AUTHORIZATION_HEADER =
+    'Basic ' +
+    Buffer.from(
+      `${process.env.TRADE_IMPORTS_PROCESSOR_USER}:${process.env.TRADE_IMPORTS_PROCESSOR_KEY}`
     ).toString('base64')
 
   globalThis.POLL_INTERVAL_MS = parseInt(process.env.POLL_INTERVAL_MS)

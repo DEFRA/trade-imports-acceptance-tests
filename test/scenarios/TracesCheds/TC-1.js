@@ -6,14 +6,12 @@ describe('BTMS receives a TRACES CHED - TC-1', function () {
 
     const json = loadTRACESChed('TRACES-CHEDA.json', (content) => {
       content.exchangedDocument.identifier = this.docRef
-      return content
+      return setTracesLastUpdateTime(content, new Date().toISOString())
     })
 
-    testLogger.info('Send TRACES CHED')
-    // A queue is not yet set up to ingest these via the processor, so this
-    // just sends it to the Data API directly
-    const resp = await dataApiClientPutTracesChed(this.docRef, json)
-    expect(resp.status).to.equal(201)
+    testLogger.info('Send TRACES CHED to the processor')
+    const { response } = await processorPostTracesChed(json)
+    expect(response.status).to.equal(204)
 
     testLogger.info('Check it was received')
     const storedText = await waitForDataInAPI(this.docRef, 'TRACES')

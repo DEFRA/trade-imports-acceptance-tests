@@ -25,6 +25,7 @@ import {
 import { waitForDataInAPI } from './utils/tradeimportsdatapiMessageHandler.js'
 import { sendIpaffsMessage } from './utils/ipaffsMessageHandler.js'
 import { sendGmrMessage } from './utils/gmrMessageHandler.js'
+import { processorPostTracesChed } from './utils/processorClient.js'
 import { SoapMessageBuilder } from './utils/soapMessageBuilder.js'
 import { sendSoapRequest } from './utils/soapMessageHandler.js'
 
@@ -51,5 +52,6 @@ export default {
   waitForGmrDeclaration,
   waitForDataInAPI,
   sendIpaffsMessage,
-  sendGmrMessage
+  sendGmrMessage,
+  processorPostTracesChed
 }

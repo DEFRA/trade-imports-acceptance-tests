@@ -85,6 +85,14 @@ export function loadTRACESChed(filename, override = (content) => content) {
   return override(json)
 }
 
+export function setTracesLastUpdateTime(content, isoString) {
+  const note = content.exchangedDocument.includedNote.find(
+    (n) => n.subjectCode.value === 'LAST_UPDATE_DATETIME'
+  )
+  note.content = [isoString]
+  return content
+}
+
 export function loadGmrJson(filename, overrides = {}) {
   const filePath = path.join(globalThis.__dirname, 'test-data', filename)
   const content = fs.readFileSync(filePath, 'utf-8')
