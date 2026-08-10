@@ -11,18 +11,20 @@ RUN apk update && \
     curl \
     aws-cli
 
-# Upgrade npm, then patch its bundled brace-expansion and tar, which npm
-# ships at vulnerable versions (brace-expansion 5.0.7 / tar 7.5.19) that
-# cannot be fixed via package.json overrides on a global install.
+# Upgrade npm, then patch its bundled brace-expansion, tar, undici, and ip-address, which npm
+# ships at vulnerable versions (brace-expansion 5.0.7 / tar 7.5.19 / undici 6.27.0 / ip-address 10.2.0)
+# that cannot be fixed via package.json overrides on a global install.
 RUN npm install -g npm@12.0.1 && \
     NPM_NM=$(npm root -g)/npm/node_modules && \
     cd /tmp && \
-    npm pack brace-expansion@5.0.8 && npm pack tar@7.5.22 && \
-    rm -rf $NPM_NM/brace-expansion $NPM_NM/tar && \
-    mkdir $NPM_NM/brace-expansion $NPM_NM/tar && \
-    tar xzf brace-expansion-5.0.8.tgz --strip-components=1 -C $NPM_NM/brace-expansion && \
+    npm pack brace-expansion@5.0.9 && npm pack tar@7.5.22 && npm pack undici@6.28.0 && npm pack ip-address@10.3.1 && \
+    rm -rf $NPM_NM/brace-expansion $NPM_NM/tar $NPM_NM/undici $NPM_NM/ip-address && \
+    mkdir $NPM_NM/brace-expansion $NPM_NM/tar $NPM_NM/undici $NPM_NM/ip-address && \
+    tar xzf brace-expansion-5.0.9.tgz --strip-components=1 -C $NPM_NM/brace-expansion && \
     tar xzf tar-7.5.22.tgz --strip-components=1 -C $NPM_NM/tar && \
-    rm brace-expansion-5.0.8.tgz tar-7.5.22.tgz
+    tar xzf undici-6.28.0.tgz --strip-components=1 -C $NPM_NM/undici && \
+    tar xzf ip-address-10.3.1.tgz --strip-components=1 -C $NPM_NM/ip-address && \
+    rm brace-expansion-5.0.9.tgz tar-7.5.22.tgz undici-6.28.0.tgz ip-address-10.3.1.tgz
 
 WORKDIR /app
 
@@ -34,6 +36,25 @@ RUN npm install --omit=optional && \
    rm -f node_modules/esbuild/bin/esbuild && \
    rm -f node_modules/esbuild/lib/downloaded-* && \
    rm -rf node_modules/@esbuild
+
+# Patch vulnerable JARs bundled inside allure-commandline that cannot be upgraded
+# via npm (allure bundles specific Jackson/jsoup versions in its dist):
+# - jackson-databind 2.22.0 -> 2.22.1 (CVE-2026-54515, CVE-2026-59889)
+# - jsoup 1.22.2 -> 1.23.1 (CVE-2026-71497)
+RUN ALLURE_LIB=node_modules/allure-commandline/dist/lib && \
+    JIRA_LIB=node_modules/allure-commandline/dist/plugins/jira-plugin/lib && \
+    XRAY_LIB=node_modules/allure-commandline/dist/plugins/xray-plugin/lib && \
+    curl -sSL -o /tmp/jackson-databind-2.22.1.jar \
+      https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.22.1/jackson-databind-2.22.1.jar && \
+    curl -sSL -o /tmp/jsoup-1.23.1.jar \
+      https://repo1.maven.org/maven2/org/jsoup/jsoup/1.23.1/jsoup-1.23.1.jar && \
+    cp /tmp/jackson-databind-2.22.1.jar $ALLURE_LIB/jackson-databind-2.22.1.jar && \
+    cp /tmp/jackson-databind-2.22.1.jar $JIRA_LIB/jackson-databind-2.22.1.jar && \
+    cp /tmp/jackson-databind-2.22.1.jar $XRAY_LIB/jackson-databind-2.22.1.jar && \
+    cp /tmp/jsoup-1.23.1.jar $ALLURE_LIB/jsoup-1.23.1.jar && \
+    rm $ALLURE_LIB/jackson-databind-2.22.0.jar $JIRA_LIB/jackson-databind-2.22.0.jar $XRAY_LIB/jackson-databind-2.22.0.jar && \
+    rm $ALLURE_LIB/jsoup-1.22.2.jar && \
+    rm /tmp/jackson-databind-2.22.1.jar /tmp/jsoup-1.23.1.jar
 
 COPY . .
 

@@ -25,3 +25,16 @@ export async function processorPostTracesChed(json, traceId) {
   const response = await makeRequest(req)
   return { traceId: resolvedTraceId, response }
 }
+
+export async function processorPostMatchedGmr(matchedGmr, traceId) {
+  const resolvedTraceId = traceId ?? uuidv4().replace(/-/g, '')
+
+  const req = fetch(`${BASE_URL_TRADE_IMPORTS_PROCESSOR}/dev/matched-gmrs`, {
+    method: 'POST',
+    body: JSON.stringify(matchedGmr),
+    headers: withHeaders({ 'x-cdp-request-id': resolvedTraceId })
+  })
+
+  const response = await makeRequest(req)
+  return { traceId: resolvedTraceId, response }
+}
