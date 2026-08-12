@@ -37,25 +37,6 @@ RUN npm install --omit=optional && \
    rm -f node_modules/esbuild/lib/downloaded-* && \
    rm -rf node_modules/@esbuild
 
-# Patch vulnerable JARs bundled inside allure-commandline that cannot be upgraded
-# via npm (allure bundles specific Jackson/jsoup versions in its dist):
-# - jackson-databind 2.22.0 -> 2.22.1 (CVE-2026-54515, CVE-2026-59889)
-# - jsoup 1.22.2 -> 1.23.1 (CVE-2026-71497)
-RUN ALLURE_LIB=node_modules/allure-commandline/dist/lib && \
-    JIRA_LIB=node_modules/allure-commandline/dist/plugins/jira-plugin/lib && \
-    XRAY_LIB=node_modules/allure-commandline/dist/plugins/xray-plugin/lib && \
-    curl -sSL -o /tmp/jackson-databind-2.22.1.jar \
-      https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.22.1/jackson-databind-2.22.1.jar && \
-    curl -sSL -o /tmp/jsoup-1.23.1.jar \
-      https://repo1.maven.org/maven2/org/jsoup/jsoup/1.23.1/jsoup-1.23.1.jar && \
-    cp /tmp/jackson-databind-2.22.1.jar $ALLURE_LIB/jackson-databind-2.22.1.jar && \
-    cp /tmp/jackson-databind-2.22.1.jar $JIRA_LIB/jackson-databind-2.22.1.jar && \
-    cp /tmp/jackson-databind-2.22.1.jar $XRAY_LIB/jackson-databind-2.22.1.jar && \
-    cp /tmp/jsoup-1.23.1.jar $ALLURE_LIB/jsoup-1.23.1.jar && \
-    rm $ALLURE_LIB/jackson-databind-2.22.0.jar $JIRA_LIB/jackson-databind-2.22.0.jar $XRAY_LIB/jackson-databind-2.22.0.jar && \
-    rm $ALLURE_LIB/jsoup-1.22.2.jar && \
-    rm /tmp/jackson-databind-2.22.1.jar /tmp/jsoup-1.23.1.jar
-
 COPY . .
 
 ENTRYPOINT [ "./entrypoint.sh" ]
