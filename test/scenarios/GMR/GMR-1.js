@@ -18,8 +18,9 @@ describe('BTMS receives a ClearanceRequest for a MRN with a single item with a s
       })
     )
 
-    await sendGmrMessage(
-      loadGmrJson('GMR.json', {
+    await processorPostMatchedGmr({
+      mrn: this.mrnRef,
+      gmr: loadGmrJson('GMR.json', {
         gmrId: this.gmrRef,
         updatedDateTime: new Date().toISOString(),
         declarations: {
@@ -35,7 +36,7 @@ describe('BTMS receives a ClearanceRequest for a MRN with a single item with a s
           ]
         }
       })
-    )
+    })
 
     testLogger.info('Send Clearance Request')
     await newClearanceRequest()

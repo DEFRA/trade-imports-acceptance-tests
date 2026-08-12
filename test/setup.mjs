@@ -23,7 +23,6 @@ import * as rawWaitForDecision from './utils/waitForDecision.js'
 import * as rawWaitForError from './utils/waitForError.js'
 import * as rawTradeimportsdatapiMessageHandler from './utils/tradeimportsdatapiMessageHandler.js'
 import * as rawIpaffsMessageHandler from './utils/ipaffsMessageHandler.js'
-import * as rawGmrMessageHandler from './utils/gmrMessageHandler.js'
 import * as rawReportingClient from './utils/reportingClient.js'
 import * as dataApiClient from './utils/dataApiClient.js'
 import * as rawProcessorClient from './utils/processorClient.js'
@@ -41,7 +40,6 @@ function initGlobals() {
     testContext: rawTestContext,
     testDataFunctions: rawTestDataFunctions,
     ipaffsMessageHandler: rawIpaffsMessageHandler,
-    rawGmrMessageHandler,
     decisionParser: rawDecisionParser,
     SoapMessageBuilder: rawSoapMessageBuilder,
     sendSoapRequest: rawSendSoapRequest,
@@ -64,7 +62,6 @@ function initGlobals() {
     TRADE_IMPORTS_DATA_API_USER: {},
     TRADE_IMPORTS_DATA_API_KEY: {},
     ServiceBus__Notifications__ConnectionString: {},
-    ServiceBus__Gmrs__ConnectionString: {},
     POLL_INTERVAL_MS: { parseAs: 'int', default: 500 },
     TIMEOUT_MS: { parseAs: 'int', default: 30000 }
   }
