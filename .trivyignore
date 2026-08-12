@@ -1,0 +1,5 @@
+# Bundled JARs inside allure-commandline 2.43.0 that cannot be upgraded via npm.
+# Patching the JARs breaks allure's hardcoded classpath, so these are ignored instead.
+CVE-2026-54515
+CVE-2026-59889
+CVE-2026-71497
