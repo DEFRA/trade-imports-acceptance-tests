@@ -3,3 +3,16 @@
 CVE-2026-54515
 CVE-2026-59889
 CVE-2026-71497
+
+# Vulnerable packages bundled inside npm itself (/usr/local/lib/node_modules/npm/).
+# They cannot be resolved via package.json overrides; a fix requires the base image
+# to ship a newer npm version.
+CVE-2026-14257
+CVE-2026-15157
+CVE-2026-16728
+CVE-2026-16729
+CVE-2026-54272
+CVE-2026-69152
+CVE-2026-69192
+CVE-2026-69198
+CVE-2026-73566
