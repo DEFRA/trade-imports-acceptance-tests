@@ -86,6 +86,7 @@ export function loadTRACESChed(filename, override = (content) => content) {
 }
 
 export function setTracesLastUpdateTime(content, isoString) {
+  content.lastUpdated = isoString 
   const note = content.exchangedDocument.includedNote.find(
     (n) => n.subjectCode.value === 'LAST_UPDATE_DATETIME'
   )
