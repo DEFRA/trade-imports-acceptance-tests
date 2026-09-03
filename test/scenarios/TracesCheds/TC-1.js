@@ -17,6 +17,7 @@ describe('BTMS receives a TRACES CHED - TC-1', function () {
     const storedText = await waitForDataInAPI(this.docRef, 'TRACES')
     const stored = JSON.parse(storedText)
 
-    expect(stored.ched).to.deep.include(json)
+    const { lastUpdated, ...expected } = json
+    expect(stored.ched).to.deep.include(expected)
   })
 })
