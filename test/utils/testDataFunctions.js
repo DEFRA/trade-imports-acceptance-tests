@@ -26,7 +26,7 @@ export async function generateDocumentReference({
   const randomNumberString = (length) =>
     Array.from({ length }, () => Math.floor(Math.random() * 10)).join('')
 
-  const prefix = randomNumberString(prefixLength)
+  const prefix = '2026'
   const resp = await dataApiClientGetMaxId()
 
   const data = await resp.json()
