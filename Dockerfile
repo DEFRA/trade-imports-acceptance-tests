@@ -16,15 +16,14 @@ RUN apk update && \
 # that cannot be fixed via package.json overrides on a global install.
 RUN npm install -g npm@12.0.1 && \
     NPM_NM=$(npm root -g)/npm/node_modules && \
-    cd /tmp && \
-    npm pack brace-expansion@5.0.9 && npm pack tar@7.5.22 && npm pack undici@6.28.0 && npm pack ip-address@10.3.1 && \
+    npm pack --pack-destination /tmp brace-expansion@5.0.9 tar@7.5.22 undici@6.28.0 ip-address@10.3.1 && \
     rm -rf $NPM_NM/brace-expansion $NPM_NM/tar $NPM_NM/undici $NPM_NM/ip-address && \
     mkdir $NPM_NM/brace-expansion $NPM_NM/tar $NPM_NM/undici $NPM_NM/ip-address && \
-    tar xzf brace-expansion-5.0.9.tgz --strip-components=1 -C $NPM_NM/brace-expansion && \
-    tar xzf tar-7.5.22.tgz --strip-components=1 -C $NPM_NM/tar && \
-    tar xzf undici-6.28.0.tgz --strip-components=1 -C $NPM_NM/undici && \
-    tar xzf ip-address-10.3.1.tgz --strip-components=1 -C $NPM_NM/ip-address && \
-    rm brace-expansion-5.0.9.tgz tar-7.5.22.tgz undici-6.28.0.tgz ip-address-10.3.1.tgz
+    tar xzf /tmp/brace-expansion-5.0.9.tgz --strip-components=1 -C $NPM_NM/brace-expansion && \
+    tar xzf /tmp/tar-7.5.22.tgz --strip-components=1 -C $NPM_NM/tar && \
+    tar xzf /tmp/undici-6.28.0.tgz --strip-components=1 -C $NPM_NM/undici && \
+    tar xzf /tmp/ip-address-10.3.1.tgz --strip-components=1 -C $NPM_NM/ip-address && \
+    rm /tmp/brace-expansion-5.0.9.tgz /tmp/tar-7.5.22.tgz /tmp/undici-6.28.0.tgz /tmp/ip-address-10.3.1.tgz
 
 WORKDIR /app
 
@@ -38,5 +37,9 @@ RUN npm install --omit=optional && \
    rm -rf node_modules/@esbuild
 
 COPY . .
+
+RUN chown -R node:node /app
+
+USER node
 
 ENTRYPOINT [ "./entrypoint.sh" ]
