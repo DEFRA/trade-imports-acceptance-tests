@@ -25,6 +25,10 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - name: Audit dependencies
+        # critical (not high): extract-zip has a known HIGH advisory with no fixed release,
+        # which would fail a high-level gate indefinitely until upstream patches it.
+        run: npm audit --audit-level=critical
       - run: npm run format:check
       - run: npm run lint
       - name: Check Dockerfile Builds
@@ -38,7 +42,7 @@ jobs:
         run: |
           docker run -v /var/run/docker.sock:/var/run/docker.sock \
             -v $PWD:/work \
-            aquasec/trivy:0.72.0 image \
+            aquasec/trivy:0.74.0 image \
             --ignorefile /work/.trivyignore \
             --ignore-unfixed \
             --exit-code 1 \
