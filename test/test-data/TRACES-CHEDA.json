@@ -318,6 +318,7 @@
               "unitCode": "KGM",
               "unitCodeListVersionId": null
             },
+            "netVolume": null,
             "applicableClassification": null,
             "physicalReferencedLogisticsPackage": [
               {
@@ -336,6 +337,7 @@
             "scientificName": null,
             "netWeight": null,
             "grossWeight": null,
+            "netVolume": null,
             "applicableClassification": [
               {
                 "systemId": "CN",
@@ -371,6 +373,7 @@
             "scientificName": null,
             "netWeight": null,
             "grossWeight": null,
+            "netVolume": null,
             "applicableClassification": [
               {
                 "systemId": "CN",
