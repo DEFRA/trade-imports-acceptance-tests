@@ -16,6 +16,8 @@
   "scripts": {
     "clean": "rm -rf allure-results && rm -rf allure-report",
     "test": "npm run clean && mocha --config .mocharc.json",
+    "test:traces": "npm run clean && mocha --config .mocharc.traces.cjs",
+    "test:all": "npm run clean && mocha --config .mocharc.all.cjs",
     "format": "prettier --write 'test/**/*.js' '**/*.{js,md,json,config.js}'",
     "format:check": "prettier --check 'test/**/*.js' '**/*.{js,md,json,config.js}'",
     "git:pre-commit-hook": "npm run format:check && npm run lint",
