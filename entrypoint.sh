@@ -1,9 +1,11 @@
 #!/bin/sh
 
 echo "run_id: $RUN_ID"
-npm test
+rm -rf allure-results allure-report
+./node_modules/.bin/mocha --config .mocharc.json
 
-npm run report:publish
+./node_modules/.bin/allure generate allure-results --single-file --clean
+./bin/publish-tests.sh
 publish_exit_code=$?
 
 if [ $publish_exit_code -ne 0 ]; then

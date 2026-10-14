@@ -11,8 +11,7 @@ module.exports = {
   extends: [
     'standard',
     'prettier',
-    'eslint:recommended',
-    'plugin:wdio/recommended'
+    'eslint:recommended'
   ],
   overrides: [
     {
@@ -25,8 +24,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest'
   },
-  plugins: ['prettier', 'wdio', 'no-only-tests'],
-  plugins: ['prettier', 'wdio', 'no-only-tests'],
+  plugins: ['prettier', 'no-only-tests'],
   rules: {
     'prettier/prettier': 'error',
     'no-console': 'error',

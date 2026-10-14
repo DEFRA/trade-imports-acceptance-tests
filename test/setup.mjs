@@ -26,6 +26,8 @@ import * as rawIpaffsMessageHandler from './utils/ipaffsMessageHandler.js'
 import * as rawReportingClient from './utils/reportingClient.js'
 import * as dataApiClient from './utils/dataApiClient.js'
 import * as rawProcessorClient from './utils/processorClient.js'
+import * as rawTracesSimulator from './utils/tracesSimulator.js'
+import * as rawTradeGatewayPublisherClient from './utils/tradeGatewayPublisherClient.js'
 import * as rawTestContext from '../utils/testContext.js'
 
 import process from 'process'
@@ -48,7 +50,9 @@ function initGlobals() {
     tradeimportsdatapiMessageHandler: rawTradeimportsdatapiMessageHandler,
     reportingClient: rawReportingClient,
     dataApiClient,
-    processorClient: rawProcessorClient
+    processorClient: rawProcessorClient,
+    tracesSimulator: rawTracesSimulator,
+    tradeGatewayPublisherClient: rawTradeGatewayPublisherClient
   })
 
   registerGlobalFunctions({
@@ -123,6 +127,24 @@ function initGlobals() {
   } else {
     globalThis.BASE_URL_TRADE_IMPORTS_REPORTING = `https://trade-imports-reporting-api.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
   }
+
+  if (process.env.BASE_URL_TRADE_GATEWAY_PUBLISHER) {
+    globalThis.BASE_URL_TRADE_GATEWAY_PUBLISHER =
+      process.env.BASE_URL_TRADE_GATEWAY_PUBLISHER
+  } else {
+    globalThis.BASE_URL_TRADE_GATEWAY_PUBLISHER = `https://trade-gateway-publisher.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
+  }
+
+  if (process.env.BASE_URL_TRACES_SIMULATOR) {
+    globalThis.BASE_URL_TRACES_SIMULATOR = process.env.BASE_URL_TRACES_SIMULATOR
+  } else {
+    globalThis.BASE_URL_TRACES_SIMULATOR = `https://trade-tracesnt-stub.${process.env.ENVIRONMENT}.cdp-int.defra.cloud`
+  }
+  // The TRACES NT simulator's control API (trade-tracesnt-stub). A CHED created here reaches BTMS
+  // through trade-gateway and trade-gateway-publisher, as it would from real TRACES.
+  globalThis.tracesSimulator = rawTracesSimulator.SimulatorControlClient.at(
+    globalThis.BASE_URL_TRACES_SIMULATOR
+  )
 
   promoteEnvVars(['TRADE_IMPORTS_', 'IPAFFS_', 'BASE_URL_'])
 
