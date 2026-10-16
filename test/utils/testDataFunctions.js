@@ -20,13 +20,9 @@ export function generateRandomGMR(prefix = 'GMRA') {
 
 export async function generateDocumentReference({
   letter = 'A',
-  prefixLength = 4,
   increment = 1
 } = {}) {
-  const randomNumberString = (length) =>
-    Array.from({ length }, () => Math.floor(Math.random() * 10)).join('')
-
-  const prefix = randomNumberString(prefixLength)
+  const prefix = String(new Date().getFullYear())
   const resp = await dataApiClientGetMaxId()
 
   const data = await resp.json()
