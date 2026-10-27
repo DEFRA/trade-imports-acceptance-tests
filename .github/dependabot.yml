@@ -1,0 +1,67 @@
+version: 2
+
+updates:
+  ###########################################################
+  # NPM DEPENDENCIES
+  ###########################################################
+  - package-ecosystem: npm
+    directory: /
+    open-pull-requests-limit: 10
+
+    schedule:
+      interval: daily
+      time: "00:00"
+      timezone: "Europe/London"
+
+    allow:
+      - dependency-type: direct
+
+    reviewers:
+      - DEFRA/trade-data-matching
+
+    groups:
+      ###########################################################
+      # GROUP MINOR & PATCH TOGETHER (combined into one PR)
+      ###########################################################
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+        patterns:
+          - "*"
+
+      ###########################################################
+      # SEPARATE DEV VS PROD DEPENDENCIES
+      ###########################################################
+      dev-dependencies:
+        dependency-type: development
+        patterns:
+          - "*"
+
+      prod-dependencies:
+        dependency-type: production
+        patterns:
+          - "*"
+
+      ###########################################################
+      # MAJOR UPDATES (not grouped, remain individual)
+      ###########################################################
+      major:
+        update-types:
+          - major
+        patterns:
+          - "*"
+
+  ###########################################################
+  # GITHUB ACTIONS
+  ###########################################################
+  - package-ecosystem: github-actions
+    directory: /
+
+    schedule:
+      interval: daily
+      time: "00:00"
+      timezone: "Europe/London"
+
+    reviewers:
+      - DEFRA/trade-data-matching
