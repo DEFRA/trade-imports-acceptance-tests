@@ -1,4 +1,4 @@
-FROM defradigital/node:latest-24
+FROM defradigital/node:3.2.4-node24.22.1
 
 ENV TZ="Europe/London"
 
