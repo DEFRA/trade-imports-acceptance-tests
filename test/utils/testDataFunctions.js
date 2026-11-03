@@ -41,8 +41,7 @@ export async function generateDocumentReference({
     }
   }
 
-  // The API only reports references that have been stored. Reserve each number
-  // locally so a subsequent test cannot reuse one while its message is in flight.
+  // Avoid reusing numbers before the API has stored them.
   lastReservedDocumentNumber = Math.max(
     baseNumber + increment,
     lastReservedDocumentNumber + 1
