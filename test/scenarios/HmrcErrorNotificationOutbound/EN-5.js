@@ -33,7 +33,7 @@ describe('BTMS receives a FinalisationNotification for an MRN which is already c
         Documents: [
           {
             DocumentCode: 'C640',
-            DocumentReference: generateDocumentReference()
+            DocumentReference: await generateDocumentReference()
           }
         ],
         Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]

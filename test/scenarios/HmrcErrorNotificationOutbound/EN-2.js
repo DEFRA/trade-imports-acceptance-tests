@@ -12,7 +12,7 @@ describe('BTMS receives a ClearanceRequest with no EntryVersionNumber - EN-2', f
         Documents: [
           {
             DocumentCode: this.documentCode,
-            DocumentReference: generateDocumentReference()
+            DocumentReference: await generateDocumentReference()
           }
         ],
         Checks: [{ CheckCode: 'H223', DepartmentCode: 'PHA' }]

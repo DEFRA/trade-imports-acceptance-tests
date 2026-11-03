@@ -32,7 +32,7 @@ describe('BTMS receives a Manual Override decision for an existing MRN - FN-1', 
         Documents: [
           {
             DocumentCode: 'C640',
-            DocumentReference: generateDocumentReference()
+            DocumentReference: await generateDocumentReference()
           }
         ],
         Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
