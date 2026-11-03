@@ -12,7 +12,7 @@ describe('BTMS receives a ClearanceRequest where the DocumentCode does not map t
         Documents: [
           {
             DocumentCode: this.documentCode,
-            DocumentReference: generateDocumentReference()
+            DocumentReference: await generateDocumentReference()
           }
         ],
         Checks: [{ CheckCode: 'H223', DepartmentCode: 'PHA' }]

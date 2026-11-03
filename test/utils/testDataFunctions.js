@@ -18,6 +18,8 @@ export function generateRandomGMR(prefix = 'GMRA') {
   return result
 }
 
+let lastReservedDocumentNumber = 1000000
+
 export async function generateDocumentReference({
   letter = 'A',
   prefixLength = 4,
@@ -39,7 +41,12 @@ export async function generateDocumentReference({
     }
   }
 
-  const suffix = String(baseNumber + increment).padStart(7, '0')
+  // Avoid reusing numbers before the API has stored them.
+  lastReservedDocumentNumber = Math.max(
+    baseNumber + increment,
+    lastReservedDocumentNumber + 1
+  )
+  const suffix = String(lastReservedDocumentNumber).padStart(7, '0')
   const result = `CHED${letter}.GB.${prefix}.${suffix}`
 
   globalThis.testLogger.info(`Generated new CHED reference`, { ched: result })
