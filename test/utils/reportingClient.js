@@ -59,6 +59,11 @@ export async function getLastSent() {
   return await makeGetRequest(url)
 }
 
+export async function extractCustomsDeclarations(from, to) {
+  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/extracts/customs-declarations?from=${from}&to=${to}`
+  return await makeGetRequest(url)
+}
+
 export async function getStatus() {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/status`
   return await makeGetRequest(url)
