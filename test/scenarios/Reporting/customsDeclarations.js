@@ -75,40 +75,90 @@ describe('Reporting Extract Customs Declarations Endpoint', function () {
         declaration
       })
 
-      // Required fields validation
+      // Required fields validation with explicit value checks
       expect(declaration).to.have.property('mrn')
       expect(declaration.mrn).to.equal(this.mrn)
+
       expect(declaration).to.have.property('mrnCreated')
+      expect(declaration.mrnCreated).to.be.a('string')
+
       expect(declaration).to.have.property('lastUpdated')
+      expect(declaration.lastUpdated).to.be.a('string')
+
       expect(declaration).to.have.property('releaseType')
+      expect(declaration.releaseType).to.be.a('string')
+
       expect(declaration).to.have.property('finalState')
+      // finalState can be null or a string value
+      // eslint-disable-next-line no-unused-expressions
+      expect(
+        declaration.finalState === null ||
+          typeof declaration.finalState === 'string'
+      ).to.be.true
+
       expect(declaration).to.have.property('dispatchCountryCode')
+      expect(declaration.dispatchCountryCode).to.be.a('string')
+
       expect(declaration).to.have.property('itemNumber')
+      expect(declaration.itemNumber).to.be.a('number')
+
       expect(declaration).to.have.property('commodityCode')
       expect(declaration.commodityCode).to.equal('1601009105')
+
       expect(declaration).to.have.property('description')
+      expect(declaration.description).to.be.a('string')
+
       expect(declaration).to.have.property('quantityOrWeight')
+      expect(declaration.quantityOrWeight).to.be.a('number')
+
       expect(declaration).to.have.property('chedReferences')
+      expect(declaration.chedReferences).to.be.a('string')
+
       expect(declaration).to.have.property('authorities')
       expect(declaration.authorities).to.equal('AHVLA')
+
       expect(declaration).to.have.property('checkCodes')
       expect(declaration.checkCodes).to.equal('H221')
+
       expect(declaration).to.have.property('decisions')
       // Decisions may contain multiple codes separated by semicolon
       expect(declaration.decisions).to.include('X00')
+
       expect(declaration).to.have.property('match')
+      expect(['Yes', 'No']).to.include(declaration.match)
 
       // Validate date fields are ISO format
       const mrnCreatedDate = new Date(declaration.mrnCreated)
       expect(mrnCreatedDate.toString()).to.not.equal('Invalid Date')
+      testLogger.info('mrnCreated is valid ISO date: ', {
+        mrnCreated: declaration.mrnCreated
+      })
 
       const lastUpdatedDate = new Date(declaration.lastUpdated)
       expect(lastUpdatedDate.toString()).to.not.equal('Invalid Date')
+      testLogger.info('lastUpdated is valid ISO date: ', {
+        lastUpdated: declaration.lastUpdated
+      })
+
+      // Verify lastUpdated is after or equal to mrnCreated
+      expect(lastUpdatedDate.getTime()).to.be.greaterThanOrEqual(
+        mrnCreatedDate.getTime()
+      )
 
       testLogger.info('All validations passed for customs declaration', {
         mrn: declaration.mrn,
         commodityCode: declaration.commodityCode,
-        quantityOrWeight: declaration.quantityOrWeight
+        quantityOrWeight: declaration.quantityOrWeight,
+        authorities: declaration.authorities,
+        checkCodes: declaration.checkCodes,
+        decisions: declaration.decisions,
+        releaseType: declaration.releaseType,
+        finalState: declaration.finalState,
+        dispatchCountryCode: declaration.dispatchCountryCode,
+        itemNumber: declaration.itemNumber,
+        description: declaration.description,
+        chedReferences: declaration.chedReferences,
+        match: declaration.match
       })
     } else {
       testLogger.warn('No customs declarations returned in response')
