@@ -164,4 +164,89 @@ describe('Reporting Extract Customs Declarations Endpoint', function () {
       testLogger.warn('No customs declarations returned in response')
     }
   })
+
+  it('should extract IPAFFS CHEDs data with correct response structure', async function () {
+    this.timeout(70000)
+
+    const now = Date.now()
+    const from = new Date(now - 10 * 1000).toISOString()
+    const to = new Date(now + 10 * 1000).toISOString()
+    testLogger.info('From and To dates for IPAFFS CHEDs extract: ', {
+      fromDate: from,
+      toDate: to
+    })
+
+    testLogger.info('Querying IPAFFS CHEDs extract endpoint')
+    const ipaffsCheBdsResponse = await extractIpaffsCheds(from, to)
+
+    testLogger.info('Validating IPAFFS CHEDs extract response structure')
+    // eslint-disable-next-line no-unused-expressions
+    expect(ipaffsCheBdsResponse).to.exist
+    expect(ipaffsCheBdsResponse).to.have.property('data')
+    expect(ipaffsCheBdsResponse.data).to.be.an('array')
+
+    if (ipaffsCheBdsResponse.data.length > 0) {
+      const chedRecord = ipaffsCheBdsResponse.data[0]
+
+      testLogger.info('Validating individual CHED record structure', {
+        chedRecord
+      })
+
+      // Required fields validation with explicit value checks
+      expect(chedRecord).to.have.property('chedReference')
+      expect(chedRecord.chedReference).to.be.a('string')
+
+      expect(chedRecord).to.have.property('chedType')
+      expect(chedRecord.chedType).to.be.a('string')
+      expect(['ChedA', 'ChedD']).to.include(chedRecord.chedType)
+
+      expect(chedRecord).to.have.property('status')
+      expect(chedRecord.status).to.be.a('string')
+      expect(['SUBMITTED', 'ACCEPTED', 'REJECTED']).to.include(
+        chedRecord.status
+      )
+
+      expect(chedRecord).to.have.property('created')
+      expect(chedRecord.created).to.be.a('string')
+
+      expect(chedRecord).to.have.property('updated')
+      expect(chedRecord.updated).to.be.a('string')
+
+      expect(chedRecord).to.have.property('commodityCode')
+      expect(chedRecord.commodityCode).to.be.a('string')
+
+      expect(chedRecord).to.have.property('description')
+      expect(chedRecord.description).to.be.a('string')
+
+      // Validate date fields are ISO format
+      const createdDate = new Date(chedRecord.created)
+      expect(createdDate.toString()).to.not.equal('Invalid Date')
+      testLogger.info('created is valid ISO date: ', {
+        created: chedRecord.created
+      })
+
+      const updatedDate = new Date(chedRecord.updated)
+      expect(updatedDate.toString()).to.not.equal('Invalid Date')
+      testLogger.info('updated is valid ISO date: ', {
+        updated: chedRecord.updated
+      })
+
+      // Verify updated is after or equal to created
+      expect(updatedDate.getTime()).to.be.greaterThanOrEqual(
+        createdDate.getTime()
+      )
+
+      testLogger.info('All validations passed for IPAFFS CHED record', {
+        chedReference: chedRecord.chedReference,
+        chedType: chedRecord.chedType,
+        status: chedRecord.status,
+        commodityCode: chedRecord.commodityCode,
+        description: chedRecord.description,
+        created: chedRecord.created,
+        updated: chedRecord.updated
+      })
+    } else {
+      testLogger.warn('No IPAFFS CHEDs returned in response')
+    }
+  })
 })
