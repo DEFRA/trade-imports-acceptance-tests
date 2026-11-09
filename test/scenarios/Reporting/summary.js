@@ -26,6 +26,44 @@ describe('Reporting Summary Results for Reporting', function () {
     const expectedReleaseRequestManaul = releaseRequest.manual + 1
     const expectedReleaseRequestTotal = releaseRequest.total + 1
 
+    testLogger.info('Getting Traces CHEDs Summary Data')
+    const summaryData = await getSummary(from, to)
+    const tracesChedsRequest = summaryData.tracesCheds
+    const expectedTracesChedsRequestChedA = tracesChedsRequest.chedA + 1
+    const expectedTracesChedsRequestTotal = tracesChedsRequest.total + 1
+
+    testLogger.info('Getting CHED Reservations Summary Data')
+    const chedReservationsRequest = summaryData.chedReservations
+    const expectedChedReservationsReserved =
+      chedReservationsRequest.reserved + 1
+    const expectedChedReservationsTotal = chedReservationsRequest.total + 1
+
+    testLogger.info('Create and send TRACES CHED')
+    this.tracesRef = await generateDocumentReference()
+    const tracesJson = loadTRACESChed('TRACES-CHEDA.json', (content) => {
+      content.exchangedDocument.identifier = this.tracesRef
+      return setTracesLastUpdateTime(content, new Date().toISOString())
+    })
+    const { response: tracesResponse } =
+      await processorPostTracesChed(tracesJson)
+    expect(tracesResponse.status).to.equal(204)
+
+    testLogger.info('Create and send CHED Reservation')
+    const reservationMrn = generateRandomMRN()
+    const chedReservation = {
+      chedId: this.tracesRef,
+      mrn: reservationMrn,
+      status: 'Reserved',
+      timestamp: new Date().toISOString(),
+      commodities: []
+    }
+    const chedReservationResponse = await dataApiPutChedReservation(
+      this.tracesRef,
+      reservationMrn,
+      chedReservation
+    )
+    expect(chedReservationResponse.response.status).to.equal(200)
+
     testLogger.info('Send Clearance Request')
     this.docRef = await generateDocumentReference()
     this.mrn = generateRandomMRN()
@@ -133,5 +171,39 @@ describe('Reporting Summary Results for Reporting', function () {
     )
     expect(actualReleaseRequestManual).to.equal(expectedReleaseRequestManaul)
     expect(actualReleaseRequestTotal).to.equal(expectedReleaseRequestTotal)
+
+    testLogger.info('Asserting on Traces CHEDs')
+    const actualTracesChedsRequestChedA = await pollForExpectedValue(
+      () => getSummary(from, to),
+      (data) => data.tracesCheds.chedA,
+      expectedTracesChedsRequestChedA
+    )
+    const actualTracesChedsRequestTotal = await pollForExpectedValue(
+      () => getSummary(from, to),
+      (data) => data.tracesCheds.total,
+      expectedTracesChedsRequestTotal
+    )
+    expect(actualTracesChedsRequestChedA).to.equal(
+      expectedTracesChedsRequestChedA
+    )
+    expect(actualTracesChedsRequestTotal).to.equal(
+      expectedTracesChedsRequestTotal
+    )
+
+    testLogger.info('Asserting on CHED Reservations')
+    const actualChedReservationsReserved = await pollForExpectedValue(
+      () => getSummary(from, to),
+      (data) => data.chedReservations.reserved,
+      expectedChedReservationsReserved
+    )
+    const actualChedReservationsTotal = await pollForExpectedValue(
+      () => getSummary(from, to),
+      (data) => data.chedReservations.total,
+      expectedChedReservationsTotal
+    )
+    expect(actualChedReservationsReserved).to.equal(
+      expectedChedReservationsReserved
+    )
+    expect(actualChedReservationsTotal).to.equal(expectedChedReservationsTotal)
   })
 })

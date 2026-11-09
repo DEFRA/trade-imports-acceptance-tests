@@ -44,6 +44,11 @@ export async function getReleasesInterval(from, to, interval) {
   return await makeGetRequest(url)
 }
 
+export async function getSummary(from, to) {
+  const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/summary?from=${from}&to=${to}`
+  return await makeGetRequest(url)
+}
+
 export async function getLastReceived(from, to) {
   const url = `${BASE_URL_TRADE_IMPORTS_REPORTING}/last-received`
   return await makeGetRequest(url)
