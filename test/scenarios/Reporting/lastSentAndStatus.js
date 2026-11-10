@@ -100,6 +100,14 @@ describe('Reporting Last Sent and Status Endpoints', function () {
       ?.preNotification?.timestamp
       ? new Date(beforeStatus.received.preNotification.timestamp).getTime()
       : 0
+    const beforeReceivedTracesChedTimestamp = beforeStatus.received?.tracesChed
+      ?.timestamp
+      ? new Date(beforeStatus.received.tracesChed.timestamp).getTime()
+      : 0
+    const beforeReceivedChedReservationTimestamp = beforeStatus.received
+      ?.chedReservation?.timestamp
+      ? new Date(beforeStatus.received.chedReservation.timestamp).getTime()
+      : 0
     const beforeSentDecisionTimestamp = beforeStatus.sent?.decision?.timestamp
       ? new Date(beforeStatus.sent.decision.timestamp).getTime()
       : 0
@@ -111,6 +119,32 @@ describe('Reporting Last Sent and Status Endpoints', function () {
     testLogger.info('Sending test data for /status endpoint')
     const docRef = await generateDocumentReference()
     const mrn = generateRandomMRN()
+
+    testLogger.info('Create and send TRACES CHED')
+    const tracesRef = await generateDocumentReference()
+    const tracesJson = loadTRACESChed('TRACES-CHEDA.json', (content) => {
+      content.exchangedDocument.identifier = tracesRef
+      return setTracesLastUpdateTime(content, new Date().toISOString())
+    })
+    const { response: tracesResponse } =
+      await processorPostTracesChed(tracesJson)
+    expect(tracesResponse.status).to.equal(204)
+
+    testLogger.info('Create and send CHED Reservation')
+    const chedReservationMrn = generateRandomMRN()
+    const chedReservation = {
+      chedId: tracesRef,
+      mrn: chedReservationMrn,
+      status: 'Reserved',
+      timestamp: new Date().toISOString(),
+      commodities: []
+    }
+    const { response: reservationResponse } = await dataApiPutChedReservation(
+      tracesRef,
+      chedReservationMrn,
+      chedReservation
+    )
+    expect(reservationResponse.status).to.equal(200)
 
     await newClearanceRequest()
       .addItem({
@@ -163,6 +197,14 @@ describe('Reporting Last Sent and Status Endpoints', function () {
       ?.preNotification?.timestamp
       ? new Date(afterStatus.received.preNotification.timestamp).getTime()
       : 0
+    const afterReceivedTracesChedTimestamp = afterStatus.received?.tracesChed
+      ?.timestamp
+      ? new Date(afterStatus.received.tracesChed.timestamp).getTime()
+      : 0
+    const afterReceivedChedReservationTimestamp = afterStatus.received
+      ?.chedReservation?.timestamp
+      ? new Date(afterStatus.received.chedReservation.timestamp).getTime()
+      : 0
     const afterSentDecisionTimestamp = afterStatus.sent?.decision?.timestamp
       ? new Date(afterStatus.sent.decision.timestamp).getTime()
       : 0
@@ -177,6 +219,10 @@ describe('Reporting Last Sent and Status Endpoints', function () {
       afterStatus.received?.clearanceRequest?.reference || null
     const afterReceivedPreNotificationReference =
       afterStatus.received?.preNotification?.reference || null
+    const afterReceivedTracesChedReference =
+      afterStatus.received?.tracesChed?.reference || null
+    const afterReceivedChedReservationReference =
+      afterStatus.received?.chedReservation?.reference || null
     const afterSentDecisionReference =
       afterStatus.sent?.decision?.reference || null
     const afterCreatedDecisionReference =
@@ -191,6 +237,12 @@ describe('Reporting Last Sent and Status Endpoints', function () {
     expect(afterReceivedPreNotificationTimestamp).to.be.greaterThan(
       beforeReceivedPreNotificationTimestamp
     )
+    expect(afterReceivedTracesChedTimestamp).to.be.greaterThan(
+      beforeReceivedTracesChedTimestamp
+    )
+    expect(afterReceivedChedReservationTimestamp).to.be.greaterThan(
+      beforeReceivedChedReservationTimestamp
+    )
     expect(afterSentDecisionTimestamp).to.be.greaterThan(
       beforeSentDecisionTimestamp
     )
@@ -200,6 +252,10 @@ describe('Reporting Last Sent and Status Endpoints', function () {
     expect(afterReceivedFinalisationReference).to.equal(mrn)
     expect(afterReceivedClearanceRequestReference).to.equal(mrn)
     expect(afterReceivedPreNotificationReference).to.equal(docRef)
+    expect(afterReceivedTracesChedReference).to.equal(tracesRef)
+    expect(afterReceivedChedReservationReference).to.equal(
+      `${tracesRef}_${chedReservationMrn}`
+    )
     expect(afterSentDecisionReference).to.equal(mrn)
     expect(afterCreatedDecisionReference).to.equal(mrn)
   })

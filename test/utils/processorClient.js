@@ -1,7 +1,14 @@
 import { v4 as uuidv4 } from 'uuid'
 
-const withHeaders = (headers) => ({
+const withProcessorHeaders = (headers) => ({
   Authorization: TRADE_IMPORTS_PROCESSOR_AUTHORIZATION_HEADER,
+  'Content-Type': 'application/json',
+  ...(CDP_API_KEY ? { 'X-API-Key': CDP_API_KEY } : {}),
+  ...headers
+})
+
+const withDataApiHeaders = (headers) => ({
+  Authorization: TRADE_IMPORTS_DATA_API_AUTHORIZATION_HEADER,
   'Content-Type': 'application/json',
   ...(CDP_API_KEY ? { 'X-API-Key': CDP_API_KEY } : {}),
   ...headers
@@ -19,7 +26,7 @@ export async function processorPostTracesChed(json, traceId) {
   const req = fetch(`${BASE_URL_TRADE_IMPORTS_PROCESSOR}/dev/traces-cheds`, {
     method: 'POST',
     body: JSON.stringify(json),
-    headers: withHeaders({ 'x-cdp-request-id': resolvedTraceId })
+    headers: withProcessorHeaders({ 'x-cdp-request-id': resolvedTraceId })
   })
 
   const response = await makeRequest(req)
@@ -32,9 +39,23 @@ export async function processorPostMatchedGmr(matchedGmr, traceId) {
   const req = fetch(`${BASE_URL_TRADE_IMPORTS_PROCESSOR}/dev/matched-gmrs`, {
     method: 'POST',
     body: JSON.stringify(matchedGmr),
-    headers: withHeaders({ 'x-cdp-request-id': resolvedTraceId })
+    headers: withProcessorHeaders({ 'x-cdp-request-id': resolvedTraceId })
   })
 
   const response = await makeRequest(req)
   return { traceId: resolvedTraceId, response }
+}
+
+export async function dataApiPutChedReservation(chedId, mrn, reservation) {
+  const req = fetch(
+    `${BASE_URL_TRADE_IMPORTS_DATA_API}/traces-cheds/${chedId}/reservation/${mrn}/`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(reservation),
+      headers: withDataApiHeaders()
+    }
+  )
+
+  const response = await makeRequest(req)
+  return { response }
 }

@@ -1,10 +1,6 @@
 describe('Reporting Latest Results for Reporting', function () {
   it('', async function () {
     this.timeout(70000)
-    const now = Date.now()
-    const from = new Date(now - 10 * 1000).toISOString()
-    const to = new Date(now + 10 * 1000).toISOString()
-    testLogger.info('From and To dates: ', { fromDate: from, toDate: to })
 
     testLogger.info('Getting Last Received Data')
     const lastReceivedRequest = await getLastReceived()
@@ -25,6 +21,44 @@ describe('Reporting Latest Results for Reporting', function () {
       lastReceivedRequest.preNotification.timestamp
         ? new Date(lastReceivedRequest.preNotification.timestamp).getTime()
         : 0
+
+    const tracesChedTime =
+      lastReceivedRequest.tracesChed && lastReceivedRequest.tracesChed.timestamp
+        ? new Date(lastReceivedRequest.tracesChed.timestamp).getTime()
+        : 0
+
+    const chedReservationTime =
+      lastReceivedRequest.chedReservation &&
+      lastReceivedRequest.chedReservation.timestamp
+        ? new Date(lastReceivedRequest.chedReservation.timestamp).getTime()
+        : 0
+
+    testLogger.info('Create and send TRACES CHED')
+    this.tracesRef = await generateDocumentReference()
+    const tracesJson = loadTRACESChed('TRACES-CHEDA.json', (content) => {
+      content.exchangedDocument.identifier = this.tracesRef
+      return setTracesLastUpdateTime(content, new Date().toISOString())
+    })
+    const { response: tracesResponse } =
+      await processorPostTracesChed(tracesJson)
+    expect(tracesResponse.status).to.equal(204)
+
+    testLogger.info('Create and send CHED Reservation')
+    const chedReservationMrn = generateRandomMRN()
+    const chedReservation = {
+      chedId: this.tracesRef,
+      mrn: chedReservationMrn,
+      status: 'Reserved',
+      timestamp: new Date().toISOString(),
+      commodities: []
+    }
+    const { response: reservationResponse } = await dataApiPutChedReservation(
+      this.tracesRef,
+      chedReservationMrn,
+      chedReservation
+    )
+    expect(reservationResponse.status).to.equal(200)
+    this.chedReservationId = `${this.tracesRef}_${chedReservationMrn}`
 
     testLogger.info('Send Clearance Request')
     this.docRef = await generateDocumentReference()
@@ -100,5 +134,23 @@ describe('Reporting Latest Results for Reporting', function () {
       notificationTime
     )
     expect(updatedNotificationReference).to.equal(this.docRef)
+
+    const updatedTracesChedTime = new Date(
+      updatedLastReceivedRequest.tracesChed.timestamp
+    )
+    const updatedTracesChedReference =
+      updatedLastReceivedRequest.tracesChed.reference
+    expect(updatedTracesChedTime.getTime()).to.be.greaterThan(tracesChedTime)
+    expect(updatedTracesChedReference).to.equal(this.tracesRef)
+
+    const updatedChedReservationTime = new Date(
+      updatedLastReceivedRequest.chedReservation.timestamp
+    )
+    const updatedChedReservationReference =
+      updatedLastReceivedRequest.chedReservation.reference
+    expect(updatedChedReservationTime.getTime()).to.be.greaterThan(
+      chedReservationTime
+    )
+    expect(updatedChedReservationReference).to.equal(this.chedReservationId)
   })
 })
