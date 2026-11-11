@@ -184,7 +184,7 @@ describe('Reporting Matching Summary Levels', function () {
                 speciesID: '242089',
                 keyDataPair: [
                   {
-                    key: 'number_package',
+                    key: 'number_animal',
                     data: '50'
                   },
                   {
@@ -341,7 +341,7 @@ describe('Reporting Matching Summary Levels', function () {
                 speciesID: '242089',
                 keyDataPair: [
                   {
-                    key: 'number_package',
+                    key: 'number_animal',
                     data: '50'
                   },
                   {
@@ -498,7 +498,7 @@ describe('Reporting Matching Summary Levels', function () {
                 speciesID: '242089',
                 keyDataPair: [
                   {
-                    key: 'number_package',
+                    key: 'number_animal',
                     data: finalLevelThreeNumberPackage
                   },
                   {
