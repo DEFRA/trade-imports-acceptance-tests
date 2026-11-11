@@ -1,30 +1,42 @@
 describe('Reporting Matching Summary Levels', function () {
   const testCases = [
     {
+      chedType: 'CHED-A',
       taricCommodityCode: '1601009105',
       customDeclarationWeight: 175,
       initialLevelThreeNetWeight: '75',
       initialLevelThreeNumberPackage: '175',
       finalLevelThreeNetWeight: '50',
-      finalLevelThreeNumberPackage: '185'
+      finalLevelThreeNumberPackage: '185',
+      checkCode: 'H221',
+      documentCode: 'C640',
+      departmentCode: 'AHVLA'
     },
     {
+      chedType: 'CHED-A',
       taricCommodityCode: '0106410000',
       customDeclarationWeight: 185,
       initialLevelThreeNetWeight: '85',
       initialLevelThreeNumberPackage: '185',
       finalLevelThreeNetWeight: '95',
-      finalLevelThreeNumberPackage: '175'
+      finalLevelThreeNumberPackage: '175',
+      checkCode: 'H221',
+      documentCode: 'C640',
+      departmentCode: 'AHVLA'
     }
   ]
 
   const runMatchingSummaryLevelsTest = async function ({
+    chedType,
     taricCommodityCode,
     customDeclarationWeight,
     initialLevelThreeNumberPackage,
     initialLevelThreeNetWeight,
     finalLevelThreeNumberPackage,
-    finalLevelThreeNetWeight
+    finalLevelThreeNetWeight,
+    checkCode,
+    documentCode,
+    departmentCode
   }) {
     const now = Date.now()
     const from = new Date(now - 10 * 1000).toISOString()
@@ -55,8 +67,8 @@ describe('Reporting Matching Summary Levels', function () {
         TaricCommodityCode: taricCommodityCode,
         ItemNetMass: initialLevelThreeNetWeight,
         ItemSupplementaryUnits: initialLevelThreeNumberPackage,
-        Documents: [{ DocumentCode: 'C640', DocumentReference: docRef }],
-        Checks: [{ CheckCode: 'H221', DepartmentCode: 'AHVLA' }]
+        Documents: [{ DocumentCode: documentCode, DocumentReference: docRef }],
+        Checks: [{ CheckCode: checkCode, DepartmentCode: departmentCode }]
       })
       .withMRN(mrn)
       .withEntryVersionNumber(1)
@@ -120,11 +132,11 @@ describe('Reporting Matching Summary Levels', function () {
       mrn,
       itemNumber: 1,
       commodityCode: taricCommodityCode,
-      checkCode: 'H221',
+      checkCode: checkCode,
       quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'No',
-      authority: 'AHVLA',
+      authority: departmentCode,
       decision: 'X00',
       level: 1,
       mode: 'Active',
@@ -258,11 +270,11 @@ describe('Reporting Matching Summary Levels', function () {
       mrn,
       itemNumber: 1,
       commodityCode: taricCommodityCode,
-      checkCode: 'H221',
+      checkCode: checkCode,
       quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'Yes',
-      authority: 'AHVLA',
+      authority: departmentCode,
       decision: 'H01',
       level: 1,
       mode: 'Active',
@@ -273,11 +285,11 @@ describe('Reporting Matching Summary Levels', function () {
       mrn,
       itemNumber: 1,
       commodityCode: taricCommodityCode,
-      checkCode: 'H221',
+      checkCode: checkCode,
       quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'No',
-      authority: 'AHVLA',
+      authority: departmentCode,
       decision: 'X00',
       level: 2,
       mode: 'Passive',
@@ -415,11 +427,11 @@ describe('Reporting Matching Summary Levels', function () {
       mrn,
       itemNumber: 1,
       commodityCode: taricCommodityCode,
-      checkCode: 'H221',
+      checkCode: checkCode,
       quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'Yes',
-      authority: 'AHVLA',
+      authority: departmentCode,
       decision: 'H01',
       level: 1,
       mode: 'Active',
@@ -430,11 +442,11 @@ describe('Reporting Matching Summary Levels', function () {
       mrn,
       itemNumber: 1,
       commodityCode: taricCommodityCode,
-      checkCode: 'H221',
+      checkCode: checkCode,
       quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'No',
-      authority: 'AHVLA',
+      authority: departmentCode,
       decision: 'X00',
       level: 3,
       mode: 'Passive',
@@ -600,11 +612,11 @@ describe('Reporting Matching Summary Levels', function () {
       mrn,
       itemNumber: 1,
       commodityCode: taricCommodityCode,
-      checkCode: 'H221',
+      checkCode: checkCode,
       quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'Yes',
-      authority: 'AHVLA',
+      authority: departmentCode,
       decision: 'H01',
       level: 1,
       mode: 'Active',
@@ -614,7 +626,7 @@ describe('Reporting Matching Summary Levels', function () {
   }
 
   testCases.forEach((testCase) => {
-    it(`should update matching summary levels for TaricCommodityCode ${testCase.taricCommodityCode}`, async function () {
+    it(`should update matching summary levels for ${testCase.chedType} with TaricCommodityCode ${testCase.taricCommodityCode}`, async function () {
       await runMatchingSummaryLevelsTest(testCase)
     })
   })
