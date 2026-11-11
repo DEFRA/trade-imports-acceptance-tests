@@ -2,7 +2,9 @@ describe('Reporting Matching Summary Levels', function () {
   const testCases = [
     {
       chedType: 'CHED-A',
+      ipaffChedType: 'CVEDA',
       taricCommodityCode: '1601009105',
+      commodityDescription: 'Meat and edible meat offal',
       customDeclarationWeight: 175,
       initialLevelThreeNetWeight: '75',
       initialLevelThreeNumberPackage: '175',
@@ -14,7 +16,9 @@ describe('Reporting Matching Summary Levels', function () {
     },
     {
       chedType: 'CHED-A',
+      ipaffChedType: 'CVEDA',
       taricCommodityCode: '0106410000',
+      commodityDescription: 'Live horses, asses, mules and hinnies',
       customDeclarationWeight: 185,
       initialLevelThreeNetWeight: '85',
       initialLevelThreeNumberPackage: '185',
@@ -23,12 +27,28 @@ describe('Reporting Matching Summary Levels', function () {
       checkCode: 'H221',
       documentCode: 'C640',
       departmentCode: 'AHVLA'
+    },
+    {
+      chedType: 'CHED-D',
+      ipaffChedType: 'CED',
+      taricCommodityCode: '0702000000',
+      commodityDescription: 'Tomatoes, fresh or chilled',
+      customDeclarationWeight: 185,
+      initialLevelThreeNetWeight: '85',
+      initialLevelThreeNumberPackage: '185',
+      finalLevelThreeNetWeight: '95',
+      finalLevelThreeNumberPackage: '175',
+      checkCode: 'H223',
+      documentCode: 'C678',
+      departmentCode: 'PHA'
     }
   ]
 
   const runMatchingSummaryLevelsTest = async function ({
     chedType,
+    ipaffChedType,
     taricCommodityCode,
+    commodityDescription,
     customDeclarationWeight,
     initialLevelThreeNumberPackage,
     initialLevelThreeNetWeight,
@@ -54,7 +74,8 @@ describe('Reporting Matching Summary Levels', function () {
       initialSummaryLevelTotal
     })
 
-    const docRef = await generateDocumentReference()
+    const chedLetter = chedType.split('-')[1]
+    const docRef = await generateDocumentReference({ letter: chedLetter })
     const mrn = generateRandomMRN()
     const filterWithoutV2ByMrn = (response) =>
       response.data.filter((entry) => entry.reference === mrn)
@@ -132,7 +153,7 @@ describe('Reporting Matching Summary Levels', function () {
       mrn,
       itemNumber: 1,
       commodityCode: taricCommodityCode,
-      checkCode: checkCode,
+      checkCode,
       quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'No',
@@ -174,12 +195,13 @@ describe('Reporting Matching Summary Levels', function () {
       loadIPAFFSJson('CHEDA.json', {
         referenceNumber: docRef,
         lastUpdated: new Date().toISOString(),
+        type: ipaffChedType,
         partOne: {
           commodities: {
             commodityComplement: [
               {
                 commodityID: '0105',
-                commodityDescription: 'Live horses, asses, mules and hinnies',
+                commodityDescription,
                 complementID: 1,
                 complementName: 'Equus asinus',
                 speciesID: '242089',
@@ -196,11 +218,11 @@ describe('Reporting Matching Summary Levels', function () {
                 speciesID: '242089',
                 keyDataPair: [
                   {
-                    key: 'number_animal',
+                    key: 'netweight',
                     data: '50'
                   },
                   {
-                    key: 'netweight',
+                    key: 'number_animal',
                     data: '50'
                   }
                 ],
@@ -270,7 +292,7 @@ describe('Reporting Matching Summary Levels', function () {
       mrn,
       itemNumber: 1,
       commodityCode: taricCommodityCode,
-      checkCode: checkCode,
+      checkCode,
       quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'Yes',
@@ -285,7 +307,7 @@ describe('Reporting Matching Summary Levels', function () {
       mrn,
       itemNumber: 1,
       commodityCode: taricCommodityCode,
-      checkCode: checkCode,
+      checkCode,
       quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'No',
@@ -331,12 +353,13 @@ describe('Reporting Matching Summary Levels', function () {
       loadIPAFFSJson('CHEDA.json', {
         referenceNumber: docRef,
         lastUpdated: new Date().toISOString(),
+        type: ipaffChedType,
         partOne: {
           commodities: {
             commodityComplement: [
               {
                 commodityID: taricCommodityCode,
-                commodityDescription: 'Live horses, asses, mules and hinnies',
+                commodityDescription,
                 complementID: 1,
                 complementName: 'Equus asinus',
                 speciesID: '242089',
@@ -353,11 +376,11 @@ describe('Reporting Matching Summary Levels', function () {
                 speciesID: '242089',
                 keyDataPair: [
                   {
-                    key: 'number_animal',
+                    key: 'netweight',
                     data: '50'
                   },
                   {
-                    key: 'netweight',
+                    key: 'number_animal',
                     data: '50'
                   }
                 ],
@@ -427,7 +450,7 @@ describe('Reporting Matching Summary Levels', function () {
       mrn,
       itemNumber: 1,
       commodityCode: taricCommodityCode,
-      checkCode: checkCode,
+      checkCode,
       quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'Yes',
@@ -442,7 +465,7 @@ describe('Reporting Matching Summary Levels', function () {
       mrn,
       itemNumber: 1,
       commodityCode: taricCommodityCode,
-      checkCode: checkCode,
+      checkCode,
       quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'No',
@@ -488,12 +511,13 @@ describe('Reporting Matching Summary Levels', function () {
       loadIPAFFSJson('CHEDA.json', {
         referenceNumber: docRef,
         lastUpdated: new Date().toISOString(),
+        type: ipaffChedType,
         partOne: {
           commodities: {
             commodityComplement: [
               {
                 commodityID: taricCommodityCode,
-                commodityDescription: 'Live horses, asses, mules and hinnies',
+                commodityDescription,
                 complementID: 1,
                 complementName: 'Equus asinus',
                 speciesID: '242089',
@@ -510,12 +534,12 @@ describe('Reporting Matching Summary Levels', function () {
                 speciesID: '242089',
                 keyDataPair: [
                   {
-                    key: 'number_animal',
-                    data: finalLevelThreeNumberPackage
-                  },
-                  {
                     key: 'netweight',
                     data: finalLevelThreeNetWeight
+                  },
+                  {
+                    key: 'number_animal',
+                    data: finalLevelThreeNumberPackage
                   }
                 ],
                 identifiers: [
@@ -612,7 +636,7 @@ describe('Reporting Matching Summary Levels', function () {
       mrn,
       itemNumber: 1,
       commodityCode: taricCommodityCode,
-      checkCode: checkCode,
+      checkCode,
       quantityOrWeight: customDeclarationWeight,
       chedReference: docRef,
       match: 'Yes',
