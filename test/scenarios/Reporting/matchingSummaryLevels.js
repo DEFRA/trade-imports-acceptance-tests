@@ -12,7 +12,8 @@ describe('Reporting Matching Summary Levels', function () {
       finalLevelThreeNumberPackage: '185',
       checkCode: 'H221',
       documentCode: 'C640',
-      departmentCode: 'AHVLA'
+      departmentCode: 'AHVLA',
+      decision: 'H01'
     },
     {
       chedType: 'CHED-A',
@@ -26,7 +27,8 @@ describe('Reporting Matching Summary Levels', function () {
       finalLevelThreeNumberPackage: '175',
       checkCode: 'H221',
       documentCode: 'C640',
-      departmentCode: 'AHVLA'
+      departmentCode: 'AHVLA',
+      decision: 'H01'
     },
     {
       chedType: 'CHED-D',
@@ -40,7 +42,38 @@ describe('Reporting Matching Summary Levels', function () {
       finalLevelThreeNumberPackage: '175',
       checkCode: 'H223',
       documentCode: 'C678',
-      departmentCode: 'PHA'
+      departmentCode: 'PHA',
+      decision: 'H01'
+    },
+    {
+      chedType: 'CHED-P',
+      ipaffChedType: 'CVEDP',
+      taricCommodityCode: '0204221000',
+      commodityDescription: 'Short forequarters',
+      customDeclarationWeight: 185,
+      initialLevelThreeNetWeight: '85',
+      initialLevelThreeNumberPackage: '185',
+      finalLevelThreeNetWeight: '95',
+      finalLevelThreeNumberPackage: '175',
+      checkCode: 'H222',
+      documentCode: 'N853',
+      departmentCode: 'PHA',
+      decision: 'H01'
+    },
+    {
+      chedType: 'CHED-PP',
+      ipaffChedType: 'CHEDPP',
+      taricCommodityCode: '0706100010',
+      commodityDescription: 'Carrots',
+      customDeclarationWeight: 185,
+      initialLevelThreeNetWeight: '85',
+      initialLevelThreeNumberPackage: '185',
+      finalLevelThreeNetWeight: '95',
+      finalLevelThreeNumberPackage: '175',
+      checkCode: 'H219',
+      documentCode: '9115',
+      departmentCode: 'PHSI',
+      decision: 'H02'
     }
   ]
 
@@ -56,7 +89,8 @@ describe('Reporting Matching Summary Levels', function () {
     finalLevelThreeNetWeight,
     checkCode,
     documentCode,
-    departmentCode
+    departmentCode,
+    decision
   }) {
     const now = Date.now()
     const from = new Date(now - 10 * 1000).toISOString()
@@ -245,7 +279,7 @@ describe('Reporting Matching Summary Levels', function () {
         }
       })
     )
-    await waitForSpecificDecision(mrn, 'H01')
+    await waitForSpecificDecision(mrn, decision)
 
     testLogger.info('Asserting Summary Levels after Level 1 Match')
     const secondAllSummaryLevels = await waitForLevelsChange(
@@ -297,7 +331,7 @@ describe('Reporting Matching Summary Levels', function () {
       chedReference: docRef,
       match: 'Yes',
       authority: departmentCode,
-      decision: 'H01',
+      decision,
       level: 1,
       mode: 'Active',
       dispatchCountryCode: 'CN',
@@ -403,7 +437,7 @@ describe('Reporting Matching Summary Levels', function () {
         }
       })
     )
-    await waitForSpecificDecision(mrn, 'H01')
+    await waitForSpecificDecision(mrn, decision)
 
     testLogger.info('Asserting Summary Levels after Level 2 Match')
     const thirdAllSummaryLevels = await waitForLevelsChange(
@@ -455,7 +489,7 @@ describe('Reporting Matching Summary Levels', function () {
       chedReference: docRef,
       match: 'Yes',
       authority: departmentCode,
-      decision: 'H01',
+      decision,
       level: 1,
       mode: 'Active',
       dispatchCountryCode: 'CN',
@@ -561,7 +595,7 @@ describe('Reporting Matching Summary Levels', function () {
         }
       })
     )
-    await waitForSpecificDecision(mrn, 'H01')
+    await waitForSpecificDecision(mrn, decision)
 
     testLogger.info('Asserting Summary Levels after Level 3 Match')
     const finalAllSummaryLevels = await waitForLevelsChange(
@@ -641,7 +675,7 @@ describe('Reporting Matching Summary Levels', function () {
       chedReference: docRef,
       match: 'Yes',
       authority: departmentCode,
-      decision: 'H01',
+      decision,
       level: 1,
       mode: 'Active',
       dispatchCountryCode: 'CN',
