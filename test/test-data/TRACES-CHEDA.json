@@ -90,7 +90,8 @@
         "identifier": "CHEDA.XI.2026.0000083",
         "issueDateTime": null,
         "attachmentBinaryObject": null,
-        "information": null
+        "information": null,
+        "urlId": null
       },
       {
         "typeCode": "521",
@@ -98,7 +99,8 @@
         "identifier": "455645665566",
         "issueDateTime": null,
         "attachmentBinaryObject": null,
-        "information": null
+        "information": null,
+        "urlId": null
       }
     ],
     "firstSignatoryAuthentication": {
@@ -134,7 +136,8 @@
     },
     "secondSignatoryAuthentication": null,
     "thirdSignatoryAuthentication": null,
-    "fourthSignatoryAuthentication": null
+    "fourthSignatoryAuthentication": null,
+    "revisionDateTime": null
   },
   "specifiedConsignment": {
     "availabilityDueDateTime": "2026-07-11T23:00:00+00:00",
@@ -285,15 +288,13 @@
       {
         "identifier": "ABC",
         "urlId": null,
-        "modeCode": "3",
-        "usedLogisticsTransportMeans": null,
+        "modeCode": 3,
         "transportContractRelatedReferencedDocument": null,
         "arrivalEvent": null,
         "departureEvent": null
       }
     ],
     "transitTradeCountry": null,
-    "packageQuantity": null,
     "includedConsignmentItem": [
       {
         "natureIdCargo": [
@@ -329,7 +330,9 @@
             ],
             "specifiedTradeProduct": null,
             "specifiedLineTradeDelivery": null,
-            "additionalInformationNote": null
+            "additionalInformationNote": null,
+            "originCountry": null,
+            "appliedProcess": null
           },
           {
             "sequenceNumeric": 1,
@@ -365,7 +368,9 @@
             "physicalReferencedLogisticsPackage": null,
             "specifiedTradeProduct": null,
             "specifiedLineTradeDelivery": null,
-            "additionalInformationNote": null
+            "additionalInformationNote": null,
+            "originCountry": null,
+            "appliedProcess": null
           },
           {
             "sequenceNumeric": 2,
@@ -401,11 +406,16 @@
             "physicalReferencedLogisticsPackage": null,
             "specifiedTradeProduct": null,
             "specifiedLineTradeDelivery": null,
-            "additionalInformationNote": null
+            "additionalInformationNote": null,
+            "originCountry": null,
+            "appliedProcess": null
           }
         ]
       }
-    ]
+    ],
+    "loadingBaseportLocation": null,
+    "examinationEvent": null,
+    "utilizedLogisticsTransportEquipment": null
   },
   "laboratoryObservationResult": null
 }
